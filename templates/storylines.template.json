@@ -1,0 +1,44 @@
+{
+  "_doc": "THREE different films, not three titles on one film: each has its own world, device and form. Sketch five ideas first, keep the three that differ most, make one the bold one. Devices: a moment in someone's day; a character does the work; the feature as the hook; the result first; one object across apps; life before and after; type carries the argument; a number lands; a question with the input; the object is the explanation. Forms: one continuous take; object-to-object chain; an endless zoom; a flight through one world; cut on the beat; match cuts; split screen to one; one frame that rebuilds.",
+  "recommended": "TODO id",
+  "reason": "TODO one clause",
+  "picked": null,
+  "storylines": [
+    {
+      "id": "a",
+      "name": "TODO",
+      "device": "TODO from the device table",
+      "form": "TODO from the form table",
+      "world": "TODO where it happens and what it looks like",
+      "summary": "TODO two sentences: what the viewer sees and feels",
+      "first2s": "TODO exactly what is on screen in the first two seconds",
+      "beats": "TODO hook → … → end card",
+      "look": "TODO ground, type, the one material, from the subject or brand",
+      "sound": "TODO one line"
+    },
+    {
+      "id": "b",
+      "name": "TODO",
+      "device": "TODO from the device table",
+      "form": "TODO from the form table",
+      "world": "TODO where it happens and what it looks like",
+      "summary": "TODO two sentences: what the viewer sees and feels",
+      "first2s": "TODO exactly what is on screen in the first two seconds",
+      "beats": "TODO hook → … → end card",
+      "look": "TODO ground, type, the one material, from the subject or brand",
+      "sound": "TODO one line"
+    },
+    {
+      "id": "c",
+      "name": "TODO",
+      "device": "TODO from the device table",
+      "form": "TODO from the form table",
+      "world": "TODO where it happens and what it looks like",
+      "summary": "TODO two sentences: what the viewer sees and feels",
+      "first2s": "TODO exactly what is on screen in the first two seconds",
+      "beats": "TODO hook → … → end card",
+      "look": "TODO ground, type, the one material, from the subject or brand",
+      "sound": "TODO one line"
+    }
+  ]
+}

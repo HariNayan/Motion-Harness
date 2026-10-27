@@ -23,7 +23,15 @@
         "type": "wipe-left",
         "motivation": "TODO why this exit, tied to content"
       },
-      "heroObject": "TODO the drawn/3D/instrument/diagram object the eye lands on (not text)"
+      "heroObject": "TODO the drawn/3D/instrument/diagram object the eye lands on (not text)",
+      "first2s": "TODO exactly what is on screen in the first two seconds (first scene only): never black, never a logo alone",
+      "assertions": [
+        {
+          "kind": "appearsBy",
+          "selector": "#s1-head",
+          "bySec": 0.5
+        }
+      ]
     }
   ]
 }

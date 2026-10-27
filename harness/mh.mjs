@@ -6,6 +6,7 @@ import path from "node:path";
 import crypto from "node:crypto";
 import { spawnSync } from "node:child_process";
 import { fileURLToPath } from "node:url";
+import { craft } from "./craft.mjs";
 
 const HERE = path.dirname(fileURLToPath(import.meta.url));
 const ROOT = path.resolve(HERE, "..");
@@ -16,7 +17,7 @@ const PHASES = ["brief", "direction", "storyboard", "review", "build", "verify",
 /* ------------------------------------------------------------------ utils */
 const out = (s = "") => console.log(s);
 const die = (s) => { console.error("mh: " + s); process.exit(1); };
-const rj = (p, d = null) => { try { return JSON.parse(fs.readFileSync(p, "utf8")); } catch { return d; } };
+const rj = (p, d = null) => { try { return JSON.parse(fs.readFileSync(p, "utf8").replace(/^﻿/, "")); } catch { return d; } }; // tolerate a BOM from Notepad/PowerShell
 const wj = (p, o) => { fs.mkdirSync(path.dirname(p), { recursive: true }); fs.writeFileSync(p, JSON.stringify(o, null, 2) + "\n"); };
 const now = () => new Date().toISOString();
 const hash = (p) => crypto.createHash("sha1").update(fs.readFileSync(p)).digest("hex").slice(0, 12);
@@ -198,6 +199,7 @@ export function lintPlan(P) {
   const density = d.designSystem?.density || "rich";
   if (density === "minimal" && !d.designSystem?.densityReason) add("error", "ds.density.reason", "designSystem.density is 'minimal' but densityReason is empty: say why a sparse look is intended");
   if (density !== "minimal") sc.forEach((s) => { if (!s.heroObject) add("error", "sb.nohero", "scene has no heroObject (a drawn / 3D / instrument / diagram / image object the eye lands on). Text-only scenes read as sparse: add one, or set designSystem.density='minimal' with a densityReason", s.id); });
+  X.lintExtra(P, d, sc, add);
   const heroInfo = sc.filter((s) => !s.viewerShouldNotice).length;
   if (heroInfo) add("error", "sb.notice", `${heroInfo} scenes have no viewerShouldNotice`);
   return F;
@@ -205,6 +207,8 @@ export function lintPlan(P) {
 
 /* ------------------------------------------------------------------ commands */
 const C = {};
+const X = craft({ ROOT, CFG, rj, wj, now, append, out, die, proj, hf, readLines }); // quality mechanics: storylines, copy/hook, review notes, assertions, compare, capture
+Object.assign(C, X.commands);
 
 C.new = (pos, f) => {
   const slug = pos[0]; if (!slug || !/^[a-z0-9-]+$/.test(slug)) die("usage: mh new <slug-kebab> [--format horizontal|vertical|square] [--depth draft|standard|high] [--duration N]");
@@ -223,6 +227,7 @@ C.new = (pos, f) => {
   fs.writeFileSync(path.join(dir, ".mh/brief.md"), brief);
   fs.copyFileSync(path.join(ROOT, "templates/direction.template.json"), path.join(dir, ".mh/direction.json"));
   fs.copyFileSync(path.join(ROOT, "templates/storyboard.template.json"), path.join(dir, ".mh/storyboard.json"));
+  if (CFG.depth[depth].storylines !== "off") fs.copyFileSync(path.join(ROOT, "templates/storylines.template.json"), path.join(dir, ".mh/storylines.json"));
   wj(path.join(dir, ".mh/state.json"), { slug, format, depth, phase: "brief", planReviews: 0, revisions: 0, createdAt: now(), targetDuration: f.duration ? +f.duration : null });
   wj(path.join(dir, ".mh/manifest.json"), { scenes: {}, root: "index.html" });
   append(path.join(dir, ".mh/decisions.jsonl"), { type: "init", format, depth });
@@ -280,6 +285,7 @@ C.decide = (pos, f) => {
 C.advance = (pos, f) => {
   const P = proj(pos[0]); const s = P.state; const i = PHASES.indexOf(s.phase);
   const fails = [];
+  fails.push(...X.advanceChecks(P, s.phase));
   const brief = fs.readFileSync(path.join(P.mh, "brief.md"), "utf8");
   if (s.phase === "brief" && /\bTODO\b/.test(brief)) fails.push("brief.md still contains TODO");
   if (s.phase === "direction") {
@@ -398,10 +404,10 @@ function addReference(P, real, note) {
     const fr = pr.durationSec ? grabFrames(dst, fdir, 8, pr.durationSec, "frame") : { made: [], times: [] };
     const cuts = pr.durationSec ? sceneCuts(dst) : [];
     tpl.kind = "video";
-    tpl.observed = { ...pr, sampledFrames: fr.made.map((n) => `${name}.frames/${n}`), sampleTimesSec: fr.times, detectedCutsSec: cuts, cutNote: "scene-change detection (threshold 0.30, first 180 s): approximate cut times; says nothing about easing curves" };
+    tpl.observed = { ...pr, palette: X.samplePalette(fr.made.map((n) => path.join(fdir, n))), sampledFrames: fr.made.map((n) => `${name}.frames/${n}`), sampleTimesSec: fr.times, detectedCutsSec: cuts, cutNote: "scene-change detection (threshold 0.30, first 180 s): approximate cut times; says nothing about easing curves" };
     tpl.motion = { observable: "cut rhythm and on-screen timing can be read from the sampled frames and detected cuts; easing/spring curves and sub-frame timing cannot", pacingNotes: "TODO", transitions: "TODO" };
     msg = `video: ${pr.width}x${pr.height} ${pr.fps}fps ${pr.durationSec}s${pr.hasAudio ? " with audio" : ""}; ${fr.made.length} frames sampled, ${cuts.length} cuts detected.\nOpen the frames (read tool): ${fr.made.map((n) => path.join(fdir, n)).join("\n  ")}`;
-  } else { tpl.kind = "still"; msg = "image copied: open it with the read tool."; }
+  } else { tpl.kind = "still"; tpl.measuredPalette = X.samplePalette([dst]); msg = "image copied: open it with the read tool. Measured palette (from pixels): " + tpl.measuredPalette.map((c) => c.hex).join(" "); }
   wj(dst + ".analysis.json", tpl);
   return `${msg}\nThen fill ${name}.analysis.json from what is actually visible (layout, type hierarchy, colour, image treatment, density, pacing), run mh ref lint, and copy the winning rules into direction.json referenceRules. Build an original composition; do not copy the reference.`;
 }
@@ -521,6 +527,7 @@ function scanSource(P, fmt, d) {
     const tweenCount = (src.match(/\.(fromTo|to|from|set)\(/g) || []).length;
     if (id !== "index" && tweenCount > 40) add("warn", "src.busy", `${tweenCount} tweens in one scene — is every movement meaningful?`, id);
   }
+  X.scanExtra(files, (id) => fs.readFileSync(path.join(P.dir, files.find((f) => f[0] === id)[1]), "utf8"), add);
   const sigs = Object.entries(prims).filter(([k]) => k !== "index").map(([, v]) => v.join("|"));
   if (sigs.length >= 3 && new Set(sigs).size === 1 && sigs[0]) add("warn", "src.repetitive", "every scene uses exactly the same primitive set — likely templated motion", null);
   return { F, prims };
@@ -572,6 +579,7 @@ C.gate = (pos) => {
   if (hosts.length && rootDur && Math.abs(prevEnd - rootDur) > 0.1) add("warn", "timing.rootdur", `scenes end at ${prevEnd.toFixed(2)}s but root data-duration is ${rootDur}s (early end holds last frame; overrun is cut)`);
   // 4. source scan
   const { F: sf, prims } = scanSource(P, fmt, d); F.push(...sf);
+  X.gateExtra(P, add);
   // user-supplied files: imported assets must be used; reference analyses must be finished
   {
     const srcAll = [html, ...(fs.existsSync(path.join(P.dir, "compositions")) ? fs.readdirSync(path.join(P.dir, "compositions")).filter((x) => x.endsWith(".html")).map((x) => fs.readFileSync(path.join(P.dir, "compositions", x), "utf8")) : [])].join(" ");
@@ -659,6 +667,7 @@ C.handoff = (pos, f) => {
     `## Gate counts`, `${gr.counts.error} errors, ${gr.counts.warn} warnings`, ...gr.findings.filter((x) => x.level === "warn").map((x) => `- ${x.code}${x.scene ? " [" + x.scene + "]" : ""}: ${x.msg}`),
     f["accept-fails"] ? `\n## Accepted failures\n${f["accept-fails"]}` : ""].join("\n");
   fs.writeFileSync(path.join(P.dir, "HANDOFF.md"), md + "\n");
+  const rv = X.writeReviewMd(P, gr, cl); if (rv) out("REVIEW.md written (creative calls, measured vs looked at, weakest shot, notes).");
   append(P.decisions, { type: "handoff", acceptFails: f["accept-fails"] || null });
   out(`HANDOFF.md written.\nStudio: npx ${HF} preview "${P.dir}"   (mh studio ${P.slug} starts it in the background)`);
 };
@@ -706,7 +715,8 @@ C.tokens = (pos) => {
 
 const [cmd, ...rest] = process.argv.slice(2);
 if (!cmd || !C[cmd]) {
-  out(`mh <command>\n  new status lint review-plan decide advance revise lock cues ref frames gate checklist handoff studio direction-md tokens\nSee AGENTS.md for the workflow.`);
+  out(`mh <command>\n  new adopt status lint review-plan decide advance revise lock cues ref import frames gate checklist handoff studio direction-md tokens preset sync-lib
+  quality: storylines describe note review-done ban assertions compare capture\nSee AGENTS.md for the workflow.`);
   process.exit(cmd ? 1 : 0);
 }
 const { pos, flags } = parseArgs(rest);
