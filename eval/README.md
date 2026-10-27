@@ -1,5 +1,13 @@
 # Evaluation
 
+<table>
+  <tr>
+    <td><img src="../docs/screenshots/projects.png" alt="Dashboard projects table showing each acceptance project's gate result" width="520"></td>
+    <td><img src="../docs/screenshots/project-quality.png" alt="Quality tab with gate findings and checklist notes" width="520"></td>
+  </tr>
+</table>
+<sub>The acceptance suite is the set of projects in the dashboard's table; each project's gate findings and checklist evidence are what `run-acceptance.mjs` reports.</sub>
+
 Two separate questions:
 
 1. **Does the harness itself work** (tooling, gates, library)? — Acceptance suite below. Run by a script, no model needed.

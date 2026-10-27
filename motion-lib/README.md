@@ -1,6 +1,9 @@
 # motion-lib
 
-A small deterministic motion toolkit for HyperFrames. Two files, copied into each project's `assets/` by `mh new` (refresh with `node harness/mh.mjs sync-lib`):
+<p align="center"><img src="../docs/examples/world-tides-grid.jpg" alt="Frames built with the library: orbit path with a traveller, CSS-3D Earth with callouts, spinning Earth, gauge and tide curve" width="760"></p>
+<p align="center"><sub>Built with these primitives (<code>projects/ex-world-tides</code>): sky, HUD, callouts, gauge, path + traveller, CSS-3D stage, captions.</sub></p>
+
+A small deterministic motion toolkit for HyperFrames. Core files (`mh-motion.*`) plus an optional world layer (`mh-world.*`), copied into each project's `assets/` by `mh new` (refresh with `node harness/mh.mjs sync-lib`):
 
 - `mh-motion.js` — `window.MH` (needs GSAP loaded first)
 - `mh-motion.css` — design tokens (`--mh-*`), type classes, restrained background systems, 12-col grid, graphic atoms
