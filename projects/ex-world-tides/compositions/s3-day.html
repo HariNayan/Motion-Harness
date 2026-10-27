@@ -1,0 +1,60 @@
+<template>
+  <style>
+    #root { position: absolute; inset: 0; }
+    #s3-head { position: absolute; left: 96px; top: 120px; font-size: 100px; text-transform: uppercase; color: var(--mh-ink); white-space: nowrap; line-height: 0.98; }
+    #s3-diagram { position: absolute; inset: 0; }
+    #s3-ocean { position: absolute; left: 730px; top: 270px; width: 660px; height: 500px; border-radius: 50%; background: radial-gradient(circle at 50% 45%, var(--mh-cold) 0%, var(--earth-mid) 100%); opacity: 0.85; }
+    #s3-spin { position: absolute; left: 850px; top: 310px; width: 420px; height: 420px; border-radius: 50%;
+      background: radial-gradient(circle at 32% 30%, var(--earth-hi) 0%, var(--earth-mid) 38%, var(--earth-lo) 80%); overflow: visible; }
+    .s3-land { position: absolute; background: var(--land); opacity: 0.9; }
+    #s3-land1 { left: 90px; top: 70px; width: 120px; height: 90px; clip-path: polygon(10% 40%, 40% 0, 90% 20%, 100% 70%, 50% 100%, 0 80%); }
+    #s3-land2 { left: 240px; top: 190px; width: 100px; height: 120px; clip-path: polygon(20% 0, 90% 30%, 80% 100%, 10% 80%); }
+    #s3-land3 { left: 110px; top: 250px; width: 130px; height: 80px; clip-path: polygon(0 30%, 60% 0, 100% 50%, 70% 100%, 10% 90%); }
+    #s3-pin { position: absolute; left: 398px; top: 188px; width: 44px; height: 44px; }
+    #s3-ring { position: absolute; left: 850px; top: 310px; width: 420px; height: 420px; border-radius: 50%; border: 3px dashed var(--mh-line); }
+    #s3-moon { position: absolute; left: 1665px; top: 485px; width: 70px; height: 70px; border-radius: 50%; background: radial-gradient(circle at 35% 32%, var(--moon-hi), var(--moon-lo)); }
+    #s3-beam { position: absolute; left: 1400px; top: 519px; width: 250px; height: 0; border-top: 3px dashed var(--mh-line); }
+    .s3-chip { position: absolute; }
+    #s3-chip-near { left: 1340px; top: 462px; }
+    #s3-chip-far { left: 560px; top: 462px; }
+    #s3-panel { left: 96px; top: 500px; width: 380px; }
+  </style>
+  <div data-hf-id="hf-ee6a" id="root" data-composition-id="s3-day" data-width="1920" data-height="1080">
+    <h2 data-hf-id="hf-2ghu" id="s3-head" class="clip mh-display" data-start="0" data-duration="7">ONE SPIN,<br data-hf-id="hf-x5px" /><span data-hf-id="hf-pcsx" class="mh-accent">TWO</span> HIGHS</h2>
+    <div data-hf-id="hf-3921" id="s3-diagram" class="clip" data-start="0" data-duration="7" data-mh-hero>
+      <div data-hf-id="hf-qixu" id="s3-ocean"></div>
+      <div data-hf-id="hf-c5rp" id="s3-beam"></div>
+      <div data-hf-id="hf-psoz" id="s3-moon"></div>
+      <div data-hf-id="hf-g82m" id="s3-ring"></div>
+      <div data-hf-id="hf-tz40" id="s3-spin">
+        <div data-hf-id="hf-nsqb" id="s3-land1" class="s3-land"></div><div data-hf-id="hf-cx8o" id="s3-land2" class="s3-land"></div><div data-hf-id="hf-dowh" id="s3-land3" class="s3-land"></div>
+        <svg data-hf-id="hf-fqdv" id="s3-pin" viewBox="0 0 44 44"><circle data-hf-id="hf-2zyu" cx="22" cy="22" r="20" style="fill:var(--mh-accent);stroke:var(--mh-ground);stroke-width:3" /><circle data-hf-id="hf-8t7e" cx="22" cy="22" r="6" style="fill:var(--mh-ground)" /></svg>
+      </div>
+      <div data-hf-id="hf-c4gb" id="s3-chip-near" class="mh-chip s3-chip">High tide</div>
+      <div data-hf-id="hf-kn4i" id="s3-chip-far" class="mh-chip s3-chip">High tide</div>
+    </div>
+    <div data-hf-id="hf-w4t8" id="s3-panel" class="mh-panel clip" data-start="0" data-duration="7">
+      <span data-hf-id="hf-1y6h" class="mh-panel-bar" style="background:var(--mh-accent)"></span>
+      <div data-hf-id="hf-i25u" class="mh-kicker" style="color:var(--mh-accent)">Lunar day</div>
+      <div data-hf-id="hf-3gdl" id="s3-hours" class="mh-value">0.0 h</div>
+      <div data-hf-id="hf-d7kv" class="mh-note">one full spin under the Moon</div>
+    </div>
+  </div>
+  <script>
+    const tl = gsap.timeline({ paused: true });
+    MH.type.reveal(tl, "#s3-head", { at: 0.1, mode: "words", stagger: 4, skip: 1 });
+    tl.fromTo("#s3-ocean", { scale: 0.6, opacity: 0, transformOrigin: "50% 50%" }, { scale: 1, opacity: 0.85, duration: 0.9, ease: MH.cfg.ease.snap }, 0.2);
+    tl.fromTo("#s3-spin", { scale: 0.7, opacity: 0 }, { scale: 1, opacity: 1, duration: 0.6, ease: MH.cfg.ease.snap }, 0.1);
+    tl.fromTo("#s3-moon", { x: 120, opacity: 0 }, { x: 0, opacity: 1, duration: 0.6, ease: MH.cfg.ease.enter }, 0.4);
+    // Earth turns counter-clockwise seen from above the north pole: land and pin turn once under the fixed bulges
+    tl.fromTo("#s3-spin", { rotation: 0, transformOrigin: "50% 50%" }, { rotation: -360, duration: 4.8, ease: "none", immediateRender: false }, 0.9);
+    const hrs = { v: 0 }, out = document.getElementById("s3-hours");
+    tl.fromTo(hrs, { v: 0 }, { v: 24.8, duration: 4.8, ease: "none", onUpdate: () => { out.textContent = hrs.v.toFixed(1) + " h"; } }, 0.9);
+    // the pin meets the near bulge at the start, the far bulge halfway, the near bulge again at the end
+    [[0.9, "#s3-chip-near"], [3.3, "#s3-chip-far"], [5.7, "#s3-chip-near"]].forEach(([t, id]) => {
+      tl.fromTo(id, { opacity: 0, scale: 0.6 }, { opacity: 1, scale: 1, duration: 0.3, ease: MH.cfg.ease.snap, immediateRender: false }, t);
+      tl.to(id, { opacity: 0, duration: 0.3, ease: MH.cfg.ease.exit }, t + 1.1);
+    });
+    window.__timelines["s3-day"] = tl;
+  </script>
+</template>

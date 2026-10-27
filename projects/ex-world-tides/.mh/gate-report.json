@@ -1,0 +1,99 @@
+{
+  "at": "2026-10-27T06:29:53.454Z",
+  "visualEvidence": "fresh",
+  "frameFiles": [
+    "D:\\Bholu\\Freelane VE\\Website\\motion-harness\\projects\\ex-world-tides\\.mh\\frames\\beat-01-at-0.3s.png",
+    "D:\\Bholu\\Freelane VE\\Website\\motion-harness\\projects\\ex-world-tides\\.mh\\frames\\beat-02-at-2.5s.png",
+    "D:\\Bholu\\Freelane VE\\Website\\motion-harness\\projects\\ex-world-tides\\.mh\\frames\\beat-03-at-5.3s.png",
+    "D:\\Bholu\\Freelane VE\\Website\\motion-harness\\projects\\ex-world-tides\\.mh\\frames\\beat-04-at-8s.png",
+    "D:\\Bholu\\Freelane VE\\Website\\motion-harness\\projects\\ex-world-tides\\.mh\\frames\\beat-05-at-11.3s.png",
+    "D:\\Bholu\\Freelane VE\\Website\\motion-harness\\projects\\ex-world-tides\\.mh\\frames\\beat-06-at-14s.png",
+    "D:\\Bholu\\Freelane VE\\Website\\motion-harness\\projects\\ex-world-tides\\.mh\\frames\\beat-07-at-14.5s.png",
+    "D:\\Bholu\\Freelane VE\\Website\\motion-harness\\projects\\ex-world-tides\\.mh\\frames\\beat-08-at-18.3s.png",
+    "D:\\Bholu\\Freelane VE\\Website\\motion-harness\\projects\\ex-world-tides\\.mh\\frames\\beat-09-at-21s.png",
+    "D:\\Bholu\\Freelane VE\\Website\\motion-harness\\projects\\ex-world-tides\\.mh\\frames\\beat-10-at-24.3s.png",
+    "D:\\Bholu\\Freelane VE\\Website\\motion-harness\\projects\\ex-world-tides\\.mh\\frames\\beat-11-at-26s.png",
+    "D:\\Bholu\\Freelane VE\\Website\\motion-harness\\projects\\ex-world-tides\\.mh\\frames\\review-beats.jpg",
+    "D:\\Bholu\\Freelane VE\\Website\\motion-harness\\projects\\ex-world-tides\\.mh\\frames\\review-phone.jpg",
+    "D:\\Bholu\\Freelane VE\\Website\\motion-harness\\projects\\ex-world-tides\\.mh\\frames\\review-seam-01.jpg",
+    "D:\\Bholu\\Freelane VE\\Website\\motion-harness\\projects\\ex-world-tides\\.mh\\frames\\review-seam-02.jpg",
+    "D:\\Bholu\\Freelane VE\\Website\\motion-harness\\projects\\ex-world-tides\\.mh\\frames\\review-seam-03.jpg",
+    "D:\\Bholu\\Freelane VE\\Website\\motion-harness\\projects\\ex-world-tides\\.mh\\frames\\review-seam-04.jpg",
+    "D:\\Bholu\\Freelane VE\\Website\\motion-harness\\projects\\ex-world-tides\\.mh\\frames\\seam-01-1-at-4.8s.png",
+    "D:\\Bholu\\Freelane VE\\Website\\motion-harness\\projects\\ex-world-tides\\.mh\\frames\\seam-01-2-at-4.9s.png",
+    "D:\\Bholu\\Freelane VE\\Website\\motion-harness\\projects\\ex-world-tides\\.mh\\frames\\seam-01-3-at-5s.png",
+    "D:\\Bholu\\Freelane VE\\Website\\motion-harness\\projects\\ex-world-tides\\.mh\\frames\\seam-01-4-at-5.1s.png",
+    "D:\\Bholu\\Freelane VE\\Website\\motion-harness\\projects\\ex-world-tides\\.mh\\frames\\seam-01-5-at-5.2s.png",
+    "D:\\Bholu\\Freelane VE\\Website\\motion-harness\\projects\\ex-world-tides\\.mh\\frames\\seam-02-1-at-10.8s.png",
+    "D:\\Bholu\\Freelane VE\\Website\\motion-harness\\projects\\ex-world-tides\\.mh\\frames\\seam-02-2-at-10.9s.png",
+    "D:\\Bholu\\Freelane VE\\Website\\motion-harness\\projects\\ex-world-tides\\.mh\\frames\\seam-02-3-at-11s.png",
+    "D:\\Bholu\\Freelane VE\\Website\\motion-harness\\projects\\ex-world-tides\\.mh\\frames\\seam-02-4-at-11.1s.png",
+    "D:\\Bholu\\Freelane VE\\Website\\motion-harness\\projects\\ex-world-tides\\.mh\\frames\\seam-02-5-at-11.2s.png",
+    "D:\\Bholu\\Freelane VE\\Website\\motion-harness\\projects\\ex-world-tides\\.mh\\frames\\seam-03-1-at-17.8s.png",
+    "D:\\Bholu\\Freelane VE\\Website\\motion-harness\\projects\\ex-world-tides\\.mh\\frames\\seam-03-2-at-17.9s.png",
+    "D:\\Bholu\\Freelane VE\\Website\\motion-harness\\projects\\ex-world-tides\\.mh\\frames\\seam-03-3-at-18s.png",
+    "D:\\Bholu\\Freelane VE\\Website\\motion-harness\\projects\\ex-world-tides\\.mh\\frames\\seam-03-4-at-18.1s.png",
+    "D:\\Bholu\\Freelane VE\\Website\\motion-harness\\projects\\ex-world-tides\\.mh\\frames\\seam-03-5-at-18.2s.png",
+    "D:\\Bholu\\Freelane VE\\Website\\motion-harness\\projects\\ex-world-tides\\.mh\\frames\\seam-04-1-at-23.8s.png",
+    "D:\\Bholu\\Freelane VE\\Website\\motion-harness\\projects\\ex-world-tides\\.mh\\frames\\seam-04-2-at-23.9s.png",
+    "D:\\Bholu\\Freelane VE\\Website\\motion-harness\\projects\\ex-world-tides\\.mh\\frames\\seam-04-3-at-24s.png",
+    "D:\\Bholu\\Freelane VE\\Website\\motion-harness\\projects\\ex-world-tides\\.mh\\frames\\seam-04-4-at-24.1s.png",
+    "D:\\Bholu\\Freelane VE\\Website\\motion-harness\\projects\\ex-world-tides\\.mh\\frames\\seam-04-5-at-24.2s.png"
+  ],
+  "counts": {
+    "error": 0,
+    "warn": 1,
+    "info": 1
+  },
+  "primitivesByScene": {
+    "index": [],
+    "bg-sky": [
+      "world.sky",
+      "world.skyMotion"
+    ],
+    "captions": [
+      "world.captions"
+    ],
+    "hud": [
+      "world.hud"
+    ],
+    "s1-hook": [
+      "cfg.ease",
+      "type.reveal"
+    ],
+    "s2-bulges": [
+      "cfg.ease",
+      "type.reveal"
+    ],
+    "s3-day": [
+      "cfg.ease",
+      "type.reveal"
+    ],
+    "s4-curve": [
+      "cfg.ease",
+      "type.reveal"
+    ],
+    "s5-close": [
+      "type.reveal",
+      "world.tilt3d"
+    ],
+    "transitions": [
+      "world.el",
+      "world.rng"
+    ]
+  },
+  "findings": [
+    {
+      "level": "warn",
+      "code": "hf.craft.film_silent",
+      "scene": "index",
+      "msg": "This 28 s film has no sound source (no <audio>, no <video> with sound): add a music bed and sounds on the visible actions unless the person asked for silence; see references/sound.md. @0s"
+    },
+    {
+      "level": "info",
+      "code": "hf.audio.audio_none",
+      "scene": "index",
+      "msg": "The film has no sound: no clip in it plays audio. @0s"
+    }
+  ]
+}

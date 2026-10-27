@@ -1,0 +1,37 @@
+<template>
+  <style>
+    #root { position: absolute; inset: 0; }
+    #s4-head { position: absolute; left: 96px; top: 120px; font-size: 100px; text-transform: uppercase; color: var(--mh-ink); white-space: nowrap; }
+    #s4-gauge-box { position: absolute; left: 96px; top: 250px; width: 520px; height: 520px; }
+    #s4-curve-box, #s4-call-box { position: absolute; inset: 0; }
+    #s4-marks { position: absolute; left: 0; top: 0; width: 1920px; height: 1080px; overflow: visible; }
+    .s4-lbl { font-family: var(--mh-font-body); font-weight: 700; font-size: 28px; letter-spacing: 0.14em; fill: var(--mh-muted); text-anchor: middle; }
+  </style>
+  <div data-hf-id="hf-a0r2" id="root" data-composition-id="s4-curve" data-width="1920" data-height="1080">
+    <h2 data-hf-id="hf-jmet" id="s4-head" class="clip mh-display" data-start="0" data-duration="6">TIDE <span data-hf-id="hf-07ad" class="mh-accent">CLOCK</span></h2>
+    <div data-hf-id="hf-omgb" id="s4-gauge-box" class="clip" data-start="0" data-duration="6" data-mh-hero></div>
+    <div data-hf-id="hf-m6el" id="s4-curve-box" class="clip" data-start="0" data-duration="6"></div>
+    <svg data-hf-id="hf-1ntz" id="s4-marks" class="clip" data-start="0" data-duration="6" viewBox="0 0 1920 1080">
+      <g data-hf-id="hf-gz9t" id="s4-m1"><rect data-hf-id="hf-zqii" x="750" y="300" width="20" height="20" transform="rotate(45 760 310)" style="fill:var(--mh-surface);stroke:var(--mh-ink);stroke-width:3" /><text data-hf-id="hf-jjuy" x="760" y="268" class="s4-lbl">HIGH</text></g>
+      <g data-hf-id="hf-kxdu" id="s4-m2"><rect data-hf-id="hf-29js" x="1230" y="680" width="20" height="20" transform="rotate(45 1240 690)" style="fill:var(--mh-surface);stroke:var(--mh-ink);stroke-width:3" /><text data-hf-id="hf-x4of" x="1240" y="748" class="s4-lbl">LOW</text></g>
+      <g data-hf-id="hf-ovhv" id="s4-m3"><rect data-hf-id="hf-o0f5" x="1710" y="300" width="20" height="20" transform="rotate(45 1720 310)" style="fill:var(--mh-accent);stroke:var(--mh-ink);stroke-width:3" /><text data-hf-id="hf-85mv" x="1720" y="268" class="s4-lbl">HIGH</text></g>
+    </svg>
+    <div data-hf-id="hf-if4g" id="s4-call-box" class="clip" data-start="0" data-duration="6"></div>
+  </div>
+  <script>
+    const W = MH.world, tl = gsap.timeline({ paused: true });
+    const gauge = W.gauge("#s4-gauge-box", { size: 520, a0: -120, a1: 120, min: 0, max: 14, ticks: 7, unit: "h", label: "HOURS", decimals: 1, bands: [{ from: 12, to: 13, color: "var(--mh-accent)" }] });
+    // tide curve: two highs 960 px apart (= 12.4 h), one low between them
+    let d = "";
+    for (let x = 700; x <= 1820; x += 10) d += (x === 700 ? "M" : "L") + x + " " + (500 - 190 * Math.cos((2 * Math.PI * (x - 760)) / 960)).toFixed(1);
+    const dot = '<svg viewBox="0 0 40 40"><circle cx="20" cy="20" r="18" style="fill:var(--mh-cold);stroke:var(--mh-ground);stroke-width:3"/></svg>';
+    const curve = W.path("#s4-curve-box", { d, size: 40, traveler: dot, width: 4, dash: "3 12", stroke: "var(--mh-cold)" });
+    const tag = W.callout("#s4-call-box", { x: 1720, y: 310, lx: 1330, ly: 84, w: 440, kicker: "High → high", value: "12.4 h" });
+    MH.type.reveal(tl, "#s4-head", { at: 0.1, mode: "words", stagger: 4, skip: 1 });
+    W.gaugeTo(tl, gauge, 0, 12.4, 0.7, 2.0, MH.cfg.ease.snap);
+    W.travel(tl, curve, { at: 0.8, dur: 3.6, from: 0, to: 1, orient: false, ease: "none" });
+    [["#s4-m1", 1.0], ["#s4-m2", 2.5], ["#s4-m3", 4.1]].forEach(([id, t]) => tl.fromTo(id, { opacity: 0, y: 10 }, { opacity: 1, y: 0, duration: 0.3, ease: MH.cfg.ease.snap }, t));
+    W.calloutIn(tl, tag, 4.0);
+    window.__timelines["s4-curve"] = tl;
+  </script>
+</template>

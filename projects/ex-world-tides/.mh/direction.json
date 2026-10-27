@@ -1,0 +1,124 @@
+{
+  "concept": "One night-sky world the viewer never leaves: a moon crosses it, Earth grows two water bulges under it, a pin rides Earth through both, and a gauge plus tide curve turn the ride into a number. The HUD route strip counts the beats; captions carry the voice.",
+  "narrativeArc": {
+    "beginning": "The Moon circles Earth and the oceans answer: two tides a day.",
+    "middle": "Why (two bulges), how you meet them (Earth spins under them), how long between (12.4 h).",
+    "end": "Three cards compress it; the Moon sets the clock.",
+    "viewerTakeaway": "Two bulges, a spinning Earth, so high tide returns about every 12.4 hours."
+  },
+  "designSystem": {
+    "typography": {
+      "display": {
+        "family": "Montserrat",
+        "weight": 900,
+        "sizePx": 96,
+        "tracking": "0.01em",
+        "case": "upper",
+        "role": "scene headings and big statements"
+      },
+      "body": {
+        "family": "Poppins",
+        "weight": 600,
+        "sizePx": 34,
+        "tracking": "0",
+        "role": "panel notes, captions, labels"
+      },
+      "data": {
+        "family": "JetBrains Mono",
+        "weight": 700,
+        "sizePx": 60,
+        "role": "numbers, readouts, chips (tabular-nums)"
+      },
+      "hierarchy": "heading 110-150 / readout value 60 / caption 38 / panel note 28 / kicker 24; one gold focal value per beat",
+      "pairingReason": "Montserrat Black gives headline weight on a dark sky; Poppins keeps long labels legible; JetBrains Mono makes changing numbers tabular and instrument-like."
+    },
+    "palette": {
+      "ground": "#0A1628",
+      "ink": "#E2E8F0",
+      "muted": "#94A3B8",
+      "surface": "#122340",
+      "accent": "#FFB300",
+      "panel": "#122340",
+      "cold": "#4FC3F7",
+      "cloud": "#22395F",
+      "line": "rgba(226,232,240,0.22)",
+      "sky-top": "#0A1628",
+      "sky-bottom": "#0D1E3A",
+      "light": "rgba(255,179,0,0.22)",
+      "mote": "#FFB300"
+    },
+    "accentRule": "Gold marks the ONE focal value per beat: the Moon's callout, the active caption word, the pin, the gauge needle and the interval value. Cold blue only marks the far-side bulge (the 'other' side), never a second accent.",
+    "background": {
+      "treatment": "world sky: gradient + directional light + 3 parallax cloud bands + drifting motes (MH.world.sky)",
+      "notes": "same sky in every scene; panels and instruments sit ON it, never a different full-frame environment",
+      "justifyDark": "Dark navy is the world: it is a deliberate night-sky setting with lit hero objects, not a void with floating text."
+    },
+    "composition": {
+      "margin": 96,
+      "grid": "content in y 120-850; HUD top strip y 36-90 and route strip y ~1050; caption pill y 860-990",
+      "alignment": "split layouts: hero object one side, readout panel the other; off-centre",
+      "safeAreas": "action 90%, title 80%; check every panel at its largest state",
+      "textDensity": "max 10 words per panel; captions carry the narration"
+    },
+    "choreography": {
+      "heroMovePerScene": 1,
+      "secondaryDelayFrames": [
+        4,
+        8
+      ],
+      "easing": {
+        "enter": "power3.out",
+        "exit": "power2.in",
+        "move": "power2.inOut",
+        "snap": "expo.out"
+      },
+      "staggerFrames": {
+        "words": 4,
+        "items": 5
+      }
+    },
+    "transitionLanguage": {
+      "primary": "cloud-bank pass: a cloud-coloured band sweeps across at each scene start",
+      "secondary": "camera push on the 3D hero into the next object",
+      "rule": "scene change always passes through the world's own cloud bank so the world feels continuous"
+    },
+    "pacing": {
+      "rhythm": "beats of 4-8 s, each with one hero object and one callout",
+      "newInfoEverySec": 2
+    },
+    "density": "rich"
+  },
+  "assets": {
+    "images": [],
+    "footage": [],
+    "illustration": [
+      "Earth sphere, ocean bulge, moon, orbit path, CSS-3D stage, gauge, tide curve, three summary icons: all drawn in SVG/CSS"
+    ],
+    "audio": {
+      "narration": "none: synthetic word timing only (assets/transcript.synthetic.json)",
+      "music": "",
+      "sfx": [],
+      "timingData": "synthetic, steady speaking rate"
+    }
+  },
+  "consistencyRules": [
+    "Every scene sits on the same sky layer; no scene paints its own full-frame background.",
+    "Each beat has exactly one hero object and at most one gold focal value.",
+    "Scene changes always pass through the cloud-bank sweep centred on the boundary.",
+    "Panels are navy-light with an 8px gold (or cold) bar; no other card style.",
+    "Content stays in y 120-850; captions own y 860-990; HUD owns the top and bottom strips.",
+    "Numbers are JetBrains Mono; headings Montserrat Black; everything else Poppins."
+  ],
+  "antiPatterns": [
+    "No scene that is only text on the sky (every beat needs its hero object)",
+    "No photographs, stock footage or a different full-frame environment per scene",
+    "No glow on objects: the only light is the single directional sun wash in the sky layer",
+    "No second accent colour; cold blue means far side only",
+    "No counting animation that overshoots the real value (12.4 h, 24.8 h)",
+    "No caption that outruns the narration: word timing comes from the transcript data",
+    "No visible grid or construction lines"
+  ],
+  "referenceRules": [
+    "Persistent world + HUD + captions are separate layer compositions mounted for the full duration under or over per-beat scenes."
+  ]
+}

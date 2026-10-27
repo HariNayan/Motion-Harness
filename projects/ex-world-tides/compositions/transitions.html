@@ -1,0 +1,25 @@
+<template>
+  <style>
+    #root { position: absolute; inset: 0; pointer-events: none; }
+    #tr-svg { position: absolute; left: 0; top: 0; width: 3000px; height: 1080px; overflow: visible; }
+  </style>
+  <div data-hf-id="hf-vvxh" id="root" data-composition-id="transitions" data-width="1920" data-height="1080">
+    <svg data-hf-id="hf-xktc" id="tr-svg" viewBox="0 0 3000 1080"></svg>
+  </div>
+  <script>
+    // cloud-bank pass: an opaque cloud-coloured bank sweeps left to right, centred on each scene boundary,
+    // so the cut happens while the bank covers the frame. Seeded shapes: deterministic.
+    const tl = gsap.timeline({ paused: true });
+    const r = MH.world.rng(21), svg = document.getElementById("tr-svg");
+    for (let c = 0; c < 21; c++) for (let row = 0; row < 9; row++) {
+      MH.world.el("svg:ellipse", { cx: c * 150 + r() * 60, cy: -40 + row * 140 + r() * 50, rx: 190 + r() * 60, ry: 130 + r() * 40, fill: "var(--mh-cloud)" }, svg);
+    }
+    // rest positions are far enough off-screen that no cloud puff (reach ~250px) is visible between sweeps
+    tl.set("#tr-svg", { x: -3400 }, 0);
+    [5, 11, 18, 24].forEach((b) => {
+      tl.set("#tr-svg", { x: -3400 }, b - 0.56);
+      tl.to("#tr-svg", { x: 2300, duration: 1.1, ease: "power1.inOut" }, b - 0.55);
+    });
+    window.__timelines["transitions"] = tl;
+  </script>
+</template>

@@ -1,0 +1,88 @@
+{
+  "items": {
+    "opening": {
+      "question": "Does the opening establish the subject and visual identity?",
+      "how": "judge",
+      "status": "pass",
+      "evidence": "Frame 0.3s (review-beats) and 4.2s (settled): night-sky world, HUD title, gold TWO already readable at frame 0, Earth with orbit; subject and visual identity clear. Orbit/moon seen at 0.3s, 2.5s, 4.2s.",
+      "basis": "visual"
+    },
+    "narrative": {
+      "question": "Is the narrative understandable?",
+      "how": "judge",
+      "status": "pass",
+      "evidence": "Settled frames 4.2/9.9/16.4/22.9/27.16s: orbit + two tides -> two labelled bulges -> Earth spinning under them with elapsed hours -> gauge/curve at 12.4 h -> three summary cards + closing line. Captions at those frames read as the narration of each beat (synthetic timing).",
+      "basis": "visual"
+    },
+    "scene-purpose": {
+      "question": "Does every scene have a clear purpose?",
+      "how": "plan",
+      "status": "pass",
+      "evidence": "every scene has purpose + viewerShouldNotice; none flagged generic",
+      "basis": "automatic"
+    },
+    "variation": {
+      "question": "Is there meaningful visual variation?",
+      "how": "plan+source",
+      "status": "pass",
+      "evidence": "Five different hero objects (orbit path, CSS-3D Earth with callouts, top-down spinning Earth, gauge + tide curve, three cards); five layouts per storyboard. Same sky/HUD/captions throughout by design.",
+      "basis": "visual"
+    },
+    "typography": {
+      "question": "Is the typography readable and well composed?",
+      "how": "source+visual",
+      "status": "pass",
+      "evidence": "Montserrat headings, JetBrains Mono values, Poppins notes legible in all settled frames; hyperframes craft check reports no text under 28px after the size revision. Not checked: phone-width review strip (review-phone.jpg) was not opened.",
+      "basis": "visual"
+    },
+    "transitions": {
+      "question": "Are transitions consistent and intentional?",
+      "how": "source",
+      "status": "pass",
+      "evidence": "Cloud-bank sweep seen mid-pass at 5.3/11.3/18.3/24.3s; after the fix it no longer clips content at rest (frames 0.3s, 14s clean). Exact moment of full coverage at each cut was not captured.",
+      "basis": "visual"
+    },
+    "timing": {
+      "question": "Are there awkward gaps, overlaps or timing conflicts?",
+      "how": "auto",
+      "status": "pass",
+      "evidence": "hosts contiguous, 9 scene(s) match storyboard",
+      "basis": "automatic"
+    },
+    "clipping": {
+      "question": "Are elements clipped or outside safe areas?",
+      "how": "auto+visual",
+      "status": "pass",
+      "evidence": "No clipped text in settled frames; hyperframes layout check 0 errors. Remaining visual nit: the leader line of the 12.4 h callout crosses the top of the second HIGH label (22.9s).",
+      "basis": "visual"
+    },
+    "assets": {
+      "question": "Are images and assets used effectively?",
+      "how": "judge",
+      "status": "pass",
+      "evidence": "No external assets; Earth, Moon, gauge, curve, icons all drawn (SVG/CSS 3D). Captions use synthetic word timing, disclosed in the brief; there is no audio.",
+      "basis": "source"
+    },
+    "arc": {
+      "question": "Does the video have a coherent beginning, middle and end?",
+      "how": "plan",
+      "status": "pass",
+      "evidence": "roles open with hook/context and close with payoff/resolution/cta",
+      "basis": "automatic"
+    },
+    "effects": {
+      "question": "Are there unnecessary effects or repetitive layouts?",
+      "how": "source",
+      "status": "pass",
+      "evidence": "Source scan clean (no glow classes beyond the single sky light wash, no unlogged drift). Every tween maps to the storyboard hero move, callout or caption.",
+      "basis": "source"
+    },
+    "technical": {
+      "question": "Does the project pass the supported technical checks?",
+      "how": "auto",
+      "status": "pass",
+      "evidence": "hyperframes check + lint + structure: no errors",
+      "basis": "automatic"
+    }
+  }
+}

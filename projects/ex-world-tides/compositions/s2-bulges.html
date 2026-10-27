@@ -1,0 +1,42 @@
+<template>
+  <style>
+    #root { position: absolute; inset: 0; }
+    #s2-head { position: absolute; left: 96px; top: 120px; font-size: 110px; text-transform: uppercase; color: var(--mh-ink); white-space: nowrap; }
+    #s2-stage-box, #s2-call-box, #s2-arrows { position: absolute; inset: 0; }
+    .s2-obj { position: absolute; border-radius: 50%; }
+    #s2-ocean { left: 390px; top: 280px; width: 620px; height: 440px; background: radial-gradient(circle at 50% 45%, var(--mh-cold) 0%, var(--earth-mid) 100%); opacity: 0.85; }
+    #s2-earth { left: 510px; top: 310px; width: 380px; height: 380px; background: radial-gradient(circle at 32% 30%, var(--earth-hi) 0%, var(--earth-mid) 38%, var(--earth-lo) 78%); box-shadow: inset -46px -30px 70px rgba(0, 0, 0, 0.45); }
+    #s2-moon { left: 1430px; top: 455px; width: 90px; height: 90px; background: radial-gradient(circle at 35% 32%, var(--moon-hi), var(--moon-lo)); }
+    #s2-beam { position: absolute; left: 1030px; top: 499px; width: 390px; height: 0; border-top: 3px dashed var(--mh-line); }
+  </style>
+  <div data-hf-id="hf-r479" id="root" data-composition-id="s2-bulges" data-width="1920" data-height="1080">
+    <h2 data-hf-id="hf-qd03" id="s2-head" class="clip mh-display" data-start="0" data-duration="6"><span data-hf-id="hf-khe5" class="mh-accent">2</span> BULGES</h2>
+    <div data-hf-id="hf-515y" id="s2-stage-box" class="clip" data-start="0" data-duration="6" data-mh-hero></div>
+    <svg data-hf-id="hf-h58j" id="s2-arrows" class="clip" data-start="0" data-duration="6" viewBox="0 0 1920 1080">
+      <path data-hf-id="hf-1bul" id="s2-arr-near" d="M1040 500H1130M1112 482L1134 500L1112 518" style="fill:none;stroke:var(--mh-accent);stroke-width:6;stroke-linecap:round;stroke-linejoin:round" />
+      <path data-hf-id="hf-1v4j" id="s2-arr-far" d="M360 500H270M288 482L266 500L288 518" style="fill:none;stroke:var(--mh-cold);stroke-width:6;stroke-linecap:round;stroke-linejoin:round" />
+    </svg>
+    <div data-hf-id="hf-92ua" id="s2-call-box" class="clip" data-start="0" data-duration="6"></div>
+  </div>
+  <script>
+    const W = MH.world, tl = gsap.timeline({ paused: true });
+    const s = W.stage3d("#s2-stage-box", { perspective: 1500 });
+    W.el("div", { id: "s2-ocean", class: "s2-obj" }, s.world);
+    W.el("div", { id: "s2-beam" }, s.world);
+    W.el("div", { id: "s2-earth", class: "s2-obj" }, s.world);
+    W.el("div", { id: "s2-moon", class: "s2-obj" }, s.world);
+    const near = W.callout("#s2-call-box", { x: 1010, y: 500, lx: 1130, ly: 600, w: 560, kicker: "Near side", value: "BULGE 1", note: "Water is pulled toward the Moon" });
+    const far = W.callout("#s2-call-box", { x: 390, y: 500, lx: 96, ly: 600, w: 400, kicker: "Far side", value: "BULGE 2", note: "Earth pulls away", tone: "cold" });
+    MH.type.reveal(tl, "#s2-head", { at: 0.1, mode: "words", stagger: 4, skip: 1 });
+    W.orbit3d(tl, s, { at: 0, dur: 6, from: { ry: -8, rx: 4 }, to: { ry: 6, rx: -2 } });
+    tl.fromTo("#s2-earth", { scale: 0.6, opacity: 0 }, { scale: 1, opacity: 1, duration: 0.6, ease: MH.cfg.ease.snap }, 0.3);
+    tl.fromTo("#s2-ocean", { scale: 0.55, opacity: 0 }, { scale: 1, opacity: 0.85, duration: 1.2, ease: MH.cfg.ease.snap }, 0.9);
+    tl.fromTo("#s2-moon", { x: 160, opacity: 0 }, { x: 0, opacity: 1, duration: 0.7, ease: MH.cfg.ease.enter }, 1.2);
+    tl.fromTo("#s2-beam", { scaleX: 0, transformOrigin: "0% 50%" }, { scaleX: 1, duration: 0.6, ease: MH.cfg.ease.draw }, 1.6);
+    tl.fromTo("#s2-arr-near", { opacity: 0, x: -14 }, { opacity: 1, x: 0, duration: 0.4, ease: MH.cfg.ease.enter }, 2.3);
+    tl.fromTo("#s2-arr-far", { opacity: 0, x: 14 }, { opacity: 1, x: 0, duration: 0.4, ease: MH.cfg.ease.enter }, 2.9);
+    W.calloutIn(tl, near, 2.4);
+    W.calloutIn(tl, far, 3.0);
+    window.__timelines["s2-bulges"] = tl;
+  </script>
+</template>

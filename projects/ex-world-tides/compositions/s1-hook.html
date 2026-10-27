@@ -1,0 +1,26 @@
+<template>
+  <style>
+    #root { position: absolute; inset: 0; }
+    #s1-head { position: absolute; left: 96px; top: 150px; font-size: 150px; text-transform: uppercase; color: var(--mh-ink); white-space: nowrap; }
+    #s1-earth { position: absolute; left: 1090px; top: 330px; width: 380px; height: 380px; border-radius: 50%;
+      background: radial-gradient(circle at 32% 30%, var(--earth-hi) 0%, var(--earth-mid) 38%, var(--earth-lo) 78%); box-shadow: inset -46px -30px 70px rgba(0, 0, 0, 0.45); }
+    #s1-orbit-box, #s1-call-box { position: absolute; inset: 0; }
+  </style>
+  <div data-hf-id="hf-hv3x" id="root" data-composition-id="s1-hook" data-width="1920" data-height="1080">
+    <h1 data-hf-id="hf-igq0" id="s1-head" class="clip mh-display" data-start="0" data-duration="5"><span data-hf-id="hf-pcsx" class="mh-accent">TWO</span> TIDES<br data-hf-id="hf-x5px" />A DAY</h1>
+    <div data-hf-id="hf-0gvi" id="s1-orbit-box" class="clip" data-start="0" data-duration="5" data-mh-hero></div>
+    <div data-hf-id="hf-jqig" id="s1-earth" class="clip" data-start="0" data-duration="5"></div>
+    <div data-hf-id="hf-o38s" id="s1-call-box" class="clip" data-start="0" data-duration="5"></div>
+  </div>
+  <script>
+    const W = MH.world, tl = gsap.timeline({ paused: true });
+    const moon = '<svg viewBox="0 0 76 76"><circle cx="38" cy="38" r="36" style="fill:var(--moon-hi)"/><circle cx="26" cy="28" r="7" style="fill:var(--moon-lo)"/><circle cx="48" cy="46" r="9" style="fill:var(--moon-lo)"/><circle cx="50" cy="24" r="4" style="fill:var(--moon-lo)"/></svg>';
+    const orbit = W.path("#s1-orbit-box", { d: "M780 520 A500 250 0 1 1 1780 520 A500 250 0 1 1 780 520", size: 76, traveler: moon, width: 3 });
+    const tag = W.callout("#s1-call-box", { x: 1280, y: 270, lx: 1370, ly: 120, w: 450, kicker: "Moon distance", value: "384,400 km" });
+    MH.type.reveal(tl, "#s1-head", { at: 0.15, mode: "words", stagger: 5, skip: 1 });
+    tl.fromTo("#s1-earth", { scale: 0.82, opacity: 0.4 }, { scale: 1, opacity: 1, duration: 0.7, ease: MH.cfg.ease.snap }, 0.1);
+    W.travel(tl, orbit, { at: 0.4, dur: 4.2, from: 0, to: 0.5, orient: false, ease: "none" });
+    W.calloutIn(tl, tag, 1.6);
+    window.__timelines["s1-hook"] = tl;
+  </script>
+</template>

@@ -1,0 +1,17 @@
+<template>
+  <style>
+    #root { position: absolute; inset: 0; pointer-events: none; }
+    #cap-box { position: absolute; inset: 0; }
+  </style>
+  <div data-hf-id="hf-jn2k" id="root" data-composition-id="captions" data-width="1920" data-height="1080">
+    <div data-hf-id="hf-5ep7" id="cap-box"></div>
+  </div>
+  <script>
+    // word timing comes from assets/mh-cues.js (SYNTHETIC for this example; see assets/transcript.synthetic.json)
+    const tl = gsap.timeline({ paused: true });
+    const words = (window.MH_CUES ? window.MH_CUES.words : []).map((w) => ({ t: w.t, end: w.end, text: w.text }));
+    const caps = MH.world.captions.build("#cap-box", words, { maxWords: 7, maxChars: 44, bottom: 92 });
+    MH.world.captions.animate(tl, caps);
+    window.__timelines["captions"] = tl;
+  </script>
+</template>

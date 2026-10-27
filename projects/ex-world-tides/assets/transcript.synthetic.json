@@ -1,0 +1,325 @@
+{
+  "_note": "SYNTHETIC timing generated from the script at a steady rate; not from audio.",
+  "words": [
+    {
+      "text": "The",
+      "start": 0.5,
+      "end": 0.75
+    },
+    {
+      "text": "Moon",
+      "start": 0.81,
+      "end": 1.1
+    },
+    {
+      "text": "circles",
+      "start": 1.16,
+      "end": 1.55
+    },
+    {
+      "text": "Earth,",
+      "start": 1.61,
+      "end": 1.93
+    },
+    {
+      "text": "and",
+      "start": 1.99,
+      "end": 2.24
+    },
+    {
+      "text": "the",
+      "start": 2.3,
+      "end": 2.55
+    },
+    {
+      "text": "oceans",
+      "start": 2.61,
+      "end": 2.96
+    },
+    {
+      "text": "answer:",
+      "start": 3.02,
+      "end": 3.38
+    },
+    {
+      "text": "two",
+      "start": 3.44,
+      "end": 3.69
+    },
+    {
+      "text": "high",
+      "start": 3.75,
+      "end": 4.04
+    },
+    {
+      "text": "tides",
+      "start": 4.1,
+      "end": 4.42
+    },
+    {
+      "text": "every",
+      "start": 4.48,
+      "end": 4.8
+    },
+    {
+      "text": "day.",
+      "start": 4.86,
+      "end": 5.11
+    },
+    {
+      "text": "Its",
+      "start": 5.4,
+      "end": 5.65
+    },
+    {
+      "text": "pull",
+      "start": 5.71,
+      "end": 6
+    },
+    {
+      "text": "raises",
+      "start": 6.06,
+      "end": 6.41
+    },
+    {
+      "text": "a",
+      "start": 6.47,
+      "end": 6.66
+    },
+    {
+      "text": "bulge",
+      "start": 6.72,
+      "end": 7.04
+    },
+    {
+      "text": "facing",
+      "start": 7.1,
+      "end": 7.45
+    },
+    {
+      "text": "the",
+      "start": 7.51,
+      "end": 7.76
+    },
+    {
+      "text": "Moon,",
+      "start": 7.82,
+      "end": 8.11
+    },
+    {
+      "text": "and",
+      "start": 8.17,
+      "end": 8.42
+    },
+    {
+      "text": "a",
+      "start": 8.48,
+      "end": 8.66
+    },
+    {
+      "text": "second",
+      "start": 8.72,
+      "end": 9.08
+    },
+    {
+      "text": "bulge",
+      "start": 9.14,
+      "end": 9.46
+    },
+    {
+      "text": "on",
+      "start": 9.52,
+      "end": 9.74
+    },
+    {
+      "text": "the",
+      "start": 9.8,
+      "end": 10.05
+    },
+    {
+      "text": "far",
+      "start": 10.11,
+      "end": 10.36
+    },
+    {
+      "text": "side.",
+      "start": 10.42,
+      "end": 10.71
+    },
+    {
+      "text": "As",
+      "start": 11.4,
+      "end": 11.62
+    },
+    {
+      "text": "Earth",
+      "start": 11.68,
+      "end": 12
+    },
+    {
+      "text": "spins,",
+      "start": 12.06,
+      "end": 12.38
+    },
+    {
+      "text": "your",
+      "start": 12.44,
+      "end": 12.72
+    },
+    {
+      "text": "coast",
+      "start": 12.78,
+      "end": 13.1
+    },
+    {
+      "text": "passes",
+      "start": 13.16,
+      "end": 13.52
+    },
+    {
+      "text": "through",
+      "start": 13.58,
+      "end": 13.97
+    },
+    {
+      "text": "both",
+      "start": 14.03,
+      "end": 14.31
+    },
+    {
+      "text": "bulges,",
+      "start": 14.37,
+      "end": 14.73
+    },
+    {
+      "text": "one",
+      "start": 14.79,
+      "end": 15.04
+    },
+    {
+      "text": "high",
+      "start": 15.1,
+      "end": 15.38
+    },
+    {
+      "text": "tide",
+      "start": 15.44,
+      "end": 15.73
+    },
+    {
+      "text": "about",
+      "start": 15.79,
+      "end": 16.11
+    },
+    {
+      "text": "every",
+      "start": 16.17,
+      "end": 16.49
+    },
+    {
+      "text": "twelve",
+      "start": 16.55,
+      "end": 16.9
+    },
+    {
+      "text": "hours.",
+      "start": 16.96,
+      "end": 17.28
+    },
+    {
+      "text": "Twelve",
+      "start": 18.4,
+      "end": 18.75
+    },
+    {
+      "text": "point",
+      "start": 18.81,
+      "end": 19.13
+    },
+    {
+      "text": "four",
+      "start": 19.19,
+      "end": 19.48
+    },
+    {
+      "text": "hours",
+      "start": 19.54,
+      "end": 19.86
+    },
+    {
+      "text": "separate",
+      "start": 19.92,
+      "end": 20.34
+    },
+    {
+      "text": "two",
+      "start": 20.4,
+      "end": 20.65
+    },
+    {
+      "text": "high",
+      "start": 20.71,
+      "end": 21
+    },
+    {
+      "text": "tides,",
+      "start": 21.06,
+      "end": 21.38
+    },
+    {
+      "text": "because",
+      "start": 21.44,
+      "end": 21.83
+    },
+    {
+      "text": "the",
+      "start": 21.89,
+      "end": 22.14
+    },
+    {
+      "text": "Moon",
+      "start": 22.2,
+      "end": 22.49
+    },
+    {
+      "text": "keeps",
+      "start": 22.55,
+      "end": 22.87
+    },
+    {
+      "text": "moving",
+      "start": 22.93,
+      "end": 23.28
+    },
+    {
+      "text": "too.",
+      "start": 23.34,
+      "end": 23.59
+    },
+    {
+      "text": "The",
+      "start": 24.5,
+      "end": 24.75
+    },
+    {
+      "text": "Moon",
+      "start": 24.81,
+      "end": 25.1
+    },
+    {
+      "text": "sets",
+      "start": 25.16,
+      "end": 25.44
+    },
+    {
+      "text": "the",
+      "start": 25.5,
+      "end": 25.76
+    },
+    {
+      "text": "clock.",
+      "start": 25.82,
+      "end": 26.14
+    }
+  ]
+}

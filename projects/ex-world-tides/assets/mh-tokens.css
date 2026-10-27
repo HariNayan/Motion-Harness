@@ -1,0 +1,22 @@
+/* generated from .mh/direction.json by mh tokens — do not hand-edit; change the design system and re-run */
+:root{
+  --mh-muted:#94A3B8;
+  --mh-surface:#122340;
+  --mh-line:rgba(226,232,240,0.22);
+  --mh-ground:#0A1628;
+  --mh-ink:#E2E8F0;
+  --mh-accent:#FFB300;
+  --mh-panel:#122340;
+  --mh-cold:#4FC3F7;
+  --mh-cloud:#22395F;
+  --mh-sky-top:#0A1628;
+  --mh-sky-bottom:#0D1E3A;
+  --mh-light:rgba(255,179,0,0.22);
+  --mh-mote:#FFB300;
+  --mh-font-display:"Montserrat",sans-serif;
+  --mh-font-body:"Poppins",sans-serif;
+  --mh-font-mono:"JetBrains Mono",monospace;
+  --mh-margin:96px;
+  --mh-safe-x:96px;
+  --mh-safe-y:54px;
+}

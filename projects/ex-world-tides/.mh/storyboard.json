@@ -1,0 +1,147 @@
+{
+  "totalDuration": 28,
+  "scenes": [
+    {
+      "id": "s1-hook",
+      "title": "Two tides a day",
+      "role": "hook",
+      "duration": 5,
+      "purpose": "Establish the subject and the world: the Moon crossing the shared night sky above Earth, with the claim in the heading.",
+      "viewerShouldNotice": "The Moon gliding along its orbit and the heading TWO TIDES A DAY by 1.5 s.",
+      "focalPoint": "Earth with orbit ellipse, right of centre; heading upper-left",
+      "layout": "offset-hero",
+      "text": [
+        "TWO TIDES",
+        "A DAY",
+        "MOON  384,400 km"
+      ],
+      "heroObject": "Earth sphere with orbit path and a travelling Moon",
+      "heroMove": "Moon travels along the orbit path",
+      "motionPurpose": "meaning",
+      "motionWhy": "The Moon's travel is the cause the whole film explains.",
+      "background": "night-sky world",
+      "assets": [],
+      "audioCue": "",
+      "transitionOut": {
+        "type": "cloud-pass",
+        "motivation": "The cloud bank carries us from the overview to the cause."
+      }
+    },
+    {
+      "id": "s2-bulges",
+      "title": "Two bulges",
+      "role": "build",
+      "duration": 6,
+      "purpose": "Explain the cause: show the near-side and far-side water bulges around Earth, which the hook only asserted.",
+      "viewerShouldNotice": "Two bulges on opposite sides of Earth, each labelled, by 4 s.",
+      "focalPoint": "Earth with ocean ellipse in a tilted 3D stage, centre-left",
+      "layout": "diagram-center",
+      "text": [
+        "2 BULGES",
+        "NEAR SIDE",
+        "FAR SIDE",
+        "Water is pulled toward the Moon",
+        "Earth pulls away"
+      ],
+      "heroObject": "CSS-3D Earth with ocean bulge and moon, two callouts",
+      "heroMove": "Ocean ellipse swells around Earth while the 3D camera sways",
+      "motionPurpose": "meaning",
+      "motionWhy": "The swell is the claim: water piles up on both sides.",
+      "background": "night-sky world",
+      "assets": [],
+      "audioCue": "",
+      "transitionOut": {
+        "type": "cloud-pass",
+        "motivation": "From the static picture to Earth in motion."
+      }
+    },
+    {
+      "id": "s3-day",
+      "title": "One spin, two highs",
+      "role": "turn",
+      "duration": 7,
+      "purpose": "Make it personal: a place on the coast rides Earth through both bulges in one lunar day, so two high tides follow.",
+      "viewerShouldNotice": "The pin passing the near and far bulges and HIGH TIDE chips lighting at both.",
+      "focalPoint": "Top-down Earth with a pin on its rim, centre; elapsed-hours panel right",
+      "layout": "image-led",
+      "text": [
+        "ONE SPIN,",
+        "TWO HIGHS",
+        "24.8 h"
+      ],
+      "heroObject": "Top-down Earth with fixed bulge, pin path and chips",
+      "heroMove": "Pin rides the rim once while the elapsed-hours counter runs",
+      "motionPurpose": "continuity",
+      "motionWhy": "The pin keeps the same object from scene 2 and moves it through time.",
+      "background": "night-sky world",
+      "assets": [],
+      "audioCue": "",
+      "transitionOut": {
+        "type": "cloud-pass",
+        "motivation": "From a day's cycle to the single interval inside it."
+      }
+    },
+    {
+      "id": "s4-curve",
+      "title": "12.4 hours",
+      "role": "proof",
+      "duration": 6,
+      "purpose": "Convert the ride into the number the viewer keeps: the interval between two high tides.",
+      "viewerShouldNotice": "The gauge needle landing on 12.4 h and the curve's second peak marked.",
+      "focalPoint": "Gauge left, tide curve right",
+      "layout": "grid-data",
+      "text": [
+        "TIDE CLOCK",
+        "12.4 h",
+        "HIGH",
+        "LOW",
+        "HIGH"
+      ],
+      "heroObject": "Dial gauge plus tide curve with a travelling marker",
+      "heroMove": "Gauge needle sweeps to 12.4 h while a marker rides the tide curve",
+      "motionPurpose": "attention",
+      "motionWhy": "The needle's sweep and the marker's ride land on the same number.",
+      "background": "night-sky world",
+      "assets": [],
+      "audioCue": "",
+      "transitionOut": {
+        "type": "cloud-pass",
+        "motivation": "Back from data to the closing statement."
+      }
+    },
+    {
+      "id": "s5-close",
+      "title": "The Moon sets the clock",
+      "role": "resolution",
+      "duration": 4,
+      "purpose": "Compress the film into three cards and one repeatable line.",
+      "viewerShouldNotice": "MOON in gold in the closing line, after the three cards.",
+      "focalPoint": "Three cards in a row, headline beneath",
+      "layout": "list-rail",
+      "text": [
+        "02 BULGES",
+        "12.4 h",
+        "MOON",
+        "THE MOON",
+        "SETS THE CLOCK."
+      ],
+      "heroObject": "Three illustrated summary cards",
+      "heroMove": "Cards flip in from a 3D angle, then the headline reveals",
+      "motionPurpose": "pacing",
+      "motionWhy": "A staggered 3D entrance sets the beat of a three-part summary.",
+      "background": "night-sky world",
+      "assets": [],
+      "audioCue": "",
+      "transitionOut": {
+        "type": "end",
+        "motivation": "film ends"
+      }
+    }
+  ],
+  "layers": [
+    "bg-sky",
+    "transitions",
+    "hud",
+    "captions"
+  ]
+}

@@ -1,0 +1,27 @@
+{"at":"2026-10-27T06:18:44.139Z","type":"init","format":"horizontal","depth":"high"}
+{"at":"2026-10-27T06:18:44.234Z","type":"preset","name":"night-sky"}
+{"at":"2026-10-27T06:19:25.322Z","type":"plan-review","n":1,"findings":"Earth appears in three scenes (orbit, 3D bulges, top-down spin): risk of repeating one picture.","resolved":"Kept, but each uses a different view and job (orbit path with travelling Moon; tilted CSS-3D side view; top-down with a pin) and s4/s5 leave Earth for instruments and cards.","openLintErrors":0}
+{"at":"2026-10-27T06:19:25.414Z","type":"plan-review","n":2,"findings":"Pacing 5/6/7/6/4 s is varied; closing line needs >= 2 s hold; reading time of on-screen text fits; narration words per scene fit their windows.","resolved":"No change; s5 is 4 s so the final line holds.","openLintErrors":0}
+{"at":"2026-10-27T06:19:25.511Z","type":"plan-review","n":3,"findings":"Risk: panels and charts colliding with the caption pill (y 860-990) or the HUD route strip (y ~1050).","resolved":"Content kept in y 120-850; callout panels sized to end by y 840; will verify in frames.","openLintErrors":0}
+{"at":"2026-10-27T06:19:25.604Z","type":"phase","from":"brief","to":"direction","forced":false}
+{"at":"2026-10-27T06:19:25.728Z","type":"phase","from":"direction","to":"storyboard","forced":false}
+{"at":"2026-10-27T06:19:25.878Z","type":"phase","from":"storyboard","to":"review","forced":false}
+{"at":"2026-10-27T06:19:26.009Z","type":"phase","from":"review","to":"build","forced":false}
+{"at":"2026-10-27T06:22:09.896Z","type":"frames","count":37}
+{"at":"2026-10-27T06:24:15.437Z","type":"frames","count":37}
+{"at":"2026-10-27T06:25:34.036Z","type":"frames","count":37}
+{"at":"2026-10-27T06:26:19.445Z","type":"frames","count":37}
+{"at":"2026-10-27T06:27:05.013Z","type":"frames","count":6}
+{"at":"2026-10-27T06:27:28.641Z","type":"frames","count":4}
+{"at":"2026-10-27T06:27:49.569Z","type":"frames","count":37}
+{"at":"2026-10-27T06:28:37.781Z","type":"checklist","id":"opening","status":"pass","basis":"visual","note":"Frame 0.3s (review-beats) and 4.2s (settled): night-sky world, HUD title, gold TWO already readable at frame 0, Earth with orbit; subject and visual identity clear. Orbit/moon seen at 0.3s, 2.5s, 4.2s."}
+{"at":"2026-10-27T06:28:37.871Z","type":"checklist","id":"narrative","status":"pass","basis":"visual","note":"Settled frames 4.2/9.9/16.4/22.9/27.16s: orbit + two tides -> two labelled bulges -> Earth spinning under them with elapsed hours -> gauge/curve at 12.4 h -> three summary cards + closing line. Captions at those frames read as the narration of each beat (synthetic timing)."}
+{"at":"2026-10-27T06:28:37.972Z","type":"checklist","id":"variation","status":"pass","basis":"visual","note":"Five different hero objects (orbit path, CSS-3D Earth with callouts, top-down spinning Earth, gauge + tide curve, three cards); five layouts per storyboard. Same sky/HUD/captions throughout by design."}
+{"at":"2026-10-27T06:28:38.070Z","type":"checklist","id":"typography","status":"pass","basis":"visual","note":"Montserrat headings, JetBrains Mono values, Poppins notes legible in all settled frames; hyperframes craft check reports no text under 28px after the size revision. Not checked: phone-width review strip (review-phone.jpg) was not opened."}
+{"at":"2026-10-27T06:28:38.162Z","type":"checklist","id":"transitions","status":"pass","basis":"visual","note":"Cloud-bank sweep seen mid-pass at 5.3/11.3/18.3/24.3s; after the fix it no longer clips content at rest (frames 0.3s, 14s clean). Exact moment of full coverage at each cut was not captured."}
+{"at":"2026-10-27T06:28:38.258Z","type":"checklist","id":"clipping","status":"pass","basis":"visual","note":"No clipped text in settled frames; hyperframes layout check 0 errors. Remaining visual nit: the leader line of the 12.4 h callout crosses the top of the second HIGH label (22.9s)."}
+{"at":"2026-10-27T06:28:38.354Z","type":"checklist","id":"assets","status":"pass","basis":"source","note":"No external assets; Earth, Moon, gauge, curve, icons all drawn (SVG/CSS 3D). Captions use synthetic word timing, disclosed in the brief; there is no audio."}
+{"at":"2026-10-27T06:28:38.440Z","type":"checklist","id":"effects","status":"pass","basis":"source","note":"Source scan clean (no glow classes beyond the single sky light wash, no unlogged drift). Every tween maps to the storyboard hero move, callout or caption."}
+{"at":"2026-10-27T06:28:58.834Z","type":"phase","from":"build","to":"verify","forced":false}
+{"at":"2026-10-27T06:28:58.983Z","type":"phase","from":"verify","to":"handoff","forced":false}
+{"at":"2026-10-27T06:28:59.157Z","type":"handoff","acceptFails":null}

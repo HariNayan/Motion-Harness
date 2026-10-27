@@ -1,0 +1,29 @@
+<template>
+  <style>
+    #root { position: absolute; inset: 0; }
+    #s5-cards { position: absolute; left: 96px; top: 150px; width: 1728px; display: flex; gap: 36px; }
+    #s5-cards .mh-panel { position: relative; flex: 1; padding-top: 24px; padding-bottom: 24px; }
+    #s5-cards svg { display: block; width: 120px; height: 120px; margin-bottom: 14px; }
+    #s5-head { position: absolute; left: 96px; top: 560px; font-size: 110px; text-transform: uppercase; color: var(--mh-ink); white-space: nowrap; line-height: 1; }
+  </style>
+  <div data-hf-id="hf-1ar2" id="root" data-composition-id="s5-close" data-width="1920" data-height="1080">
+    <div data-hf-id="hf-gfbs" id="s5-cards" class="clip" data-start="0" data-duration="4" data-mh-hero>
+      <div data-hf-id="hf-35v5" id="s5-c1" class="mh-panel"><span data-hf-id="hf-1y6h" class="mh-panel-bar" style="background:var(--mh-accent)"></span>
+        <svg data-hf-id="hf-tgml" viewBox="0 0 120 120"><ellipse data-hf-id="hf-qu0n" cx="60" cy="60" rx="56" ry="38" style="fill:var(--mh-cold)" /><circle data-hf-id="hf-rs9u" cx="60" cy="60" r="28" style="fill:var(--earth-mid)" /><circle data-hf-id="hf-iy2g" cx="52" cy="52" r="9" style="fill:var(--earth-hi)" /><path data-hf-id="hf-9c19" d="M118 60h-8M2 60h8" style="stroke:var(--mh-ink);stroke-width:4;stroke-linecap:round" /></svg>
+        <div data-hf-id="hf-snur" class="mh-kicker" style="color:var(--mh-accent)">Cause</div><div data-hf-id="hf-3pd5" class="mh-value">2 BULGES</div><div data-hf-id="hf-6id8" class="mh-note">near side and far side</div></div>
+      <div data-hf-id="hf-73z6" id="s5-c2" class="mh-panel"><span data-hf-id="hf-983h" class="mh-panel-bar" style="background:var(--mh-accent)"></span>
+        <svg data-hf-id="hf-lna9" viewBox="0 0 120 120"><path data-hf-id="hf-r74o" d="M20 90A54 54 0 1 1 100 90" style="fill:none;stroke:var(--mh-line);stroke-width:10;stroke-linecap:round" /><path data-hf-id="hf-gwqr" d="M20 90A54 54 0 0 1 82 22" style="fill:none;stroke:var(--mh-accent);stroke-width:10;stroke-linecap:round" /><path data-hf-id="hf-9dwy" d="M60 64L88 38" style="stroke:var(--mh-ink);stroke-width:6;stroke-linecap:round" /><circle data-hf-id="hf-7id4" cx="60" cy="64" r="9" style="fill:var(--mh-ink)" /></svg>
+        <div data-hf-id="hf-0y75" class="mh-kicker" style="color:var(--mh-accent)">Interval</div><div data-hf-id="hf-o7ny" class="mh-value">12.4 h</div><div data-hf-id="hf-nth1" class="mh-note">between high tides</div></div>
+      <div data-hf-id="hf-b237" id="s5-c3" class="mh-panel"><span data-hf-id="hf-af0k" class="mh-panel-bar" style="background:var(--mh-accent)"></span>
+        <svg data-hf-id="hf-mu7c" viewBox="0 0 120 120"><circle data-hf-id="hf-h8qv" cx="60" cy="60" r="50" style="fill:var(--moon-hi)" /><circle data-hf-id="hf-r6np" cx="42" cy="46" r="10" style="fill:var(--moon-lo)" /><circle data-hf-id="hf-ndwu" cx="76" cy="72" r="13" style="fill:var(--moon-lo)" /><circle data-hf-id="hf-tato" cx="74" cy="38" r="6" style="fill:var(--moon-lo)" /></svg>
+        <div data-hf-id="hf-kq5i" class="mh-kicker" style="color:var(--mh-accent)">Driver</div><div data-hf-id="hf-l1ca" class="mh-value">MOON</div><div data-hf-id="hf-ssr2" class="mh-note">keeps moving too</div></div>
+    </div>
+    <h1 data-hf-id="hf-kfyk" id="s5-head" class="clip mh-display" data-start="0" data-duration="4">THE <span data-hf-id="hf-g9rc" class="mh-accent">MOON</span><br data-hf-id="hf-x5px" />SETS THE CLOCK.</h1>
+  </div>
+  <script>
+    const tl = gsap.timeline({ paused: true });
+    ["#s5-c1", "#s5-c2", "#s5-c3"].forEach((id, i) => MH.world.tilt3d(tl, id, { at: 0.35 + i * 0.25, dur: 0.7 }));
+    MH.type.reveal(tl, "#s5-head", { at: 1.2, mode: "words", stagger: 4, dur: 0.45, skip: 0 });
+    window.__timelines["s5-close"] = tl;
+  </script>
+</template>

@@ -1,0 +1,15 @@
+<template>
+  <style>
+    #root { position: absolute; inset: 0; }
+    #sky-box { position: absolute; inset: 0; }
+  </style>
+  <div data-hf-id="hf-4w6c" id="root" data-composition-id="bg-sky" data-width="1920" data-height="1080">
+    <div data-hf-id="hf-dv6c" id="sky-box"></div>
+  </div>
+  <script>
+    const tl = gsap.timeline({ paused: true });
+    const sky = MH.world.sky("#sky-box", { seed: 3, bands: 3, motes: 30 });
+    MH.world.skyMotion(tl, sky, 28);
+    window.__timelines["bg-sky"] = tl;
+  </script>
+</template>

@@ -1,0 +1,43 @@
+{
+  "scenes": {
+    "bg-sky": {
+      "file": "compositions/bg-sky.html",
+      "hash": "9ab5680c77cb"
+    },
+    "captions": {
+      "file": "compositions/captions.html",
+      "hash": "5fab161743dd"
+    },
+    "hud": {
+      "file": "compositions/hud.html",
+      "hash": "6ccad35df956"
+    },
+    "s1-hook": {
+      "file": "compositions/s1-hook.html",
+      "hash": "111cfe39471d"
+    },
+    "s2-bulges": {
+      "file": "compositions/s2-bulges.html",
+      "hash": "06c72710cd45"
+    },
+    "s3-day": {
+      "file": "compositions/s3-day.html",
+      "hash": "fd1a0a57da75"
+    },
+    "s4-curve": {
+      "file": "compositions/s4-curve.html",
+      "hash": "77f4f0641a06"
+    },
+    "s5-close": {
+      "file": "compositions/s5-close.html",
+      "hash": "4550eaadce98"
+    },
+    "transitions": {
+      "file": "compositions/transitions.html",
+      "hash": "19cbfc672177"
+    }
+  },
+  "root": "index.html",
+  "index": "6cad6c21ec50",
+  "lockedAt": "2026-10-27T06:28:59.152Z"
+}
