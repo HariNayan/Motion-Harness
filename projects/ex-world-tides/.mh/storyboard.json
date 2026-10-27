@@ -25,7 +25,8 @@
       "transitionOut": {
         "type": "cloud-pass",
         "motivation": "The cloud bank carries us from the overview to the cause."
-      }
+      },
+      "first2s": "Frame 0: the gold TWO already on the teal-navy night sky with the HUD title, Earth and the dotted orbit ellipse; TIDES and A DAY rise in by 0.5 s and the Moon starts along its orbit at 0.4 s."
     },
     {
       "id": "s2-bulges",

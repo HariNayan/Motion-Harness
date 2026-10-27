@@ -1,4 +1,10 @@
 {
-  "at": "2026-10-27T06:17:30.336Z",
-  "findings": []
+  "at": "2026-10-27T10:27:13.229Z",
+  "findings": [
+    {
+      "level": "info",
+      "code": "story.waived",
+      "msg": "storylines waived: project was built before the storylines step existed; its single storyline was chosen without alternatives"
+    }
+  ]
 }

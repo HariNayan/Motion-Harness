@@ -25,3 +25,4 @@
 {"at":"2026-10-27T06:28:58.834Z","type":"phase","from":"build","to":"verify","forced":false}
 {"at":"2026-10-27T06:28:58.983Z","type":"phase","from":"verify","to":"handoff","forced":false}
 {"at":"2026-10-27T06:28:59.157Z","type":"handoff","acceptFails":null}
+{"at":"2026-10-27T09:56:04.864Z","type":"decision","what":"Storylines waived","why":"project was built before the storylines step existed; its single storyline was chosen without alternatives","scene":null}

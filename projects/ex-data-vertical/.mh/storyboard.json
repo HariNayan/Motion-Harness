@@ -24,7 +24,8 @@
       "transitionOut": {
         "type": "slats",
         "motivation": "Slats start the chart as a rule sheet being drawn."
-      }
+      },
+      "first2s": "Frame 0: the 560 px counter numeral already on the light ground; it counts up to 412 by 1.3 s, the red rule draws at 1.0 s and the label words rise in."
     },
     {
       "id": "s2-bars",
