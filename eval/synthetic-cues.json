@@ -1,0 +1,9 @@
+{
+  "_note": "SYNTHETIC timing data for the primitive smoke test only. Not derived from any audio file.",
+  "beats": [5.0, 5.5, 6.0, 6.5, 7.0],
+  "words": [
+    { "text": "the", "start": 5.2, "end": 5.4 },
+    { "text": "tide", "start": 5.6, "end": 5.9 },
+    { "text": "turns", "start": 6.0, "end": 6.4 }
+  ]
+}
