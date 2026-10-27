@@ -1,0 +1,106 @@
+{
+  "concept": "A printed data poster in motion: a huge counter, then a ruled bar chart that dims everything except the peak, then a hard black closing slab with the instruction.",
+  "narrativeArc": {
+    "beginning": "A single shocking number: 412 cups at 8 am.",
+    "middle": "The whole day's bars show the 8 am peak against the 2 pm lull.",
+    "end": "The decision: staff for 8 am, not 2 pm.",
+    "viewerTakeaway": "Peak demand is 3.5x the afternoon lull, so schedule staff to the peak."
+  },
+  "designSystem": {
+    "typography": {
+      "display": {
+        "family": "Oswald",
+        "weight": 700,
+        "sizePx": 560,
+        "tracking": "-0.01em",
+        "case": "upper",
+        "role": "hero number and closing lines"
+      },
+      "body": {
+        "family": "Inter",
+        "weight": 700,
+        "sizePx": 56,
+        "tracking": "0",
+        "role": "labels and one supporting line"
+      },
+      "hierarchy": "hero number 560 / closing lines 190 / headings 120 / labels 44-72; one hero per scene",
+      "pairingReason": "Condensed Oswald lets a three-digit number fill a 1080px-wide column; Inter keeps labels neutral and legible at phone size."
+    },
+    "palette": {
+      "ground": "#eef0f2",
+      "ink": "#101214",
+      "muted": "#6b7178",
+      "surface": "#dde1e5",
+      "accent": "#e5391a"
+    },
+    "accentRule": "Red marks exactly the peak: one rule under the number, the peak bar, and the word 8 AM. Never decoration.",
+    "background": {
+      "treatment": "mh-bg--solid",
+      "notes": "flat light-grey ground in scenes 1-2, solid ink slab in scene 3; no texture",
+      "justifyDark": ""
+    },
+    "composition": {
+      "margin": 108,
+      "grid": "single column, left-aligned at x=108, 6 bar rows on a 120px rhythm",
+      "alignment": "left-aligned; nothing centred",
+      "safeAreas": "action 90%, title 80%, plus platform keep-out top 250 / bottom 420 / right 120",
+      "textDensity": "max 8 words per scene"
+    },
+    "choreography": {
+      "heroMovePerScene": 1,
+      "secondaryDelayFrames": [
+        4,
+        8
+      ],
+      "easing": {
+        "enter": "power3.out",
+        "exit": "power2.in",
+        "move": "power2.inOut",
+        "snap": "expo.out"
+      },
+      "staggerFrames": {
+        "items": 4,
+        "words": 5
+      }
+    },
+    "transitionLanguage": {
+      "primary": "six horizontal slats retract from the top to reveal the incoming scene (15 frames)",
+      "secondary": "none",
+      "rule": "Slats are ink on light scenes and light on the ink slab, so the seam is always high contrast; they travel down the vertical reading axis."
+    },
+    "pacing": {
+      "rhythm": "3.4s / 4.0s / 3.0s — number lands fast, chart gets the longest hold",
+      "newInfoEverySec": 2
+    },
+    "density": "minimal",
+    "densityReason": "Deliberate Swiss data-poster contrast example: numerals and a bar chart carry each beat."
+  },
+  "assets": {
+    "images": [],
+    "footage": [],
+    "illustration": [],
+    "audio": {
+      "narration": "",
+      "music": "",
+      "sfx": [],
+      "timingData": ""
+    }
+  },
+  "consistencyRules": [
+    "All text sits left-aligned at x=108 and inside y 250..1500.",
+    "Red appears only on the peak (rule, bar, 8 AM).",
+    "Numbers use Oswald, words use Inter.",
+    "Every scene entry uses the slat transition.",
+    "Bars share one baseline and one scale (max 412 = 640px)."
+  ],
+  "antiPatterns": [
+    "No dark gradient background or glow behind numbers",
+    "No centred stat card",
+    "No pie or donut chart for six hourly values",
+    "No data without a label naming the unit",
+    "No text in the top 250px or bottom 420px",
+    "No bar animation that overshoots the real value",
+    "No decorative icons"
+  ],
+  "referenceRules": []
+}

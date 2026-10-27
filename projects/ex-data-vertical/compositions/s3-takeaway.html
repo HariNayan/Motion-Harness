@@ -1,0 +1,27 @@
+<template>
+  <style>
+    #root { position: absolute; inset: 0; background: var(--mh-ink); overflow: hidden; }
+    .s3-l { position: absolute; left: 108px; font-size: 190px; font-weight: 700; color: var(--mh-ground); white-space: nowrap; }
+    #s3-l1 { top: 420px; }
+    #s3-l2 { top: 660px; color: var(--mh-accent); }
+    #s3-l3 { top: 900px; }
+    #s3-slats { position: absolute; inset: 0; z-index: 5; }
+    #s3-slats div { position: absolute; left: 0; width: 1080px; height: 321px; background: var(--mh-ground); }
+  </style>
+  <div id="root" data-composition-id="s3-takeaway" data-width="1080" data-height="1920">
+    <h1 id="s3-l1" class="clip mh-display s3-l" data-start="0.5" data-duration="3">STAFF FOR</h1>
+    <h1 id="s3-l2" class="clip mh-display s3-l" data-start="0.5" data-duration="3">8 AM,</h1>
+    <h1 id="s3-l3" class="clip mh-display s3-l" data-start="0.5" data-duration="3">NOT 2 PM.</h1>
+    <div id="s3-slats">
+      <div style="top:0"></div><div style="top:320px"></div><div style="top:640px"></div><div style="top:960px"></div><div style="top:1280px"></div><div style="top:1600px"></div>
+    </div>
+  </div>
+  <script>
+    const tl = gsap.timeline({ paused: true });
+    MH.transition.slats(tl, "#s3-slats", { at: 0, dur: 0.5, stagger: 2 });
+    MH.type.reveal(tl, "#s3-l1", { at: 0.6, mode: "words", stagger: 4, dur: 0.45 });
+    MH.type.reveal(tl, "#s3-l2", { at: 0.85, mode: "words", stagger: 4, dur: 0.45 });
+    MH.type.reveal(tl, "#s3-l3", { at: 1.1, mode: "words", stagger: 4, dur: 0.45 });
+    window.__timelines["s3-takeaway"] = tl;
+  </script>
+</template>

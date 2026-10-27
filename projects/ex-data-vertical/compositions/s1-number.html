@@ -1,0 +1,23 @@
+<template>
+  <style>
+    #root { position: absolute; inset: 0; background: var(--mh-ground); overflow: hidden; }
+    #s1-num { position: absolute; left: 108px; top: 300px; font-size: 560px; line-height: 1; font-weight: 700; color: var(--mh-ink); white-space: nowrap; }
+    #s1-rule { position: absolute; left: 108px; top: 900px; width: 420px; height: 16px; background: var(--mh-accent); }
+    #s1-sub { position: absolute; left: 108px; top: 960px; font-family: var(--mh-font-body); font-weight: 800; font-size: 72px; color: var(--mh-ink); white-space: nowrap; }
+    #s1-cmp { position: absolute; left: 108px; top: 1070px; font-family: var(--mh-font-body); font-weight: 600; font-size: 56px; color: var(--mh-muted); white-space: nowrap; }
+  </style>
+  <div id="root" data-composition-id="s1-number" data-width="1080" data-height="1920">
+    <div id="s1-num" class="clip mh-display" data-start="0" data-duration="3.6">0</div>
+    <div id="s1-rule" class="clip" data-start="0" data-duration="3.6"></div>
+    <p id="s1-sub" class="clip" data-start="0" data-duration="3.6">cups at 8 am</p>
+    <p id="s1-cmp" class="clip" data-start="0" data-duration="3.6">3.5x the 2 pm</p>
+  </div>
+  <script>
+    const tl = gsap.timeline({ paused: true });
+    MH.graphic.counter(tl, "#s1-num", { at: 0.1, dur: 1.2, from: 0, to: 412, sep: false });
+    tl.fromTo("#s1-rule", { scaleX: 0, transformOrigin: "0% 50%" }, { scaleX: 1, duration: 0.5, ease: MH.cfg.ease.move }, 1.0);
+    MH.type.reveal(tl, "#s1-sub", { at: 1.1, mode: "words", stagger: 4 });
+    MH.type.reveal(tl, "#s1-cmp", { at: 1.5, mode: "words", stagger: 4 });
+    window.__timelines["s1-number"] = tl;
+  </script>
+</template>

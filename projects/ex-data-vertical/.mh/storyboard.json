@@ -1,0 +1,84 @@
+{
+  "totalDuration": 10.6,
+  "scenes": [
+    {
+      "id": "s1-number",
+      "title": "412 cups at 8 am",
+      "role": "hook",
+      "duration": 3.6,
+      "purpose": "Open on the one number that makes a cafe owner care, and set the poster identity (condensed numerals, one red rule).",
+      "viewerShouldNotice": "412 landing by 1.4s with the red rule beneath it.",
+      "focalPoint": "Giant number, upper-left of the column",
+      "layout": "big-number",
+      "text": [
+        "412",
+        "cups at 8 am",
+        "3.5x the 2 pm"
+      ],
+      "heroMove": "Counter counts 0 to 412",
+      "motionPurpose": "attention",
+      "motionWhy": "Counting up makes the viewer wait for the final figure, which is the point.",
+      "background": "flat light ground",
+      "assets": [],
+      "audioCue": "",
+      "transitionOut": {
+        "type": "slats",
+        "motivation": "Slats start the chart as a rule sheet being drawn."
+      }
+    },
+    {
+      "id": "s2-bars",
+      "title": "Cups by hour",
+      "role": "build",
+      "duration": 4,
+      "purpose": "Show the whole day so the 8 am number is read as a peak against the afternoon lull, not an isolated stat.",
+      "viewerShouldNotice": "The 8 am bar is the longest and the only red one; the others dim by 3s.",
+      "focalPoint": "Six horizontal bars, middle of the column",
+      "layout": "grid-data",
+      "text": [
+        "Cups per hour",
+        "7am",
+        "8am",
+        "9am",
+        "10am",
+        "12pm",
+        "2pm"
+      ],
+      "heroMove": "Bars grow along a shared baseline",
+      "motionPurpose": "meaning",
+      "motionWhy": "Bar length IS the data; the dimming then isolates the peak.",
+      "background": "flat light ground",
+      "assets": [],
+      "audioCue": "",
+      "transitionOut": {
+        "type": "slats",
+        "motivation": "Light slats hand over to the ink slab for the instruction."
+      }
+    },
+    {
+      "id": "s3-takeaway",
+      "title": "Staff for 8 am",
+      "role": "payoff",
+      "duration": 3,
+      "purpose": "Turn the chart into the decision the viewer can act on.",
+      "viewerShouldNotice": "8 AM in red as the middle line.",
+      "focalPoint": "Three stacked lines filling the column",
+      "layout": "quote-column",
+      "text": [
+        "STAFF FOR",
+        "8 AM,",
+        "NOT 2 PM."
+      ],
+      "heroMove": "Masked line reveal rising from the baseline",
+      "motionPurpose": "pacing",
+      "motionWhy": "A line-by-line reveal sets the beat of a three-part instruction.",
+      "background": "solid ink slab",
+      "assets": [],
+      "audioCue": "",
+      "transitionOut": {
+        "type": "end",
+        "motivation": "film ends"
+      }
+    }
+  ]
+}

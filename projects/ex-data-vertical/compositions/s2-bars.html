@@ -1,0 +1,40 @@
+<template>
+  <style>
+    #root { position: absolute; inset: 0; background: var(--mh-ground); overflow: hidden; }
+    #s2-head { position: absolute; left: 108px; top: 300px; font-size: 120px; font-weight: 700; color: var(--mh-ink); white-space: nowrap; }
+    #s2-labels { position: absolute; left: 108px; top: 560px; width: 170px; }
+    #s2-labels p { height: 80px; margin-bottom: 40px; line-height: 80px; font-family: var(--mh-font-body); font-weight: 700; font-size: 44px; color: var(--mh-ink); }
+    #s2-barset { position: absolute; left: 290px; top: 560px; width: 640px; }
+    #s2-barset div { height: 80px; width: 640px; margin-bottom: 40px; }
+    #s2-slats { position: absolute; inset: 0; z-index: 5; }
+    #s2-slats div { position: absolute; left: 0; width: 1080px; height: 321px; background: var(--mh-ink); }
+  </style>
+  <div id="root" data-composition-id="s2-bars" data-width="1080" data-height="1920">
+    <h2 id="s2-head" class="clip mh-display" data-start="0.5" data-duration="3.5">CUPS PER HOUR</h2>
+    <div id="s2-labels" class="clip" data-start="0.7" data-duration="3.3">
+      <p>7am</p><p>8am</p><p>9am</p><p>10am</p><p>12pm</p><p>2pm</p>
+    </div>
+    <div id="s2-barset" class="clip" data-start="0.7" data-duration="3.3">
+      <div class="mh-bar" data-value="260"></div>
+      <div class="mh-bar mh-bar--accent" data-value="412"></div>
+      <div class="mh-bar" data-value="330"></div>
+      <div class="mh-bar" data-value="190"></div>
+      <div class="mh-bar" data-value="240"></div>
+      <div class="mh-bar" data-value="118"></div>
+    </div>
+    <div id="s2-slats">
+      <div style="top:0"></div><div style="top:320px"></div><div style="top:640px"></div><div style="top:960px"></div><div style="top:1280px"></div><div style="top:1600px"></div>
+    </div>
+  </div>
+  <script>
+    const tl = gsap.timeline({ paused: true });
+    MH.transition.slats(tl, "#s2-slats", { at: 0, dur: 0.5, stagger: 2 });
+    MH.type.reveal(tl, "#s2-head", { at: 0.6, mode: "words", stagger: 4 });
+    tl.fromTo("#s2-labels p", { opacity: 0 }, { opacity: 1, duration: 0.25, ease: MH.cfg.ease.enter, stagger: MH.F(4) }, 0.8);
+    MH.graphic.bars(tl, "#s2-barset", { at: 0.9, dur: 0.7, axis: "x", max: 412, stagger: 4 });
+    // dim everything except the peak so the viewer's eye lands on 8 am
+    tl.to("#s2-barset div:not(:nth-child(2))", { opacity: 0.28, duration: 0.4, ease: MH.cfg.ease.move }, 2.3);
+    tl.to("#s2-labels p:not(:nth-child(2))", { opacity: 0.28, duration: 0.4, ease: MH.cfg.ease.move }, 2.3);
+    window.__timelines["s2-bars"] = tl;
+  </script>
+</template>

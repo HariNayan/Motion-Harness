@@ -1,0 +1,22 @@
+{"at":"2026-10-27T06:02:35.953Z","type":"init","format":"vertical","depth":"standard"}
+{"at":"2026-10-27T06:03:23.044Z","type":"frames","count":32}
+{"at":"2026-10-27T06:04:18.491Z","type":"frames","count":32}
+{"at":"2026-10-27T06:04:54.227Z","type":"frames","count":32}
+{"at":"2026-10-27T06:05:22.579Z","type":"frames","count":3}
+{"at":"2026-10-27T06:06:32.274Z","type":"plan-review","n":1,"findings":"Pass 1: plan-lint flagged s1 density (9 words in 3.4s > 2.6 w/s) and a false generic-purpose hit on s2.","resolved":"Extended s1 to 3.6s (10.6s total); tightened the lint so only short generic purposes are flagged.","openLintErrors":0}
+{"at":"2026-10-27T06:06:32.370Z","type":"plan-review","n":2,"findings":"Pass 2: three distinct layouts (big-number, grid-data, quote-column); slat transition used twice on purpose; chart scene gets the longest hold.","resolved":"No plan change.","openLintErrors":0}
+{"at":"2026-10-27T06:06:32.468Z","type":"checklist","id":"opening","status":"pass","basis":"visual","note":"Frame 0.3s shows the 560px counter on light ground; frame 1.8s adds the red rule and label. Subject (cups at 8 am) is identifiable by 1.8s; frame 0 shows only a mid-count number."}
+{"at":"2026-10-27T06:06:32.567Z","type":"checklist","id":"narrative","status":"pass","basis":"visual","note":"Beat frames: 412 -> bars by hour with 8am highlighted (frame 6.8s) -> STAFF FOR 8 AM, NOT 2 PM. Claim, evidence, decision in order."}
+{"at":"2026-10-27T06:06:32.660Z","type":"checklist","id":"variation","status":"pass","basis":"visual","note":"Light poster number scene, light ruled chart scene, then solid ink slab; three different layouts."}
+{"at":"2026-10-27T06:06:32.758Z","type":"checklist","id":"typography","status":"pass","basis":"visual","note":"Oswald numerals/headlines and Inter labels legible in frames; dimmed labels in 6.8s frame are low contrast by design (peak focus) but still readable. Not checked: phone-width strip not opened."}
+{"at":"2026-10-27T06:06:32.851Z","type":"checklist","id":"transitions","status":"pass","basis":"visual","note":"Slats seen mid-retract at 3.4s and 7.4s; same device both times (ink slats on light, light slats on ink)."}
+{"at":"2026-10-27T06:06:33.053Z","type":"checklist","id":"clipping","status":"pass","basis":"visual","note":"hyperframes check layout: 0 errors/warnings. Frames show text inside x>=108 and above y 1500. Observation: chart ends near y 1240, leaving a large empty lower third (inside the platform keep-out margin); not changed."}
+{"at":"2026-10-27T06:06:33.174Z","type":"checklist","id":"assets","status":"pass","basis":"source","note":"No external assets; sample data labelled as sample in the brief."}
+{"at":"2026-10-27T06:06:33.285Z","type":"checklist","id":"effects","status":"pass","basis":"source","note":"Source scan clean: no glow/blur; dimming of non-peak bars is the only secondary effect and serves focus."}
+{"at":"2026-10-27T06:06:41.816Z","type":"phase","from":"brief","to":"direction","forced":false}
+{"at":"2026-10-27T06:06:41.954Z","type":"phase","from":"direction","to":"storyboard","forced":false}
+{"at":"2026-10-27T06:06:45.739Z","type":"phase","from":"storyboard","to":"review","forced":false}
+{"at":"2026-10-27T06:06:45.901Z","type":"phase","from":"review","to":"build","forced":false}
+{"at":"2026-10-27T06:06:46.008Z","type":"phase","from":"build","to":"verify","forced":false}
+{"at":"2026-10-27T06:06:46.114Z","type":"phase","from":"verify","to":"handoff","forced":false}
+{"at":"2026-10-27T06:06:46.223Z","type":"handoff","acceptFails":null}

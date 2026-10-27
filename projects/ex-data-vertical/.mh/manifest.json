@@ -1,0 +1,19 @@
+{
+  "scenes": {
+    "s1-number": {
+      "file": "compositions/s1-number.html",
+      "hash": "589a13c4180b"
+    },
+    "s2-bars": {
+      "file": "compositions/s2-bars.html",
+      "hash": "b72365a2fa6e"
+    },
+    "s3-takeaway": {
+      "file": "compositions/s3-takeaway.html",
+      "hash": "082de464db9e"
+    }
+  },
+  "root": "index.html",
+  "index": "1b0129bb4972",
+  "lockedAt": "2026-10-27T06:06:46.218Z"
+}
