@@ -1,0 +1,61 @@
+// Dashboard integration test with a stub opencode (no tokens). Run: node dashboard/test/run-tests.mjs
+import http from "node:http";
+import { uploadTests } from "./upload-tests.mjs";
+import { spawn } from "node:child_process";
+import fs from "node:fs";
+import os from "node:os";
+import path from "node:path";
+import { fileURLToPath } from "node:url";
+
+const HERE = path.dirname(fileURLToPath(import.meta.url));
+const PORT = 4188, BASE = `http://127.0.0.1:${PORT}`;
+const data = fs.mkdtempSync(path.join(os.tmpdir(), "mh-dash-"));
+const fake = `"${process.execPath}" "${path.join(HERE, "fake-opencode.mjs")}"`;
+const srv = spawn(process.execPath, [path.join(HERE, "..", "server.mjs")], { env: { ...process.env, MH_DASH_PORT: PORT, MH_DASH_DATA: data, MH_OPENCODE_BIN: fake }, stdio: ["ignore", "pipe", "inherit"] });
+let fails = 0;
+const ok = (c, m) => { console.log((c ? "PASS " : "FAIL ") + m); if (!c) fails++; };
+const J = async (p, body) => { const r = await fetch(BASE + p, body ? { method: "POST", headers: { "content-type": "application/json" }, body: JSON.stringify(body) } : {}); return { s: r.status, j: await r.json().catch(() => ({})) }; };
+const until = async (f, ms = 20000) => { const t = Date.now(); while (Date.now() - t < ms) { const v = await f(); if (v) return v; await new Promise((r) => setTimeout(r, 200)); } return null; };
+
+await until(async () => { try { return (await fetch(BASE + "/api/connection")).ok; } catch { return false; } });
+try {
+  let r = await J("/api/connection");
+  ok(r.j.found && r.j.version === "9.9.9-fake", "connection detects the (stub) CLI and version");
+  ok(r.j.agentReady === true, "motion-director agent file found");
+  r = await J("/api/models"); ok(r.j.models.length === 2, "models listed from `opencode models`");
+  r = await J("/api/settings", { model: "bad model;rm" }); ok(r.s === 400, "model name with shell characters rejected");
+  r = await J("/api/settings", { model: "fake/model-b" }); ok(r.s === 200, "model saved");
+  r = await J("/api/projects"); ok(r.j.some((p) => p.slug === "ex-world-tides"), "projects listed from projects/*/.mh");
+  r = await J("/api/projects/ex-world-tides"); ok(r.j.storyboard && r.j.storyboard.scenes.length === 5 && r.j.frames.length > 0, "project detail has storyboard and frames");
+  r = await J("/api/projects/..%2F..%2Fx"); ok(r.s === 404, "path traversal in project name rejected");
+  r = await J("/api/projects/ex-world-tides/action", { action: "render" }); ok(r.s === 400 && /no render/.test(r.j.error), "render action does not exist");
+  r = await J("/api/projects/ex-world-tides/action", { action: "lint" }); ok(r.j.ok === true && /plan-lint/.test(r.j.output), "lint action runs the harness CLI");
+  const fr = await fetch(BASE + "/api/projects/ex-world-tides/frames/review-beats.jpg"); ok(fr.ok && fr.headers.get("content-type") === "image/jpeg", "frame image served");
+  const bad = await fetch(BASE + "/api/projects/ex-world-tides/frames/..%2F..%2Fdirection.json"); ok(!bad.ok, "frame route cannot read other files");
+  r = await J("/api/jobs", { kind: "new", brief: "short" }); ok(r.s === 400, "too-short brief rejected");
+  r = await J("/api/jobs", { kind: "new", brief: "A twelve second explainer about tides for students", slug: "ex-world-tides" }); ok(r.s === 409, "existing project name rejected");
+  r = await J("/api/jobs", { kind: "new", brief: "A twelve second explainer about tides for students", slug: "stub-film", preset: "night-sky", depth: "high", format: "vertical" });
+  ok(r.s === 200 && r.j.status === "running", "job started");
+  const id = r.j.id;
+  const second = await J("/api/jobs", { kind: "new", brief: "Another video about something else entirely", slug: "stub-two" }); ok(second.s === 409, "second concurrent job refused");
+  const done = await until(async () => { const j = (await J("/api/jobs/" + id)).j; return j.meta.status !== "running" ? j : null; });
+  ok(done && done.meta.status === "done", "job finished 'done'");
+  const text = done.log.map((e) => e.kind + ":" + e.text).join("\n");
+  ok(/tool:mh · create fake-film/.test(text), "tool_use event shown as a log line");
+  ok(/toolerr:mh · gate .*boom/.test(text), "tool error shown");
+  ok(/PROMPT-SEEN: Create a new motion graphics project/.test(text), "prompt sent on stdin");
+  ok(done.meta.cost > 0.012 && done.meta.sessionId === "ses_fake1", "cost and session id captured");
+  const sse = await fetch(BASE + `/api/jobs/${id}/stream`); const body = await sse.text(); ok(/event: end/.test(body) && /mh · create/.test(body), "SSE replays log and ends");
+  await uploadTests({ BASE, PORT, J, ok, until, root: path.resolve(HERE, "..", "..") });
+  r = await J("/api/jobs", { kind: "new", brief: "FAIL this one deliberately please ok", slug: "stub-fail" });
+  const failed = await until(async () => { const j = (await J("/api/jobs/" + r.j.id)).j; return j.meta.status !== "running" ? j : null; });
+  ok(failed && failed.meta.status === "failed" && /api key/i.test(failed.log.map((e) => e.text).join()) && /opencode auth login/.test(failed.log.map((e) => e.text).join()), "failure surfaced with sign-in hint");
+  r = await J("/api/jobs", { kind: "new", brief: "SLOW job to be cancelled by the user", slug: "stub-slow" });
+  await new Promise((x) => setTimeout(x, 1500));
+  const c = await J(`/api/jobs/${r.j.id}/cancel`, {}); ok(c.j.ok === true, "cancel accepted");
+  const canc = await until(async () => { const j = (await J("/api/jobs/" + r.j.id)).j; return j.meta.status !== "running" ? j : null; });
+  ok(canc && canc.meta.status === "cancelled", "job cancelled and process tree stopped");
+  const hostCode = await new Promise((res) => { const q = http.get({ host: "127.0.0.1", port: PORT, path: "/api/connection", headers: { host: "evil.example.com" } }, (r) => { r.resume(); res(r.statusCode); }); q.on("error", () => res(0)); });
+  ok(hostCode === 403, "non-loopback Host header refused (DNS-rebinding guard)");
+} finally { srv.kill(); fs.rmSync(data, { recursive: true, force: true }); }
+console.log(fails ? `\n${fails} FAILED` : "\nall passed"); process.exit(fails ? 1 : 0);
