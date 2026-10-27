@@ -56,6 +56,7 @@
 - **A small motion-design library.** Typography reveals, transitions, charts, image depth, audio-cue helpers, plus a *world layer*: sky, HUD, callouts, gauges, path-and-traveller, CSS-3D stage, karaoke captions.
 - **Honest quality gates.** `hyperframes check` plus harness checks (structure, timing, palette, type size, determinism, scene drift, **sparse scenes with no hero object**, **near-empty frames**). Findings, not invented scores. A visual claim needs fresh frames the agent actually opened.
 - **The practices Claude Code uses, built in.** Three genuinely different storylines before anything is built, hook and copy rules, measured references, brand capture from a website, stranger-eyes review with P0/P1/P2 notes and a delivery note. See [`docs/HOW-CLAUDE-MAKES-GOOD-MOTION.md`](docs/HOW-CLAUDE-MAKES-GOOD-MOTION.md) for the research and what was (and was not) implemented.
+- **Prompts that don't stay thin.** *Enhance prompt* rewrites a one-line request into a brief (hook, beats with a hero object each, specifics instead of generic, look, assumptions; facts you did not give are marked `[verify: …]`) and you review it before creating. The agent also fills a required **Specifics** section in `brief.md` (what the generic film would be, what this one does instead) and never invents a statistic.
 - **Your own material.** Attach a reference video (probed, sampled into frames, scene cuts detected) or raw files (imported, catalogued, checked for use).
 - **Revisions that preserve work.** Each revision names the scenes it touches and logs a reason; the gate flags edits to scenes you meant to keep.
 
@@ -96,6 +97,12 @@ It connects to OpenCode the way [Leadsmith](https://github.com/HariNayan/Leadsmi
   </tr>
 </table>
 
+**Enhance prompt.** Press it under the prompt box to have your OpenCode model rewrite the request into a specific brief that uses the format, depth, look, brand site and attached files you chose. It runs a read-only `brief-writer` agent that cannot write files, run commands or build anything, takes about 30 seconds on a small model, and costs one short model call. **Undo enhance** restores your original text. A failed or empty answer never replaces your prompt.
+
+**Run again.** Every finished run keeps its request. On a run's page, **Run again** repeats it with the same brief, options, files and model (a taken project name becomes `name-2`), and **Edit & run again** opens Home with everything filled in so you can change it first. Uploads are kept for 3 days, and only one job runs at a time. A run that creates no project, or stops right after a failed tool call, is shown as **Ended early**, not Done.
+
+**Storylines.** Choose *Let me pick the storyline* on Home and the agent stops after writing three different films; read them in the project's **Storylines** tab and press *Build this one*. The **Review** tab shows the stranger-eyes notes and the delivery note.
+
 **Reference video and raw files.** Use *Attach reference video or files* (or drop files on the prompt box). Files stream into `inbox/` (up to 4 GB each; executables are refused). Mark each as a **Reference** (look, pacing, structure; analysed, never copied) or a **Raw asset** (real material to use in the video). The agent imports them with `mh_importfile`: reference videos are probed, sampled into 8 frames and scanned for scene cuts (approximate times; easing curves are not measurable), and raw assets are copied to `assets/source/`. The gate warns about imported assets no scene uses. The project's **Files** tab shows both.
 
 **Safety.** Local only: it binds to `127.0.0.1` and rejects non-loopback `Host` headers and cross-origin POSTs. Project names and model ids are validated, and the brief goes on stdin, never through a shell. The agent's permissions in `opencode.jsonc` deny `hyperframes render`, `publish`, cloud renders and `ffmpeg`.
@@ -123,7 +130,7 @@ Also included: `smoke-primitives` (exercises library primitives no real project 
 
 ## Quick start
 
-Needs Node (developed on 24), [OpenCode](https://opencode.ai) (`npm install -g opencode-ai`, then `opencode auth login`), and FFmpeg on `PATH`.
+Needs Node (developed on 24), [OpenCode](https://opencode.ai) (`npm install -g opencode-ai`, then `opencode auth login`), and FFmpeg on `PATH`. On Windows the dashboard adds System32 and the PowerShell folder to the PATH it gives OpenCode, because OpenCode's skill tool starts `powershell.exe`.
 
 ```bash
 # the dashboard
@@ -158,19 +165,20 @@ Higher depth buys more planning and verification, not more effects. A deliberate
 ```
 dashboard/        local web app: server.mjs, public/ (UI), test/ (stub-OpenCode integration tests)
 harness/mh.mjs    the CLI: phases, plan lint, gate, frames, import, revisions, checklist, handoff
+harness/craft.mjs storylines, copy and hook rules, review notes, assertions, compare, capture, REVIEW.md
 motion-lib/       mh-motion.* primitives, mh-world.* world layer, presets/night-sky.json   (see motion-lib/README.md)
-.opencode/        motion-director + motion-critic agents, /motion-* commands, mh_* tools
+.opencode/        motion-director, motion-critic and brief-writer agents, /motion-* commands, mh_* tools
 opencode.jsonc    default agent and permissions (no render / publish / ffmpeg)
 AGENTS.md         the agent's operating procedure and rules
 harness.config.json, templates/   depth presets, formats, planning templates
 projects/<slug>/  HyperFrames projects; harness state in .mh/ (brief, direction, storyboard, decisions, revisions, checklist)
 eval/             acceptance runner, report, model-testing protocol   (see eval/README.md)
-docs/             README images
+docs/             README images, and HOW-CLAUDE-MAKES-GOOD-MOTION.md (the research behind the workflow)
 ```
 
 ## Limits (read before relying on it)
 
-- **The OpenCode model is untested here.** The dashboard and tools are tested against a stub; the workflow depends on your model's planning and on it actually opening frames. Reference analysis needs a **vision-capable** model. The protocol for measuring a model is in [`eval/README.md`](eval/README.md).
+- **Model quality decides the result.** The dashboard and tools are tested against a stub. The only real runs so far used small free models and ended early (one on a tool-wrapper bug that is now fixed), so no finished film has been produced end to end by a model here; the workflow depends on your model's planning and on it actually opening frames, and a stronger model is recommended. Reference analysis needs a **vision-capable** model. The protocol for measuring a model is in [`eval/README.md`](eval/README.md).
 - **Nothing is rendered by this repo.** Visual claims rest on snapshot frames, and the examples carry no audio (captions use labelled synthetic timing).
 - Scripted layers (sky, HUD, captions) are built from data, so Studio cannot edit them as plain HTML.
 - Studio edits change files the harness has locked; run `mh lock` or log a revision afterwards.
