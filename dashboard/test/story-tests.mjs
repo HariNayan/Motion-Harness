@@ -25,10 +25,25 @@ export async function storyTests({ BASE, J, ok, until, root }) {
   // outcome honesty: exit code 0 is not success
   r = await J("/api/jobs", { kind: "new", brief: "A short film about tides NOCREATE for the stub", slug: "stub-nocreate" });
   j = await finish(r.j.id);
-  ok(j.meta.status === "incomplete" && /no project "stub-nocreate" was created/.test(text(j)), "a run that created no project is 'incomplete', not done");
+  ok(j.meta.status === "incomplete" && /No project "stub-nocreate" was created/.test(text(j)), "a run that created no project is 'incomplete', not done");
   r = await J("/api/jobs", { kind: "new", brief: "A short film about tides TOOLERRLAST for the stub", slug: "stub-toolerr" });
   j = await finish(r.j.id);
   ok(j.meta.status === "incomplete" && /stopped right after a failed tool call/.test(text(j)), "a run that ends on a failed tool call is 'incomplete'");
+  for (const d of fs.readdirSync(path.join(root, "projects")).filter((x) => x.startsWith("stub-"))) fs.rmSync(path.join(root, "projects", d), { recursive: true, force: true });
+
+  // a run that stops mid-workflow is not done, and Continue resumes the same OpenCode session
+  r = await J("/api/jobs", { kind: "new", brief: "A short film about tides STOPEARLY for the stub", slug: "stub-early" });
+  j = await finish(r.j.id);
+  ok(j.meta.status === "incomplete" && /"brief" phase, before handoff/.test(text(j)), "a run that stops in the brief phase is 'incomplete', not done");
+  const rs = await J(`/api/jobs/${j.meta.id}/resume`, {});
+  ok(rs.s === 200 && rs.j.kind === "resume" && rs.j.resumedFrom === j.meta.id, "continue starts a job tied to the stopped run");
+  const rj2 = await finish(rs.j.id);
+  ok(/You stopped before finishing/.test(text(rj2)) && /Do not start over/.test(text(rj2)) && rj2.meta.status === "done", "the continue prompt tells the agent not to start over, and the run finishes");
+  const again2 = await J(`/api/jobs/${rj2.meta.id}/resume`, {});
+  ok(again2.s === 409 && /already finished/.test(again2.j.error), "a finished run cannot be continued");
+  r = await J("/api/jobs", { kind: "new", brief: "A short film about tides for students", slug: "stub-pick", pickStoryline: true });
+  j = await finish(r.j.id);
+  ok(j.meta.status === "done", "storyline-pick mode is done once three storylines exist");
   for (const d of fs.readdirSync(path.join(root, "projects")).filter((x) => x.startsWith("stub-"))) fs.rmSync(path.join(root, "projects", d), { recursive: true, force: true });
 
   // rerun: same request, fresh project name when the first project exists, never while something runs

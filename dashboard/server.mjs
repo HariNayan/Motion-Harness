@@ -92,10 +92,21 @@ function loadJobs() {
   for (const f of fs.readdirSync(path.join(DATA, "jobs")).filter((x) => x.endsWith(".json"))) {
     const o = rj(path.join(DATA, "jobs", f)); if (!o) continue;
     // runs saved before the outcome check existed: "done" without a project is not done
-    if (o.meta.status === "done" && o.meta.kind !== "revise" && !fs.existsSync(path.join(ROOT, "projects", o.meta.slug || "-", ".mh", "state.json"))) { o.meta.status = "incomplete"; o.log.push({ t: Date.now(), kind: "error", text: `No project "${o.meta.slug}" exists, so this run did not finish its work.` }); }
+    if (o.meta.status === "done" && unfinished(o.meta)) { o.meta.status = "incomplete"; o.log.push({ t: Date.now(), kind: "error", text: unfinished(o.meta) + " This run did not finish its work." }); }
     if (o.meta.status === "running") { o.meta.status = "interrupted"; o.log.push({ t: Date.now(), kind: "error", text: "Dashboard restarted while this job was running." }); }
     jobs.set(o.meta.id, { meta: o.meta, log: o.log, subs: new Set(), proc: null });
   }
+}
+/** Why a finished run did not finish its work, or "" when it did. Exit code 0 only means OpenCode stopped. */
+function unfinished(meta) {
+  if (meta.kind === "revise") return "";
+  const dir = path.join(ROOT, "projects", meta.slug || "-", ".mh"), st = rj(path.join(dir, "state.json"));
+  if (!st) return `No project "${meta.slug}" was created.`;
+  if (meta.request && meta.request.pickStoryline && meta.kind === "new") {
+    const sl = rj(path.join(dir, "storylines.json"));
+    return sl && (sl.storylines || []).length >= 3 ? "" : "The three storylines were not written.";
+  }
+  return st.phase === "handoff" ? "" : `It stopped in the "${st.phase || "brief"}" phase, before handoff.`;
 }
 function emit(j, kind, text) {
   const e = { t: Date.now(), kind, text }; j.log.push(e);
@@ -123,7 +134,9 @@ function parseEvent(j, ev) {
 
 function composePrompt(b) {
   const lines = [];
-  if (b.kind === "revise") {
+  if (b.kind === "resume") {
+    lines.push(`You stopped before finishing the project "${b.slug}" (projects/${b.slug}). ${b.why || ""}`, "", "Do not start over and do not recreate anything. Call mh_status, then continue the workflow from the phase it shows, through handoff (AGENTS.md steps 0 to 9). If an earlier command was refused, do not retry it: only the mh_* tools and the read, glob and grep tools are available for inspecting files. Do not render.");
+  } else if (b.kind === "revise") {
     lines.push(`Revise the existing project "${b.slug}" (projects/${b.slug}). Follow AGENTS.md: mh_status, read .mh/decisions.jsonl and .mh/revisions.jsonl, mh_revise naming only the scenes you will touch, then mh_gate, mh_frames and open the frames you changed. Do not render.`, "", "Requested change:", b.brief);
   } else if (b.kind === "continue") {
     lines.push(`Continue the project "${b.slug}" (projects/${b.slug}). The user read the three storylines and picked "${b.pick}". Run mh_storylinespick with that id, then continue the workflow from the design direction through handoff (AGENTS.md steps 2 to 9), building from THAT storyline: its look, beats and first two seconds. Do not render.`);
@@ -150,7 +163,8 @@ function startJob(b) {
   const model = b.model && MODEL.test(b.model) ? b.model : "";
   const j = { meta: { id, kind: b.kind, slug: b.slug, model, status: "running", startedAt: Date.now(), cost: 0, sessionId: null, title: short(b.brief.replace(/\s+/g, " "), 80), attachments: (b.attachments || []).map((a) => ({ name: a.name, role: a.role, kind: a.kind, size: a.size })), request: b.request || null }, log: [], subs: new Set(), proc: null };
   jobs.set(id, j);
-  const args = ["run", "--format", "json", "--agent", "motion-director", ...(model ? ["--model", model] : [])];
+  const args = ["run", "--format", "json", "--agent", "motion-director", ...(model ? ["--model", model] : []), ...(b.session ? ["--session", b.session] : [])];
+  if (b.session) j.meta.resumedFrom = b.from;
   emit(j, "info", `opencode ${args.join(" ")}   (cwd: motion-harness)`);
   let proc;
   try { proc = spawn(OPENCODE, args, { cwd: ROOT, shell: IS_WIN, windowsHide: true, stdio: ["pipe", "pipe", "pipe"], env: agentEnv() }); }
@@ -181,8 +195,8 @@ function startJob(b) {
     } else {
       // exit code 0 only means OpenCode stopped: check that the work actually happened before calling it done
       const last = j.log.filter((e) => e.kind !== "info").slice(-1)[0];
-      const needsProject = j.meta.kind !== "revise" && !fs.existsSync(path.join(ROOT, "projects", j.meta.slug || "-", ".mh", "state.json"));
-      if (needsProject) { j.meta.status = "incomplete"; emit(j, "error", `OpenCode stopped, but no project "${j.meta.slug}" was created. Check the steps above (a failed tool call, a refused command, or a model that gave up) and run again, or try a stronger model.`); }
+      const why = unfinished(j.meta);
+      if (why) { j.meta.status = "incomplete"; emit(j, "error", `OpenCode stopped before the work was done. ${why} Check the steps above (a refused command, a failed tool call, or a model that gave up). Use Continue to let it pick up where it stopped, or try a stronger model.`); }
       else if (last && last.kind === "toolerr") { j.meta.status = "incomplete"; emit(j, "error", "The agent stopped right after a failed tool call, so the project may be unfinished. Check the steps above."); }
       else { j.meta.status = "done"; emit(j, "info", "Finished."); }
     }
@@ -444,13 +458,21 @@ const server = http.createServer(async (req, res) => {
       return send(res, 200, j.meta);
     }
     if (req.method === "GET" && p === "/api/jobs") return send(res, 200, [...jobs.values()].map((j) => ({ ...j.meta, request: undefined })).sort((a, b) => b.startedAt - a.startedAt).slice(0, 40));
-    if ((m = /^\/api\/jobs\/([\w-]+)(\/stream|\/cancel|\/request|\/rerun)?$/.exec(p))) {
+    if ((m = /^\/api\/jobs\/([\w-]+)(\/stream|\/cancel|\/request|\/rerun|\/resume)?$/.exec(p))) {
       const j = jobs.get(m[1]); if (!j) return send(res, 404, { error: "no such job" });
       if (!m[2] && req.method === "GET") return send(res, 200, { meta: j.meta, log: j.log });
       if (m[2] === "/request" && req.method === "GET") {
         const rq = requestOf(j); if (!rq) return send(res, 422, { error: "This run's request was not saved and could not be recovered from its OpenCode session." });
         const have = (rq.attachments || []).filter((a) => inboxFile(a.id)), missing = (rq.attachments || []).filter((a) => !inboxFile(a.id)).map((a) => a.name);
         return send(res, 200, { request: { ...rq, attachments: have }, missingFiles: missing });
+      }
+      if (m[2] === "/resume" && req.method === "POST") {
+        if ([...jobs.values()].some((x) => x.meta.status === "running")) return send(res, 409, { error: "A job is running. Stop it or wait for it to finish." });
+        const why = unfinished(j.meta);
+        if (!j.meta.sessionId || !why || j.meta.kind === "revise") return send(res, 409, { error: j.meta.sessionId ? "This run already finished its work." : "This run has no saved OpenCode session to continue." });
+        const sess = j.meta.sessionId, m2 = j.meta.model, c = connection(); if (!c.found) return send(res, 503, { error: c.hint });
+        const nj = startJob({ kind: "resume", slug: j.meta.slug, brief: `Continue ${j.meta.slug}: ${why}`, why, model: m2, session: sess, from: j.meta.id, request: j.meta.request || null, attachments: [] });
+        return send(res, 200, nj.meta);
       }
       if (m[2] === "/rerun" && req.method === "POST") {
         if (j.meta.status === "running") return send(res, 409, { error: "This run is still going." });

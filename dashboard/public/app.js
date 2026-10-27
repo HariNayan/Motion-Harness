@@ -184,7 +184,7 @@ async function renderHome() {
       <div class="card"><header>${icon("folder")}Recent projects<a class="more" href="#/projects">View all</a></header>
         ${P.length ? [...P].sort((a, b) => b.updated - a.updated).slice(0, 6).map((p) => `<div class="row" data-go="#/projects/${esc(p.slug)}">${thumbHTML(p)}<div class="grow"><div class="t">${esc(p.slug)}</div><div class="s">${esc(p.title)}</div></div>${phaseBadge(p.phase, p.adopted)}</div>`).join("") : `<div class="empty">No projects yet. Write a brief above.</div>`}</div>
       <div class="card"><header>${icon("activity")}Recent runs<a class="more" href="#/runs">View all</a></header>
-        ${S.jobs.length ? S.jobs.slice(0, 6).map((j) => `<div class="row" data-go="#/runs/${esc(j.id)}"><div class="grow"><div class="t">${esc(j.kind === "revise" ? "Revise: " : j.kind === "continue" ? "Continue: " : "Create: ")}${esc(j.slug)}</div><div class="s">${ago(j.startedAt)}${j.cost ? " · $" + j.cost.toFixed(2) : ""}</div></div>${jobBadge(j.status)}</div>`).join("") : `<div class="empty">No runs yet.</div>`}</div>
+        ${S.jobs.length ? S.jobs.slice(0, 6).map((j) => `<div class="row" data-go="#/runs/${esc(j.id)}"><div class="grow"><div class="t">${esc(j.kind === "revise" ? "Revise: " : (j.kind === "continue" || j.kind === "resume") ? "Continue: " : "Create: ")}${esc(j.slug)}</div><div class="s">${ago(j.startedAt)}${j.cost ? " · $" + j.cost.toFixed(2) : ""}</div></div>${jobBadge(j.status)}</div>`).join("") : `<div class="empty">No runs yet.</div>`}</div>
     </div>`);
   bindGo(); homeAtt = mountAttach($(".prompt"), $("#atts"), $("#attach-btn"), $("#file-in")); $("#create").addEventListener("click", createFromHome);
   // models load in the background (the list takes a few seconds the first time); a prefilled run keeps its own model
@@ -358,14 +358,14 @@ async function renderRuns(id) {
   const alive = mine(); setNav("runs"); setTop(`${icon("activity")}OpenCode runs`, `<a class="btn primary" href="#/home">${icon("sparkles")}New run</a>`);
   await refreshAll(); if (!alive()) return;
   const list = S.jobs; id = id || (list[0] && list[0].id);
-  setPage(`<div class="panes"><div class="plist">${list.length ? list.map((j) => `<a class="run ${j.id === id ? "on" : ""}" href="#/runs/${esc(j.id)}"><div class="t">${esc(j.kind === "revise" ? "Revise: " : j.kind === "continue" ? "Continue: " : "Create: ")}${esc(j.slug)}</div><div class="m">${jobBadge(j.status)}<span>${ago(j.startedAt)}</span>${j.cost ? `<span>· $${j.cost.toFixed(2)}</span>` : ""}</div></a>`).join("") : `<div class="empty">No runs yet.<br><a href="#/home">Create your first video</a></div>`}</div><div class="pdetail" id="rd"></div></div>`, "");
+  setPage(`<div class="panes"><div class="plist">${list.length ? list.map((j) => `<a class="run ${j.id === id ? "on" : ""}" href="#/runs/${esc(j.id)}"><div class="t">${esc(j.kind === "revise" ? "Revise: " : (j.kind === "continue" || j.kind === "resume") ? "Continue: " : "Create: ")}${esc(j.slug)}</div><div class="m">${jobBadge(j.status)}<span>${ago(j.startedAt)}</span>${j.cost ? `<span>· $${j.cost.toFixed(2)}</span>` : ""}</div></a>`).join("") : `<div class="empty">No runs yet.<br><a href="#/home">Create your first video</a></div>`}</div><div class="pdetail" id="rd"></div></div>`, "");
   if (!id) { $("#rd").innerHTML = `<div class="empty">Runs appear here with their live steps.</div>`; return; }
   const j = await api("/api/jobs/" + id); if (!alive()) return;
-  const m = j.meta, finished = m.status !== "running";
-  $("#rd").innerHTML = `<h1 style="font-size:20px;letter-spacing:-0.02em">${esc(m.kind === "revise" ? "Revise " : m.kind === "continue" ? "Continue " : "Create ")}${esc(m.slug)}</h1>
+  const m = j.meta, finished = m.status !== "running", canResume = !!m.sessionId && m.kind !== "revise" && ["incomplete", "interrupted", "cancelled"].includes(m.status);
+  $("#rd").innerHTML = `<h1 style="font-size:20px;letter-spacing:-0.02em">${esc(m.kind === "revise" ? "Revise " : (m.kind === "continue" || m.kind === "resume") ? "Continue " : "Create ")}${esc(m.slug)}</h1>
     <div class="actions" style="margin:6px 0 0">${jobBadge(m.status)}<span class="muted" id="rmeta">Started ${ago(m.startedAt)}${m.model ? " · " + esc(m.model) : " · default model"}${m.cost ? " · $" + m.cost.toFixed(2) + " of usage" : ""}</span>
       <button class="btn sm danger" id="stop" ${finished ? "hidden" : ""}>${icon("stop", "sm")}Stop</button><a class="btn sm" id="openp" href="#/projects/${esc(m.slug)}" ${finished && m.status === "done" ? "" : "hidden"}>${icon("folder", "sm")}Open project</a>
-      <button class="btn sm" id="rerun" ${finished ? "" : "hidden"} title="Same brief, options, files and model">${icon("refresh", "sm")}Run again</button><button class="btn sm ghost" id="rerun-edit" ${finished ? "" : "hidden"} title="Open Home prefilled, to change the model or wording first">Edit &amp; run again</button></div>
+      <button class="btn sm primary" id="resume" ${canResume ? "" : "hidden"} title="Pick up in the same OpenCode session from where it stopped: nothing is recreated">${icon("play", "sm")}Continue where it stopped</button><button class="btn sm" id="rerun" ${finished ? "" : "hidden"} title="Same brief, options, files and model">${icon("refresh", "sm")}Run again</button><button class="btn sm ghost" id="rerun-edit" ${finished ? "" : "hidden"} title="Open Home prefilled, to change the model or wording first">Edit &amp; run again</button></div>
     ${(m.attachments || []).length ? `<div class="badges" style="margin-top:10px">${m.attachments.map((x) => badge(`${x.name} · ${x.role === "reference" ? "reference" : "raw asset"}`, x.role === "reference" ? "violet" : "blue", false)).join("")}</div>` : ""}
     <div class="result" id="result" hidden>${icon("sparkles")}<div id="rtext"></div></div>
     <div class="h-sec">${icon("activity")}Steps</div><div class="steps" id="steps"></div>`;
@@ -374,6 +374,11 @@ async function renderRuns(id) {
     const b = e.currentTarget; b.disabled = true; b.textContent = "Starting…";
     try { const nm = await api(`/api/jobs/${id}/rerun`, {}); toast(`Started again as ${nm.slug}`); location.hash = "#/runs/" + nm.id; }
     catch (x) { toast(x.message, true); b.disabled = false; b.innerHTML = `${icon("refresh", "sm")}Run again`; }
+  });
+  $("#resume").addEventListener("click", async (e) => {
+    const b = e.currentTarget; b.disabled = true; b.textContent = "Starting…";
+    try { const nm = await api(`/api/jobs/${id}/resume`, {}); toast("Continuing the same session"); location.hash = "#/runs/" + nm.id; }
+    catch (x) { toast(x.message, true); b.disabled = false; b.innerHTML = `${icon("play", "sm")}Continue where it stopped`; }
   });
   $("#rerun-edit").addEventListener("click", async (e) => {
     const b = e.currentTarget; b.disabled = true;
