@@ -1,0 +1,72 @@
+{
+  "at": "2026-10-27T06:30:31.353Z",
+  "visualEvidence": "fresh",
+  "frameFiles": [
+    "D:\\Bholu\\Freelane VE\\Website\\motion-harness\\projects\\hf-nyt-graph\\.mh\\frames\\beat-01-at-1.5s.png",
+    "D:\\Bholu\\Freelane VE\\Website\\motion-harness\\projects\\hf-nyt-graph\\.mh\\frames\\beat-02-at-4.5s.png",
+    "D:\\Bholu\\Freelane VE\\Website\\motion-harness\\projects\\hf-nyt-graph\\.mh\\frames\\beat-03-at-7.5s.png",
+    "D:\\Bholu\\Freelane VE\\Website\\motion-harness\\projects\\hf-nyt-graph\\.mh\\frames\\beat-04-at-10.5s.png",
+    "D:\\Bholu\\Freelane VE\\Website\\motion-harness\\projects\\hf-nyt-graph\\.mh\\frames\\beat-05-at-13.5s.png",
+    "D:\\Bholu\\Freelane VE\\Website\\motion-harness\\projects\\hf-nyt-graph\\.mh\\frames\\review-beats.jpg",
+    "D:\\Bholu\\Freelane VE\\Website\\motion-harness\\projects\\hf-nyt-graph\\.mh\\frames\\review-phone.jpg"
+  ],
+  "counts": {
+    "error": 1,
+    "warn": 4,
+    "info": 3
+  },
+  "primitivesByScene": {
+    "index": [],
+    "nyt-chart": []
+  },
+  "findings": [
+    {
+      "level": "warn",
+      "code": "hf.lint.composition_file_too_large",
+      "scene": "D:\\Bholu\\Freelane VE\\Website\\motion-harness\\projects\\hf-nyt-graph\\compositions\\nyt-chart",
+      "msg": "This HTML composition file has 332 lines. Smaller sub-compositions are easier to read, iterate on, and diff. @0s  Fix: Split this sub-composition further into smaller .html files, then mount them from the parent with data-composition-src so each file stays small enough to inspect, revise, and validate independently."
+    },
+    {
+      "level": "warn",
+      "code": "hf.craft.text_below_floor",
+      "scene": "nyt-chart",
+      "msg": "Type floor is 28 px (2.6% of the 1080 px short side, what a phone can read) and 22 text elements stay under it for 0.5 s or more, the smallest \"Source: Internal analytics\" at 13 px: set reading text to at least 28 px, or put data-layout-ignore on text that is texture rather than reading; see references/look.md. @9.25s"
+    },
+    {
+      "level": "info",
+      "code": "hf.audio.audio_none",
+      "scene": "index",
+      "msg": "The film has no sound: no clip in it plays audio. @0s"
+    },
+    {
+      "level": "warn",
+      "code": "struct.ids",
+      "scene": "nyt-chart",
+      "msg": "host id \"nyt-chart-comp\", composition id \"nyt-chart\" and file \"nyt-chart\" differ. The hyperframes skill says this makes each render wait ~45s per scene; HyperFrames own shipped examples do it and hyperframes check does not flag it, so the render cost is unverified here. Matching them is safest"
+    },
+    {
+      "level": "warn",
+      "code": "src.fontsize",
+      "scene": "nyt-chart",
+      "msg": "font-size 16px < minimum 28px for this format (ignore only for decorative micro-labels)"
+    },
+    {
+      "level": "error",
+      "code": "src.nondeterministic",
+      "scene": "nyt-chart",
+      "msg": "non-deterministic/forbidden API"
+    },
+    {
+      "level": "info",
+      "code": "density.sparse",
+      "scene": "nyt-chart",
+      "msg": "no hero object found (needs data-mh-hero, an MH.world instrument/3D/path/callout, media, or a diagram with >= 6 shapes): a scene of only text and flat blocks reads as sparse"
+    },
+    {
+      "level": "info",
+      "code": "src.noprims",
+      "scene": "nyt-chart",
+      "msg": "scene uses no MH primitives (fine if hand-built, but check consistency)"
+    }
+  ]
+}

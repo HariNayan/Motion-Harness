@@ -1,0 +1,11 @@
+{
+  "slug": "hf-nyt-graph",
+  "format": "horizontal",
+  "depth": "standard",
+  "phase": "verify",
+  "adopted": true,
+  "source": "hyperframes example: nyt-graph",
+  "planReviews": 0,
+  "revisions": 0,
+  "createdAt": "2026-10-27T06:06:21.629Z"
+}

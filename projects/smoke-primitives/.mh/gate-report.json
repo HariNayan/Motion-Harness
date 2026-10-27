@@ -1,0 +1,74 @@
+{
+  "at": "2026-10-27T06:30:59.233Z",
+  "visualEvidence": "fresh",
+  "frameFiles": [
+    "D:\\Bholu\\Freelane VE\\Website\\motion-harness\\projects\\smoke-primitives\\.mh\\frames\\contact-sheet.jpg",
+    "D:\\Bholu\\Freelane VE\\Website\\motion-harness\\projects\\smoke-primitives\\.mh\\frames\\frame-00-at-0.9s.png",
+    "D:\\Bholu\\Freelane VE\\Website\\motion-harness\\projects\\smoke-primitives\\.mh\\frames\\frame-01-at-8.73s.png"
+  ],
+  "counts": {
+    "error": 0,
+    "warn": 3,
+    "info": 4
+  },
+  "primitivesByScene": {
+    "index": [
+      "audio.onWord",
+      "audio.pulse",
+      "bg.drift",
+      "graphic.callout",
+      "graphic.form",
+      "graphic.rules",
+      "image.cropOpen",
+      "image.parallax",
+      "transition.dip",
+      "transition.iris",
+      "transition.match",
+      "type.punch",
+      "type.tracking"
+    ]
+  },
+  "findings": [
+    {
+      "level": "warn",
+      "code": "hf.lint.nested_structure_needs_subcomposition",
+      "scene": "D:\\Bholu\\Freelane VE\\Website\\motion-harness\\projects\\smoke-primitives\\index",
+      "msg": "<div id=\"b-frame\"> is a timeline element that contains nested <div id=\"b-far\">. The timeline shows one row per top-level element, and the root composition is built only from sub-compositions. @0s  Fix: Move <div id=\"b-frame\"> and its contents into a sub-composition file and mount it with data-composition-src."
+    },
+    {
+      "level": "warn",
+      "code": "hf.lint.nested_structure_needs_subcomposition",
+      "scene": "D:\\Bholu\\Freelane VE\\Website\\motion-harness\\projects\\smoke-primitives\\index",
+      "msg": "<div id=\"d-rules\"> is a timeline element that contains nested <div>. The timeline shows one row per top-level element, and the root composition is built only from sub-compositions. @0s  Fix: Move <div id=\"d-rules\"> and its contents into a sub-composition file and mount it with data-composition-src."
+    },
+    {
+      "level": "info",
+      "code": "hf.layout.container_overflow",
+      "scene": "index",
+      "msg": "Element extends outside a clipping layout container. @2.5s  Fix: Resize/reposition the child or container, or mark intentional overflow with data-layout-allow-overflow."
+    },
+    {
+      "level": "info",
+      "code": "hf.layout.container_overflow",
+      "scene": "index",
+      "msg": "Element extends outside a clipping layout container. @2.5s  Fix: Resize/reposition the child or container, or mark intentional overflow with data-layout-allow-overflow."
+    },
+    {
+      "level": "warn",
+      "code": "hf.craft.line_unread",
+      "scene": "index",
+      "msg": "The film's last line \"callout label\" (2 words) is on screen 1.67 s (±0.01 s), under the 2.00 s a closing line needs: hold it about 0.5 s + 0.3 s a word and at least 2 s before the film ends; see references/motion.md. @7.336s"
+    },
+    {
+      "level": "info",
+      "code": "hf.audio.audio_none",
+      "scene": "index",
+      "msg": "The film has no sound: no clip in it plays audio. @0s"
+    },
+    {
+      "level": "info",
+      "code": "struct.nohosts",
+      "msg": "index.html mounts no scenes from compositions/ (single-file composition)"
+    }
+  ]
+}

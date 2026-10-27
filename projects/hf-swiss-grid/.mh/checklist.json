@@ -1,0 +1,88 @@
+{
+  "items": {
+    "opening": {
+      "question": "Does the opening establish the subject and visual identity?",
+      "how": "judge",
+      "status": "unreviewed",
+      "evidence": "",
+      "basis": ""
+    },
+    "narrative": {
+      "question": "Is the narrative understandable?",
+      "how": "judge",
+      "status": "unreviewed",
+      "evidence": "",
+      "basis": ""
+    },
+    "scene-purpose": {
+      "question": "Does every scene have a clear purpose?",
+      "how": "plan",
+      "status": "pass",
+      "evidence": "every scene has purpose + viewerShouldNotice; none flagged generic",
+      "basis": "automatic"
+    },
+    "variation": {
+      "question": "Is there meaningful visual variation?",
+      "how": "plan+source",
+      "status": "unreviewed",
+      "evidence": "",
+      "basis": ""
+    },
+    "typography": {
+      "question": "Is the typography readable and well composed?",
+      "how": "source+visual",
+      "status": "unreviewed",
+      "evidence": "",
+      "basis": ""
+    },
+    "transitions": {
+      "question": "Are transitions consistent and intentional?",
+      "how": "source",
+      "status": "unreviewed",
+      "evidence": "",
+      "basis": ""
+    },
+    "timing": {
+      "question": "Are there awkward gaps, overlaps or timing conflicts?",
+      "how": "auto",
+      "status": "fail",
+      "evidence": "host id \"intro-comp\", composition id \"intro\" and file \"intro\" differ. The hyperframes skill says this makes each render wait ~45s per scene; HyperFrames own shipped examples do it and hyperframes check does not flag it, so the render cost is unverified here. Matching them is safest | host id \"graphics-comp\", composition id \"graphics\" and file \"graphics\" differ. The hyperframes skill says this makes each render wait ~45s per scene; HyperFrames own shipped examples do it and hyperframes check does not flag it, so the render cost is unverified here. Matching them is safest | graphics overlaps previous scene by 1.86s (fine only for a deliberate cross-transition) | host id \"captions-comp\", composition id \"captions\" and file \"captions\" differ. The hyperframes skill says this makes each render wait ~45s per scene; HyperFrames own shipped examples do it and hyperframes check does not flag it, so the render cost is unverified here. Matching them is safest | captions overlaps previous scene by 10.00s (fine only for a deliberate cross-transition)",
+      "basis": "automatic"
+    },
+    "clipping": {
+      "question": "Are elements clipped or outside safe areas?",
+      "how": "auto+visual",
+      "status": "unreviewed",
+      "evidence": "",
+      "basis": ""
+    },
+    "assets": {
+      "question": "Are images and assets used effectively?",
+      "how": "judge",
+      "status": "unreviewed",
+      "evidence": "",
+      "basis": ""
+    },
+    "arc": {
+      "question": "Does the video have a coherent beginning, middle and end?",
+      "how": "plan",
+      "status": "pass",
+      "evidence": "roles open with hook/context and close with payoff/resolution/cta",
+      "basis": "automatic"
+    },
+    "effects": {
+      "question": "Are there unnecessary effects or repetitive layouts?",
+      "how": "source",
+      "status": "unreviewed",
+      "evidence": "",
+      "basis": ""
+    },
+    "technical": {
+      "question": "Does the project pass the supported technical checks?",
+      "how": "auto",
+      "status": "fail",
+      "evidence": "4 error(s) — see gate-report.json",
+      "basis": "automatic"
+    }
+  }
+}

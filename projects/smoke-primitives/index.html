@@ -1,0 +1,80 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=1920, height=1080" />
+    <script src="https://cdn.jsdelivr.net/npm/gsap@3.14.2/dist/gsap.min.js"></script>
+    <link rel="stylesheet" href="assets/mh-motion.css" />
+    <script src="assets/mh-motion.js"></script>
+    <script src="assets/mh-cues.js"></script>
+    <style>
+      * { margin: 0; padding: 0; box-sizing: border-box; }
+      html, body { width: 1920px; height: 1080px; overflow: hidden; background: var(--mh-ground); }
+      .abs { position: absolute; }
+      #bgwash { left: -10%; top: 0; width: 120%; height: 1080px; }
+      #a-title { left: 96px; top: 140px; font-size: 150px; text-transform: uppercase; white-space: nowrap; }
+      #a-panel { left: 1100px; top: 400px; width: 700px; height: 300px; background: var(--mh-accent); }
+      #b-frame { left: 96px; top: 300px; width: 900px; height: 520px; overflow: hidden; background: var(--mh-surface); }
+      #b-far { left: 0; top: 0; width: 1000px; height: 520px; background: var(--mh-muted); }
+      #b-mid { left: 0; top: 200px; width: 1000px; height: 320px; background: var(--mh-ink); clip-path: polygon(0 100%, 0 40%, 25% 0, 55% 55%, 80% 10%, 100% 50%, 100% 100%); }
+      #b-near { left: 0; top: 380px; width: 1000px; height: 140px; background: var(--mh-accent); }
+      #b-crop { left: 1100px; top: 300px; width: 700px; height: 520px; background: var(--mh-ink); }
+      #c-box { left: 96px; top: 380px; width: 260px; height: 260px; background: var(--mh-ink); }
+      #c-line { left: 480px; top: 460px; font-size: 120px; white-space: nowrap; }
+      #d-from { left: 96px; top: 800px; width: 120px; height: 120px; background: var(--mh-accent); }
+      #d-to { left: 1200px; top: 200px; width: 520px; height: 520px; background: var(--mh-accent); }
+      #d-line { left: 400px; top: 540px; width: 600px; height: 4px; background: var(--mh-ink); }
+      #d-lab { left: 400px; top: 470px; font-size: 40px; font-family: var(--mh-font-body); font-weight: 700; }
+      #d-rules { left: 96px; top: 200px; width: 700px; }
+      #d-rules div { height: 4px; margin-bottom: 40px; background: var(--mh-ink); }
+      #d-form { left: 1500px; top: 760px; width: 160px; height: 160px; background: var(--mh-ink); border-radius: 50%; }
+      #plate { left: 0; top: 0; width: 1920px; height: 1080px; background: var(--mh-ink); opacity: 0; z-index: 20; }
+    </style>
+  </head>
+  <body>
+    <div id="root" data-composition-id="main" data-start="0" data-duration="9" data-width="1920" data-height="1080">
+      <div id="bgwash" class="abs mh-bg--wash"></div>
+
+      <h1 id="a-title" class="clip abs mh-display" data-start="0" data-duration="2.5">Smoke <span id="a-key" class="mh-accent">test</span></h1>
+      <div id="a-panel" class="clip abs" data-start="0" data-duration="2.5"></div>
+
+      <div id="b-frame" class="clip abs" data-start="2.5" data-duration="2.5">
+        <div id="b-far" class="abs"></div><div id="b-mid" class="abs"></div><div id="b-near" class="abs"></div>
+      </div>
+      <div id="b-crop" class="clip abs" data-start="2.5" data-duration="2.5"></div>
+
+      <div id="c-box" class="clip abs" data-start="5" data-duration="2" ></div>
+      <h2 id="c-line" class="clip abs mh-display" data-start="5" data-duration="2">the <span id="c-word" class="mh-accent">tide</span> turns</h2>
+
+      <div id="d-from" class="clip abs" data-start="6.9" data-duration="2.1"></div>
+      <div id="d-to" class="clip abs" data-start="7" data-duration="2"></div>
+      <div id="d-line" class="clip abs" data-start="7" data-duration="2"></div>
+      <p id="d-lab" class="clip abs" data-start="7" data-duration="2">callout label</p>
+      <div id="d-rules" class="clip abs" data-start="7" data-duration="2"><div></div><div></div><div></div></div>
+      <div id="d-form" class="clip abs" data-start="7" data-duration="2"></div>
+      <div id="plate" class="abs"></div>
+    </div>
+    <script>
+      window.__timelines = window.__timelines || {};
+      const tl = gsap.timeline({ paused: true });
+      // A: type + iris
+      MH.type.tracking(tl, "#a-title", { at: 0.1, from: "0.2em", to: "-0.02em", dur: 1.2 });
+      MH.type.punch(tl, "#a-key", { at: 1.4 });
+      MH.transition.iris(tl, "#a-panel", { at: 0.2, x: 20, y: 80, dur: 0.8 });
+      MH.bg.drift(tl, "#bgwash", { at: 0, dur: 9, amount: 2 });
+      // B: image depth
+      MH.image.parallax(tl, [{ el: "#b-far", depth: 0.2 }, { el: "#b-mid", depth: 0.6 }, { el: "#b-near", depth: 1 }], { at: 2.5, dur: 2.4, travel: 80 });
+      MH.image.cropOpen(tl, "#b-crop", { at: 2.6, dur: 0.8 });
+      // C: audio-aware (synthetic cues)
+      MH.audio.pulse(tl, "#c-box", 0, 5, 7, { scale: 1.06 });
+      MH.audio.onWord(tl, "tide", 0, (t) => MH.type.punch(tl, "#c-word", { at: t }), 5.6);
+      // D: match, callout, rules, form, dip
+      MH.transition.match(tl, "#d-to", "#d-from", { at: 7, dur: 0.8 });
+      MH.graphic.callout(tl, "#d-line", "#d-lab", { at: 7.0 });
+      MH.graphic.rules(tl, "#d-rules", { at: 7.2, dur: 0.6 });
+      MH.graphic.form(tl, "#d-form", { at: 7.4 });
+      MH.transition.dip(tl, "#plate", { at: 8.5, frames: 2 });
+      window.__timelines["main"] = tl;
+    </script>
+  </body>
+</html>

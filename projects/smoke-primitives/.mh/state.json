@@ -1,0 +1,11 @@
+{
+  "slug": "smoke-primitives",
+  "format": "horizontal",
+  "depth": "standard",
+  "phase": "verify",
+  "adopted": true,
+  "source": "hyperframes example: blank",
+  "planReviews": 0,
+  "revisions": 0,
+  "createdAt": "2026-10-27T06:09:19.646Z"
+}
