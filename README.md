@@ -1,9 +1,38 @@
+<p align="center">
+  <picture>
+    <source media="(prefers-color-scheme: dark)" srcset="docs/logo-dark.svg">
+    <img src="docs/logo.svg" alt="Motion Harness logo" width="120">
+  </picture>
+</p>
+
 <h1 align="center">Motion Harness</h1>
 
 <p align="center">
-  Turn a brief into an editable <a href="https://hyperframes.heygen.com">HyperFrames</a> motion-graphics project with <a href="https://opencode.ai">OpenCode</a>.<br>
-  It plans first, builds, checks, <i>looks at the frames</i>, fixes what it finds, then hands the project to HyperFrames Studio.<br>
-  <b>It never renders or exports.</b> You preview and render in Studio.
+  <b>Describe a video, get an editable motion-graphics project, and open it in HyperFrames Studio,<br>
+  from a local dashboard powered by the OpenCode you already use.</b>
+</p>
+
+<p align="center">
+  <a href="#the-dashboard">Dashboard</a> ·
+  <a href="#how-it-works">How it works</a> ·
+  <a href="#example-videos">Examples</a> ·
+  <a href="#quick-start">Quick start</a> ·
+  <a href="#quality-gate-and-depth">Quality gate</a> ·
+  <a href="#limits-read-before-relying-on-it">Limits</a>
+</p>
+
+<p align="center">
+  <img src="https://img.shields.io/badge/runs%20on-OpenCode-D97757" alt="Runs on OpenCode">
+  <img src="https://img.shields.io/badge/output-HyperFrames%20project-2563eb" alt="Output: HyperFrames project">
+  <img src="https://img.shields.io/badge/renders-never%20(Studio%20does)-6e7681" alt="Renders: never, Studio does">
+  <img src="https://img.shields.io/badge/dashboard-local%20only-15803d" alt="Dashboard: local only">
+  <img src="https://img.shields.io/badge/node-24-3c873a" alt="Node 24">
+  <img src="https://img.shields.io/badge/API%20keys-none%20stored-6938ef" alt="API keys: none stored">
+</p>
+
+<p align="center">
+  It plans first, builds, checks, <i>looks at the frames</i>, fixes what it finds, then hands the project over.<br>
+  Your own OpenCode providers do the thinking. Nothing is rendered or exported here: you preview and render in Studio.
 </p>
 
 <p align="center">
