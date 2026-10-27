@@ -46,7 +46,7 @@ const phaseBadge = (p, adopted) => { if (adopted) return badge("HyperFrames exam
 const gateBadges = (g) => !g ? badge("Gate not run", "") : [badge(g.errors ? `${g.errors} error${g.errors > 1 ? "s" : ""}` : "No errors", g.errors ? "red" : "green"), g.warnings ? badge(`${g.warnings} warning${g.warnings > 1 ? "s" : ""}`, "amber") : ""].join(" ");
 const evBadge = (e) => badge(e === "fresh" ? "Frames fresh" : e === "stale" ? "Frames stale" : "No frames", e === "fresh" ? "green" : e === "stale" ? "amber" : "");
 const thumbHTML = (p) => p.thumb ? `<img class="thumb" loading="lazy" src="/api/projects/${esc(p.slug)}/frames/${esc(p.thumb)}" alt="">` : `<span class="thumb">${icon("film")}</span>`;
-const JOB = { running: ["Running", "blue"], done: ["Done", "green"], failed: ["Failed", "red"], cancelled: ["Stopped", ""], interrupted: ["Interrupted", "amber"] };
+const JOB = { running: ["Running", "blue"], done: ["Done", "green"], failed: ["Failed", "red"], cancelled: ["Stopped", ""], interrupted: ["Interrupted", "amber"], incomplete: ["Ended early", "amber"] };
 const jobBadge = (s) => badge((JOB[s] || [s, ""])[0], (JOB[s] || ["", ""])[1]);
 
 const S = { conn: null, projects: [], jobs: [], es: null };
@@ -87,7 +87,8 @@ function mountAttach(zone, listEl, btn, input) {
   ["dragenter", "dragover"].forEach((ev) => zone.addEventListener(ev, (e) => { if (e.dataTransfer && [...e.dataTransfer.types].includes("Files")) { e.preventDefault(); zone.classList.add("drag"); } }));
   ["dragleave", "drop"].forEach((ev) => zone.addEventListener(ev, (e) => { if (ev === "dragleave" && zone.contains(e.relatedTarget)) return; zone.classList.remove("drag"); }));
   zone.addEventListener("drop", (e) => { if (e.dataTransfer && e.dataTransfer.files.length) { e.preventDefault(); add(e.dataTransfer.files); } });
-  return { get: () => items.filter((a) => a.id).map((a) => ({ id: a.id, role: a.role })), busy: () => items.some((a) => !a.id && !a.error), count: () => items.length };
+  return { preload: (list) => { list.forEach((a) => items.push({ name: a.name, size: a.size, kind: a.kind || guessKind(a.name), role: a.role, pct: 100, id: a.id, error: null })); draw(); },
+    get: () => items.filter((a) => a.id).map((a) => ({ id: a.id, role: a.role })), busy: () => items.some((a) => !a.id && !a.error), count: () => items.length };
 }
 let page = null;
 
@@ -157,9 +158,15 @@ async function renderHome() {
       <textarea id="brief" placeholder="Make a 30-second explainer on why aircraft read −32 °C at cruise, for student pilots. Dense, with a gauge and a flight path."></textarea>
       <div class="atts" id="atts" hidden></div>
       <input type="file" id="file-in" multiple hidden>
+      <div class="opts">
+        <input type="text" id="brand" placeholder="Take the brand from a website (optional): https://…" spellcheck="false" aria-label="Brand website">
+        <select class="chipsel" id="story" aria-label="Storylines"><option value="auto">Pick the storyline for me</option><option value="ask">Let me pick the storyline</option></select>
+      </div>
       <div class="foot">
         <button class="btn ghost sm" id="attach-btn" type="button">${icon("paperclip")}Attach reference video or files</button>
+        <button class="btn ghost sm" id="enhance" type="button" title="Rewrites your prompt into a specific brief: hook, beats, real objects, assumptions. You review it before creating.">${icon("sparkles")}Enhance prompt</button>
         <input class="name" style="margin-left:auto" id="slug" type="text" placeholder="Project name" spellcheck="false" aria-label="Project name (optional)">
+        <select class="chipsel" id="model-home" aria-label="Model" title="Model for this run"><option value="">Default model</option></select>
         <select class="chipsel" id="format" aria-label="Format"><option value="horizontal">16:9</option><option value="vertical">9:16</option><option value="square">1:1</option></select>
         <select class="chipsel" id="depth" aria-label="Planning depth"><option value="draft">Draft</option><option value="standard" selected>Standard</option><option value="high">High depth</option></select>
         <select class="chipsel" id="preset" aria-label="Look"><option value="night-sky">Dense world</option><option value="none">Own design</option></select>
@@ -177,10 +184,40 @@ async function renderHome() {
       <div class="card"><header>${icon("folder")}Recent projects<a class="more" href="#/projects">View all</a></header>
         ${P.length ? [...P].sort((a, b) => b.updated - a.updated).slice(0, 6).map((p) => `<div class="row" data-go="#/projects/${esc(p.slug)}">${thumbHTML(p)}<div class="grow"><div class="t">${esc(p.slug)}</div><div class="s">${esc(p.title)}</div></div>${phaseBadge(p.phase, p.adopted)}</div>`).join("") : `<div class="empty">No projects yet. Write a brief above.</div>`}</div>
       <div class="card"><header>${icon("activity")}Recent runs<a class="more" href="#/runs">View all</a></header>
-        ${S.jobs.length ? S.jobs.slice(0, 6).map((j) => `<div class="row" data-go="#/runs/${esc(j.id)}"><div class="grow"><div class="t">${esc(j.kind === "revise" ? "Revise: " : "Create: ")}${esc(j.slug)}</div><div class="s">${ago(j.startedAt)}${j.cost ? " · $" + j.cost.toFixed(2) : ""}</div></div>${jobBadge(j.status)}</div>`).join("") : `<div class="empty">No runs yet.</div>`}</div>
+        ${S.jobs.length ? S.jobs.slice(0, 6).map((j) => `<div class="row" data-go="#/runs/${esc(j.id)}"><div class="grow"><div class="t">${esc(j.kind === "revise" ? "Revise: " : j.kind === "continue" ? "Continue: " : "Create: ")}${esc(j.slug)}</div><div class="s">${ago(j.startedAt)}${j.cost ? " · $" + j.cost.toFixed(2) : ""}</div></div>${jobBadge(j.status)}</div>`).join("") : `<div class="empty">No runs yet.</div>`}</div>
     </div>`);
   bindGo(); homeAtt = mountAttach($(".prompt"), $("#atts"), $("#attach-btn"), $("#file-in")); $("#create").addEventListener("click", createFromHome);
+  // models load in the background (the list takes a few seconds the first time); a prefilled run keeps its own model
+  let pf = null; try { pf = JSON.parse(sessionStorage.getItem("mh-prefill") || "null"); sessionStorage.removeItem("mh-prefill"); } catch (e) {}
+  if (pf) {
+    const q = pf.request, set = (id, v) => { if (v != null && v !== "" && $(id)) $(id).value = v; };
+    set("#brief", q.brief); set("#format", q.format); set("#depth", q.depth); set("#preset", q.preset); set("#brand", q.brandUrl);
+    if (q.pickStoryline) $("#story").value = "ask";
+    if (q.attachments && q.attachments.length) homeAtt.preload(q.attachments);
+    toast(pf.missingFiles && pf.missingFiles.length ? `Prefilled. These files were cleared and need attaching again: ${pf.missingFiles.join(", ")}` : "Prefilled from the earlier run. Change anything, then Create.", pf.missingFiles && pf.missingFiles.length ? true : false);
+  }
+  api("/api/models").then((m) => {
+    const sel = $("#model-home"); if (!sel) return;
+    const want = (pf && pf.request.model) || m.selected || "";
+    sel.innerHTML = `<option value="">Default model</option>` + m.models.map((x) => `<option ${x === want ? "selected" : ""}>${esc(x)}</option>`).join("");
+    sel.addEventListener("change", () => { api("/api/settings", { model: sel.value }).then(() => { if (S.conn) S.conn.model = sel.value; }).catch(() => {}); });
+  }).catch(() => {});
   $("#brief").addEventListener("keydown", (e) => { if ((e.ctrlKey || e.metaKey) && e.key === "Enter") createFromHome(); });
+  // Enhance: the model rewrites the prompt into a specific brief; the original is kept so one click undoes it
+  let before = null, label = $("#enhance").innerHTML; const eb = $("#enhance");
+  eb.addEventListener("click", async () => {
+    if (before !== null) { $("#brief").value = before; before = null; eb.innerHTML = label; eb.title = "Rewrites your prompt into a specific brief. You review it before creating."; return; }
+    const text = $("#brief").value; if (text.trim().length < 10) return toast("Write a sentence about the video first, then enhance it.", true);
+    if (homeAtt && homeAtt.busy()) return toast("Wait for the uploads to finish", true);
+    eb.disabled = true; eb.innerHTML = `${icon("sparkles")}Enhancing… (up to a minute)`; $("#brief").readOnly = true;
+    try {
+      const r = await api("/api/enhance", { brief: text, format: $("#format").value, depth: $("#depth").value, preset: $("#preset").value, brandUrl: $("#brand").value, model: ($("#model-home") && $("#model-home").value) || (S.conn && S.conn.model), attachments: homeAtt ? homeAtt.get() : [] });
+      before = text; $("#brief").value = r.brief; eb.innerHTML = `${icon("sparkles")}Undo enhance`; eb.title = "Put your original prompt back";
+      toast("Prompt enhanced. Read it, change anything, then Create. Items marked [verify: …] are facts the agent will check.");
+    } catch (e) { eb.innerHTML = label; toast(e.message, true); }
+    finally { eb.disabled = false; $("#brief").readOnly = false; }
+  });
+  $("#brief").addEventListener("input", () => { if (before !== null) { before = null; eb.innerHTML = label; } });
 }
 function bindGo() { $$("[data-go]").forEach((e) => e.addEventListener("click", () => { location.hash = e.dataset.go; })); }
 let homeAtt = null;
@@ -188,7 +225,7 @@ async function createFromHome() {
   if (homeAtt && homeAtt.busy()) return toast("Wait for the uploads to finish", true);
   const btn = $("#create"); btn.disabled = true;
   try {
-    const meta = await api("/api/jobs", { kind: "new", brief: $("#brief").value, format: $("#format").value, depth: $("#depth").value, preset: $("#preset").value, slug: $("#slug").value, model: S.conn && S.conn.model, attachments: homeAtt ? homeAtt.get() : [] });
+    const meta = await api("/api/jobs", { kind: "new", brief: $("#brief").value, format: $("#format").value, depth: $("#depth").value, preset: $("#preset").value, slug: $("#slug").value, model: ($("#model-home") && $("#model-home").value) || (S.conn && S.conn.model), attachments: homeAtt ? homeAtt.get() : [], brandUrl: $("#brand").value, pickStoryline: $("#story").value === "ask" });
     toast(`Started ${meta.slug}`); location.hash = "#/runs/" + meta.id;
   } catch (e) { toast(e.message, true); btn.disabled = false; }
 }
@@ -218,7 +255,7 @@ async function renderProject(slug, tab) {
     `<button class="btn" data-act="gate">${icon("check")}Quality gate</button><button class="btn" data-act="frames">${icon("camera")}Capture frames</button><button class="btn primary" data-act="studio">${icon("external")}Open in Studio</button>`);
   $$("#topbar [data-act]").forEach((b) => b.addEventListener("click", () => runAction(slug, b)));
   const sc = d.storyboard ? d.storyboard.scenes : [], cl = d.checklist ? Object.values(d.checklist.items) : [];
-  const tabs = [["overview", "Overview"], ["storyboard", "Storyboard", sc.length], ["quality", "Quality", d.findings.length], ["frames", "Frames", d.frames.length], ["files", "Files", (d.references || []).length + (d.assets || []).length], ["history", "History", d.revisionLog.length]];
+  const tabs = [["overview", "Overview"], ["storylines", "Storylines", d.storylines ? 3 : 0], ["storyboard", "Storyboard", sc.length], ["quality", "Quality", d.findings.length], ["review", "Review", d.review ? d.review.notes.filter((n) => n.status === "open").length : 0], ["frames", "Frames", d.frames.length], ["files", "Files", (d.references || []).length + (d.assets || []).length], ["history", "History", d.revisionLog.length]];
   const pal = d.direction && d.direction.designSystem && d.direction.designSystem.palette;
   const hero = d.frames.find((f) => /^review-beats/.test(f)) || d.frames.find((f) => /^contact/.test(f));
   const body = {
@@ -244,15 +281,43 @@ async function renderProject(slug, tab) {
       ${cl.length ? `<div class="card"><header>${icon("check")}Checklist</header>${cl.map((x) => `<div class="find">${badge(x.status, x.status === "pass" ? "green" : x.status === "fail" ? "red" : "amber", false)}<div><div class="c">${esc(x.question)}</div><div class="muted">${esc(x.evidence || "")}${x.basis ? ` <span class="faint">(${esc(x.basis)})</span>` : ""}</div></div></div>`).join("")}</div>` : ""}`,
     frames: () => `<div class="card"><header>${icon("image")}Preview frames<span class="more">stills from hyperframes snapshot, not a render</span></header>${d.frames.length ? `<div class="gallery">${d.frames.map((f) => `<a href="/api/projects/${esc(slug)}/frames/${esc(f)}" target="_blank" class="${/^(review-beats|contact)/.test(f) ? "wide" : ""}"><img loading="lazy" src="/api/projects/${esc(slug)}/frames/${esc(f)}" alt=""><span>${esc(f)}${d.frameStats && d.frameStats.stats[f] != null ? ` · ${d.frameStats.stats[f]}% edges` : ""}</span></a>`).join("")}</div>` : `<div class="empty">No frames yet.</div>`}</div>`,
     files: () => filesTab(d, slug),
+    storylines: () => storylinesTab(d),
+    review: () => reviewTab(d),
     history: () => `<div class="card"><header>${icon("clock")}Revisions</header>${d.revisionLog.length ? d.revisionLog.map((r) => `<div class="find">${badge("#" + r.n, "violet", false)}<div><div class="c">${esc(r.reason)}</div><div class="muted">touched ${esc((r.touched || []).join(", "))}${r.preserved && r.preserved.length ? ` · preserved ${r.preserved.length}` : ""}</div></div></div>`).join("") : `<div class="empty">No revisions logged.</div>`}</div>
       <div class="card"><header>Decision log</header>${d.decisions.length ? d.decisions.slice().reverse().map((x) => `<div class="find"><span class="faint tnum" style="min-width:56px">${esc((x.at || "").slice(11, 19))}</span><div><span class="c">${esc(x.type)}</span> <span class="muted">${esc(x.what || x.note || (x.to ? "→ " + x.to : "") || x.findings || "")}</span></div></div>`).join("") : `<div class="empty">Nothing yet.</div>`}</div>`,
   };
   setPage(`<div class="ptitle"><h1>${esc(slug)}</h1>${phaseBadge(d.phase, d.adopted)}</div><div class="muted">${esc(d.title)}</div><pre class="out" id="act-out" hidden></pre>
     <div class="tabs">${tabs.map(([k, l, n]) => `<button data-tab="${k}" class="${k === tab ? "on" : ""}">${l}${n ? `<span class="n">${n}</span>` : ""}</button>`).join("")}</div>${body[tab]()}`);
   $$(".tabs button").forEach((b) => b.addEventListener("click", () => { location.hash = `#/projects/${slug}${b.dataset.tab === "overview" ? "" : "/" + b.dataset.tab}`; }));
+  $$("[data-pick]").forEach((b) => b.addEventListener("click", async () => {
+    b.disabled = true;
+    try { const m = await api("/api/jobs", { kind: "continue", slug, pick: b.dataset.pick, model: S.conn && S.conn.model }); location.hash = "#/runs/" + m.id; } catch (e) { toast(e.message, true); b.disabled = false; }
+  }));
   const ratt = $("#r-attach") ? mountAttach($(".composer"), $("#r-atts"), $("#r-attach"), $("#r-file")) : null;
   const rg = $("#rev-go"); if (rg) rg.addEventListener("click", async () => { if (ratt && ratt.busy()) return toast("Wait for the uploads to finish", true); rg.disabled = true; try { const m = await api("/api/jobs", { kind: "revise", slug, brief: $("#rev").value, model: S.conn && S.conn.model, attachments: ratt ? ratt.get() : [] }); location.hash = "#/runs/" + m.id; } catch (e) { toast(e.message, true); rg.disabled = false; } });
 }
+/* Storylines tab: three different films; the user picks one and a follow-up run builds it */
+function storylinesTab(d) {
+  const st = d.storylines, busy = S.jobs.some((j) => j.status === "running");
+  if (!st) return `<div class="card"><div class="empty">${d.storylinesWaived ? "Storylines were waived for this project: " + esc(d.storylinesWaived) : "No storylines yet. Higher-depth projects write three different films here before the design starts."}</div></div>`;
+  const row = (k, v) => `<div class="p"><span class="k">${k}</span><span>${esc(v)}</span></div>`;
+  return `<p class="muted" style="margin:0 0 12px">${st.picked ? "Picked" : "Recommended"}: <b>${esc((st.storylines.find((x) => x.id === (st.picked || st.recommended)) || {}).name || "")}</b>${st.reason ? ` · ${esc(st.reason)}` : ""}</p>` +
+    st.storylines.map((x) => `<div class="card"><header>${icon("film")}${esc(x.id.toUpperCase())}. ${esc(x.name)}<span class="badges" style="margin-left:8px">${x.id === st.picked ? badge("Picked", "green") : ""}${x.id === st.recommended ? badge("Recommended", "blue") : ""}</span><span class="more">${esc(x.device)} × ${esc(x.form)}</span></header>
+      <div class="props">${row("World", x.world)}${row("What it is", x.summary)}${row("First two seconds", x.first2s)}${row("Beats", x.beats)}${row("Look", x.look)}${row("Sound", x.sound)}</div>
+      ${st.picked ? "" : `<div class="composer"><div class="foot"><span class="note">Builds the design direction, storyboard and composition from this film.</span><button class="btn primary" data-pick="${esc(x.id)}" ${busy ? "disabled title='A run is in progress'" : ""}>${icon("sparkles")}Build this one</button></div></div>`}</div>`).join("");
+}
+
+/* Review tab: what a stranger sees in each beat, the P0/P1/P2 notes, and the delivery note */
+function reviewTab(d) {
+  const r = d.review;
+  if (!r) return `<div class="card"><div class="empty">No review recorded yet. After the frames are captured the agent describes each beat as a stranger would and files P0/P1/P2 notes here.</div></div>`;
+  const tone = { P0: "red", P1: "amber", P2: "" }, st = { open: "red", fixed: "green", kept: "amber" };
+  return `${r.done ? `<div class="card"><header>${icon("check")}Delivery note</header><div class="props">
+      <div class="p"><span class="k">Creative calls</span><span>${esc(r.done.summary)}</span></div><div class="p"><span class="k">Weakest shot</span><span>${esc(r.done.weakest)}</span></div><div class="p"><span class="k">Nobody checked</span><span>${esc(r.done.unchecked)}</span></div></div></div>` : `<div class="card"><div class="empty">The review is in progress: no delivery note yet.</div></div>`}
+    <div class="card"><header>${icon("image")}Beat descriptions (a stranger's eyes)</header>${r.descriptions.length ? r.descriptions.map((x) => `<div class="find"><span class="faint tnum" style="min-width:48px">${esc(x.t)}s</span><div>${esc(x.text)}</div></div>`).join("") : `<div class="empty">None yet.</div>`}</div>
+    <div class="card"><header>${icon("alert")}Notes</header>${r.notes.length ? r.notes.map((n) => `<div class="find">${badge(n.sev, tone[n.sev], false)}<div><div class="c">${esc(n.where)} <span class="faint">· t=${esc(n.t)}</span> ${badge(n.status, st[n.status] || "", false)}</div><div class="muted">${esc(n.problem)} → <b>${esc(n.fix)}</b>${n.keep ? ` <span class="faint">(keep: ${esc(n.keep)})</span>` : ""}${n.why ? `<br><span class="faint">${esc(n.why)}</span>` : ""}</div></div></div>`).join("") : `<div class="empty">No notes filed.</div>`}</div>`;
+}
+
 /* Files tab: the user's reference files (with analysis state) and raw assets (with "used in video" state) */
 function filesTab(d, slug) {
   const F = (rel) => `/api/projects/${esc(slug)}/file/${String(rel).split("/").map(encodeURIComponent).join("/")}`;
@@ -270,7 +335,9 @@ function filesTab(d, slug) {
   };
   const thumb = (x) => x.kind === "image" ? `<img class="thumb" src="${F(x.path)}" alt="">` : x.previews && x.previews[0] ? `<img class="thumb" src="${F(".mh/" + x.previews[0])}" alt="">` : `<span class="thumb">${icon(kindIcon(x.kind))}</span>`;
   const used = (x) => ["doc", "other"].includes(x.kind) ? badge("Source material", "") : x.used ? badge("Used", "green") : badge("Not used yet", "amber");
-  return `${refs.map(refCard).join("")}
+  const swatches = (p) => (p || []).length ? `<div class="pad" style="padding-top:0"><b>Measured palette</b> <span class="faint">(from pixels)</span><div style="margin-top:6px">${p.map((c) => `<span style="white-space:nowrap;margin-right:12px"><span class="sw" style="background:${esc(c.hex)}"></span>${esc(c.hex)} <span class="faint">${c.sharePercent}%</span></span>`).join("")}</div></div>` : "";
+  const brand = d.brand ? `<div class="card"><header>${icon("search")}Brand captured<span class="more">${esc(d.brand.url)}</span></header>${(d.brand.files || []).includes("screenshots/full-page.png") ? `<a href="${F(".mh/" + d.brand.dir + "/screenshots/full-page.png")}" target="_blank"><img style="display:block;width:100%;max-height:420px;object-fit:cover;object-position:top" src="${F(".mh/" + d.brand.dir + "/screenshots/full-page.png")}" alt=""></a>` : ""}<div class="pad muted">Colours, fonts and visible copy were taken from this page (.mh/${esc(d.brand.dir)}/extracted/). The agent quotes them exactly and claims only what the source says.</div></div>` : "";
+  return `${brand}${refs.map((r) => refCard(r) + (swatches(r.palette) ? `<div class="card" style="margin-top:-8px;border-top:0">${swatches(r.palette)}</div>` : "")).join("")}
     <div class="card"><header>${icon("paperclip")}Raw assets</header>${assets.length ? `<div class="scroll-x"><table class="t"><thead><tr><th>File</th><th>Type</th><th>Details</th><th>In the video</th></tr></thead><tbody>${assets.map((x) => `<tr><td><div class="actions" style="flex-wrap:nowrap">${thumb(x)}<div><div style="font-weight:500">${esc(x.name)}</div><div class="faint">${esc(x.path)}</div></div></div></td><td>${esc(x.kind)}</td><td class="muted">${fmtSize(x.sizeBytes)}${x.width ? " · " + x.width + "×" + x.height : ""}${x.durationSec ? " · " + x.durationSec + "s" : ""}${x.note ? "<br>" + esc(x.note) : ""}</td><td>${used(x)}</td></tr>`).join("")}</tbody></table></div>` : `<div class="empty">No raw assets imported. Attach files when you create or revise a project.</div>`}</div>`;
 }
 
@@ -291,17 +358,28 @@ async function renderRuns(id) {
   const alive = mine(); setNav("runs"); setTop(`${icon("activity")}OpenCode runs`, `<a class="btn primary" href="#/home">${icon("sparkles")}New run</a>`);
   await refreshAll(); if (!alive()) return;
   const list = S.jobs; id = id || (list[0] && list[0].id);
-  setPage(`<div class="panes"><div class="plist">${list.length ? list.map((j) => `<a class="run ${j.id === id ? "on" : ""}" href="#/runs/${esc(j.id)}"><div class="t">${esc(j.kind === "revise" ? "Revise: " : "Create: ")}${esc(j.slug)}</div><div class="m">${jobBadge(j.status)}<span>${ago(j.startedAt)}</span>${j.cost ? `<span>· $${j.cost.toFixed(2)}</span>` : ""}</div></a>`).join("") : `<div class="empty">No runs yet.<br><a href="#/home">Create your first video</a></div>`}</div><div class="pdetail" id="rd"></div></div>`, "");
+  setPage(`<div class="panes"><div class="plist">${list.length ? list.map((j) => `<a class="run ${j.id === id ? "on" : ""}" href="#/runs/${esc(j.id)}"><div class="t">${esc(j.kind === "revise" ? "Revise: " : j.kind === "continue" ? "Continue: " : "Create: ")}${esc(j.slug)}</div><div class="m">${jobBadge(j.status)}<span>${ago(j.startedAt)}</span>${j.cost ? `<span>· $${j.cost.toFixed(2)}</span>` : ""}</div></a>`).join("") : `<div class="empty">No runs yet.<br><a href="#/home">Create your first video</a></div>`}</div><div class="pdetail" id="rd"></div></div>`, "");
   if (!id) { $("#rd").innerHTML = `<div class="empty">Runs appear here with their live steps.</div>`; return; }
   const j = await api("/api/jobs/" + id); if (!alive()) return;
   const m = j.meta, finished = m.status !== "running";
-  $("#rd").innerHTML = `<h1 style="font-size:20px;letter-spacing:-0.02em">${esc(m.kind === "revise" ? "Revise " : "Create ")}${esc(m.slug)}</h1>
+  $("#rd").innerHTML = `<h1 style="font-size:20px;letter-spacing:-0.02em">${esc(m.kind === "revise" ? "Revise " : m.kind === "continue" ? "Continue " : "Create ")}${esc(m.slug)}</h1>
     <div class="actions" style="margin:6px 0 0">${jobBadge(m.status)}<span class="muted" id="rmeta">Started ${ago(m.startedAt)}${m.model ? " · " + esc(m.model) : " · default model"}${m.cost ? " · $" + m.cost.toFixed(2) + " of usage" : ""}</span>
-      <button class="btn sm danger" id="stop" ${finished ? "hidden" : ""}>${icon("stop", "sm")}Stop</button><a class="btn sm" id="openp" href="#/projects/${esc(m.slug)}" ${finished && m.status === "done" ? "" : "hidden"}>${icon("folder", "sm")}Open project</a></div>
+      <button class="btn sm danger" id="stop" ${finished ? "hidden" : ""}>${icon("stop", "sm")}Stop</button><a class="btn sm" id="openp" href="#/projects/${esc(m.slug)}" ${finished && m.status === "done" ? "" : "hidden"}>${icon("folder", "sm")}Open project</a>
+      <button class="btn sm" id="rerun" ${finished ? "" : "hidden"} title="Same brief, options, files and model">${icon("refresh", "sm")}Run again</button><button class="btn sm ghost" id="rerun-edit" ${finished ? "" : "hidden"} title="Open Home prefilled, to change the model or wording first">Edit &amp; run again</button></div>
     ${(m.attachments || []).length ? `<div class="badges" style="margin-top:10px">${m.attachments.map((x) => badge(`${x.name} · ${x.role === "reference" ? "reference" : "raw asset"}`, x.role === "reference" ? "violet" : "blue", false)).join("")}</div>` : ""}
     <div class="result" id="result" hidden>${icon("sparkles")}<div id="rtext"></div></div>
     <div class="h-sec">${icon("activity")}Steps</div><div class="steps" id="steps"></div>`;
   paintIcons($("#rd"));
+  $("#rerun").addEventListener("click", async (e) => {
+    const b = e.currentTarget; b.disabled = true; b.textContent = "Starting…";
+    try { const nm = await api(`/api/jobs/${id}/rerun`, {}); toast(`Started again as ${nm.slug}`); location.hash = "#/runs/" + nm.id; }
+    catch (x) { toast(x.message, true); b.disabled = false; b.innerHTML = `${icon("refresh", "sm")}Run again`; }
+  });
+  $("#rerun-edit").addEventListener("click", async (e) => {
+    const b = e.currentTarget; b.disabled = true;
+    try { const q = await api(`/api/jobs/${id}/request`); sessionStorage.setItem("mh-prefill", JSON.stringify(q)); location.hash = "#/home"; }
+    catch (x) { toast(x.message, true); b.disabled = false; }
+  });
   const steps = $("#steps"); let lastText = "";
   const add = (e) => { steps.insertAdjacentHTML("beforeend", logLine(e)); steps.scrollTop = steps.scrollHeight; if (e.kind === "text") lastText = e.text; if (e.kind === "error") showResult(e.text, true); };
   const showResult = (t, bad) => { $("#result").hidden = false; $("#rtext").textContent = t; if (bad) $("#result").style.borderColor = "var(--red-bd)"; };

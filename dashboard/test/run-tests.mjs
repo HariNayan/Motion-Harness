@@ -1,6 +1,7 @@
 // Dashboard integration test with a stub opencode (no tokens). Run: node dashboard/test/run-tests.mjs
 import http from "node:http";
 import { uploadTests } from "./upload-tests.mjs";
+import { storyTests } from "./story-tests.mjs";
 import { spawn } from "node:child_process";
 import fs from "node:fs";
 import os from "node:os";
@@ -29,7 +30,7 @@ try {
   r = await J("/api/projects/ex-world-tides"); ok(r.j.storyboard && r.j.storyboard.scenes.length === 5 && r.j.frames.length > 0, "project detail has storyboard and frames");
   r = await J("/api/projects/..%2F..%2Fx"); ok(r.s === 404, "path traversal in project name rejected");
   r = await J("/api/projects/ex-world-tides/action", { action: "render" }); ok(r.s === 400 && /no render/.test(r.j.error), "render action does not exist");
-  r = await J("/api/projects/ex-world-tides/action", { action: "lint" }); ok(r.j.ok === true && /plan-lint/.test(r.j.output), "lint action runs the harness CLI");
+  r = await J("/api/projects/ex-world-tides/action", { action: "lint" }); ok(r.j.ok === true && /\d+ error\(s\)/.test(r.j.output), "lint action runs the harness CLI");
   const fr = await fetch(BASE + "/api/projects/ex-world-tides/frames/review-beats.jpg"); ok(fr.ok && fr.headers.get("content-type") === "image/jpeg", "frame image served");
   const bad = await fetch(BASE + "/api/projects/ex-world-tides/frames/..%2F..%2Fdirection.json"); ok(!bad.ok, "frame route cannot read other files");
   r = await J("/api/jobs", { kind: "new", brief: "short" }); ok(r.s === 400, "too-short brief rejected");
@@ -47,6 +48,7 @@ try {
   ok(done.meta.cost > 0.012 && done.meta.sessionId === "ses_fake1", "cost and session id captured");
   const sse = await fetch(BASE + `/api/jobs/${id}/stream`); const body = await sse.text(); ok(/event: end/.test(body) && /mh · create/.test(body), "SSE replays log and ends");
   await uploadTests({ BASE, PORT, J, ok, until, root: path.resolve(HERE, "..", "..") });
+  await storyTests({ BASE, J, ok, until, root: path.resolve(HERE, "..", "..") });
   r = await J("/api/jobs", { kind: "new", brief: "FAIL this one deliberately please ok", slug: "stub-fail" });
   const failed = await until(async () => { const j = (await J("/api/jobs/" + r.j.id)).j; return j.meta.status !== "running" ? j : null; });
   ok(failed && failed.meta.status === "failed" && /api key/i.test(failed.log.map((e) => e.text).join()) && /opencode auth login/.test(failed.log.map((e) => e.text).join()), "failure surfaced with sign-in hint");
@@ -57,5 +59,5 @@ try {
   ok(canc && canc.meta.status === "cancelled", "job cancelled and process tree stopped");
   const hostCode = await new Promise((res) => { const q = http.get({ host: "127.0.0.1", port: PORT, path: "/api/connection", headers: { host: "evil.example.com" } }, (r) => { r.resume(); res(r.statusCode); }); q.on("error", () => res(0)); });
   ok(hostCode === 403, "non-loopback Host header refused (DNS-rebinding guard)");
-} finally { srv.kill(); fs.rmSync(data, { recursive: true, force: true }); }
+} finally { srv.kill(); for (const d of fs.readdirSync(path.join(HERE, "..", "..", "projects")).filter((x) => x.startsWith("stub-"))) fs.rmSync(path.join(HERE, "..", "..", "projects", d), { recursive: true, force: true }); fs.rmSync(data, { recursive: true, force: true }); }
 console.log(fails ? `\n${fails} FAILED` : "\nall passed"); process.exit(fails ? 1 : 0);

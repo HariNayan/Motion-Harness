@@ -191,3 +191,7 @@ pre.out { margin: 12px 16px 14px; background: var(--subtle); border: 1px solid v
 
 /* the icon painter sets display:inline-flex on [data-icon]; keep the logo glyph centred in its tile */
 .ws-logo { display: inline-flex !important; align-items: center; justify-content: center; }
+
+/* prompt options row: brand website + storyline mode */
+.opts { display: flex; gap: 8px; padding: 2px 16px 6px; flex-wrap: wrap; }
+.opts input { flex: 1; min-width: 240px; height: 30px; border-radius: 15px; font-size: 12.5px; }
