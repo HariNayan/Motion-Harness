@@ -55,6 +55,7 @@
 - **A director's workflow, not a prompt-to-HTML shortcut.** Brief → design direction → storyboard (why each scene exists, what the viewer notices, one hero move) → plan reviews → build → quality gate → preview frames → targeted fixes → handoff. Phases are enforced by the CLI.
 - **A small motion-design library.** Typography reveals, transitions, charts, image depth, audio-cue helpers, plus a *world layer*: sky, HUD, callouts, gauges, path-and-traveller, CSS-3D stage, karaoke captions.
 - **Honest quality gates.** `hyperframes check` plus harness checks (structure, timing, palette, type size, determinism, scene drift, **sparse scenes with no hero object**, **near-empty frames**). Findings, not invented scores. A visual claim needs fresh frames the agent actually opened.
+- **The practices Claude Code uses, built in.** Three genuinely different storylines before anything is built, hook and copy rules, measured references, brand capture from a website, stranger-eyes review with P0/P1/P2 notes and a delivery note. See [`docs/HOW-CLAUDE-MAKES-GOOD-MOTION.md`](docs/HOW-CLAUDE-MAKES-GOOD-MOTION.md) for the research and what was (and was not) implemented.
 - **Your own material.** Attach a reference video (probed, sampled into frames, scene cuts detected) or raw files (imported, catalogued, checked for use).
 - **Revisions that preserve work.** Each revision names the scenes it touches and logs a reason; the gate flags edits to scenes you meant to keep.
 
@@ -62,13 +63,14 @@
 
 ```mermaid
 flowchart LR
-  A["Brief + reference video / raw files"] --> B["Design direction + storyboard"]
+  A["Brief + reference video / raw files / brand website"] --> S["Three storylines: pick one"]
+  S --> B["Design direction + storyboard"]
   B --> C["Plan reviews"]
   C --> D["Build HyperFrames project"]
   D --> E["Quality gate"]
-  E --> F["Preview frames: look at them"]
+  E --> F["Look at frames as a stranger: P0/P1/P2 notes"]
   F -- "specific defects" --> D
-  F --> G["Handoff to HyperFrames Studio"]
+  F --> G["Handoff to HyperFrames Studio + REVIEW.md"]
 ```
 
 Everything the agent does goes through `mh_*` tools that wrap one CLI (`harness/mh.mjs`), so the same state files and checks work from the dashboard, from OpenCode, or from a terminal.
@@ -136,6 +138,8 @@ node harness/mh.mjs preset my-film night-sky     # dense persistent-world design
 node harness/mh.mjs lint my-film                 # plan lint
 node harness/mh.mjs gate my-film                 # hyperframes check + harness checks
 node harness/mh.mjs frames my-film               # preview stills (not a render)
+node harness/mh.mjs storylines my-film pick b    # pick one of the three storylines
+node harness/mh.mjs review-done my-film --summary "…" --weakest "…" --unchecked "…"
 node harness/mh.mjs studio my-film               # start the HyperFrames Studio preview
 ```
 

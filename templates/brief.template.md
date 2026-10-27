@@ -12,3 +12,9 @@
 - **References supplied (see .mh/references):** TODO
 - **Hard constraints / things the user said to avoid:** TODO
 - **Open questions / assumptions made:** TODO
+
+## Specifics (so the film is not generic)
+
+- **The generic version of this film would be:** TODO
+- **What this film does instead (real objects, numbers, names, places of THIS subject):** TODO
+- **Facts used, each with its source or "unverified" (never invent a number):** TODO
