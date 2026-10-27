@@ -1,0 +1,88 @@
+{
+  "items": {
+    "opening": {
+      "question": "Does the opening establish the subject and visual identity?",
+      "how": "judge",
+      "status": "pass",
+      "evidence": "Frame at 0.3s (review-beats, before the s2 revision; s1 unchanged since) shows amber TWO and teal ground already on screen; subject and palette identifiable at frame 0.",
+      "basis": "visual"
+    },
+    "narrative": {
+      "question": "Is the narrative understandable?",
+      "how": "judge",
+      "status": "pass",
+      "evidence": "Beat frames show hook (TWO TIDES) -> diagram (2 BULGES with near/far labels) -> 12.4h -> The Moon sets the clock; the claim, cause, number and takeaway follow in order.",
+      "basis": "visual"
+    },
+    "scene-purpose": {
+      "question": "Does every scene have a clear purpose?",
+      "how": "plan",
+      "status": "pass",
+      "evidence": "every scene has purpose + viewerShouldNotice; none flagged generic",
+      "basis": "automatic"
+    },
+    "variation": {
+      "question": "Is there meaningful visual variation?",
+      "how": "plan+source",
+      "status": "pass",
+      "evidence": "Grounds teal / deep teal / amber / teal and four different layouts seen in review-beats; hero move differs per scene (reveal, ellipse growth, counter, line reveal).",
+      "basis": "visual"
+    },
+    "typography": {
+      "question": "Is the typography readable and well composed?",
+      "how": "source+visual",
+      "status": "pass",
+      "evidence": "Archivo Black headlines 150-440px and Inter 40-64px labels read clearly in frame 5.9s and review-beats; ink/ground contrast passed hyperframes contrast check. Not checked: phone-width strip (review-phone.jpg) was not opened.",
+      "basis": "visual"
+    },
+    "transitions": {
+      "question": "Are transitions consistent and intentional?",
+      "how": "source",
+      "status": "pass",
+      "evidence": "Same left-to-right ground wipe at all three seams (seen mid-wipe in review-beats frames 3, 5, 7); each incoming scene has a different ground so the wipe is legible.",
+      "basis": "visual"
+    },
+    "timing": {
+      "question": "Are there awkward gaps, overlaps or timing conflicts?",
+      "how": "auto",
+      "status": "pass",
+      "evidence": "hosts contiguous, 4 scene(s) match storyboard",
+      "basis": "automatic"
+    },
+    "clipping": {
+      "question": "Are elements clipped or outside safe areas?",
+      "how": "auto+visual",
+      "status": "pass",
+      "evidence": "hyperframes check layout reports 0 errors/warnings; frames show all text inside margins. Mask overflow is intentional (data-layout-allow-overflow).",
+      "basis": "visual"
+    },
+    "assets": {
+      "question": "Are images and assets used effectively?",
+      "how": "judge",
+      "status": "pass",
+      "evidence": "No external assets; all graphics are inline SVG/CSS drawn for the subject (no stock imagery).",
+      "basis": "source"
+    },
+    "arc": {
+      "question": "Does the video have a coherent beginning, middle and end?",
+      "how": "plan",
+      "status": "pass",
+      "evidence": "roles open with hook/context and close with payoff/resolution/cta",
+      "basis": "automatic"
+    },
+    "effects": {
+      "question": "Are there unnecessary effects or repetitive layouts?",
+      "how": "source",
+      "status": "pass",
+      "evidence": "Source scan: no glow/blur/particles, no unlogged scene drift; every tween maps to the storyboard hero move or secondary callout.",
+      "basis": "source"
+    },
+    "technical": {
+      "question": "Does the project pass the supported technical checks?",
+      "how": "auto",
+      "status": "pass",
+      "evidence": "hyperframes check + lint + structure: no errors",
+      "basis": "automatic"
+    }
+  }
+}

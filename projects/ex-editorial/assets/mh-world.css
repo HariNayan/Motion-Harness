@@ -1,0 +1,59 @@
+/* mh-world.css — styles for mh-world.js (sky, HUD, panels, gauge, 3D, captions).
+ * All colours are tokens (see motion-lib/presets/night-sky.json): --mh-ground --mh-ink --mh-muted --mh-surface
+ * --mh-accent --mh-cold --mh-cloud --mh-panel --mh-line --mh-sky-top --mh-sky-bottom --mh-light --mh-mote
+ */
+.mh-sky { position: absolute; inset: 0; overflow: hidden; background: linear-gradient(180deg, var(--mh-sky-top, #0a1628) 0%, var(--mh-sky-bottom, #0d1e3a) 100%); }
+.mh-sky-light { position: absolute; width: 900px; height: 900px; margin: -450px 0 0 -450px; border-radius: 50%;
+  background: radial-gradient(circle, var(--mh-light, rgba(255, 179, 0, 0.22)) 0%, transparent 62%); }
+.mh-sky-band { position: absolute; left: -200px; overflow: visible; }
+.mh-mote { position: absolute; border-radius: 50%; background: var(--mh-mote, var(--mh-accent)); opacity: 0.3; }
+
+/* HUD */
+.mh-hud-head { position: absolute; left: 64px; top: 36px; height: 50px; display: flex; align-items: center; gap: 16px; }
+.mh-hud-mark { width: 14px; height: 14px; background: var(--mh-accent); transform: rotate(45deg); }
+.mh-hud-title { font-family: var(--mh-font-body); font-weight: 700; font-size: 28px; letter-spacing: 0.2em; text-transform: uppercase; color: var(--mh-ink); white-space: nowrap; }
+.mh-hud-route { position: absolute; left: 0; top: 0; width: 1920px; height: 1080px; }
+.mh-chip { display: inline-flex; align-items: center; gap: 10px; height: 42px; padding: 0 16px; background: var(--mh-accent); color: var(--mh-ground);
+  border-radius: 4px; font-family: var(--mh-font-mono, monospace); font-weight: 700; font-size: 28px; letter-spacing: 0.08em; text-transform: uppercase; white-space: nowrap; }
+.mh-hud-now { position: absolute; left: 0; top: 0; }
+.mh-hud-jet { position: absolute; left: 0; top: 0; width: 18px; height: 18px; background: var(--mh-ink); }
+
+/* panels / callouts */
+.mh-panel { position: absolute; background: var(--mh-panel, var(--mh-surface)); border: 1.5px solid rgba(255, 255, 255, 0.16); border-radius: 4px;
+  padding: 16px 22px 16px 30px; box-shadow: 0 14px 36px rgba(0, 0, 0, 0.45); }
+.mh-panel-bar { position: absolute; left: 0; top: 0; bottom: 0; width: 8px; }
+.mh-kicker { font-family: var(--mh-font-body); font-weight: 700; font-size: 28px; letter-spacing: 0.14em; text-transform: uppercase; }
+.mh-value { font-family: var(--mh-font-mono, monospace); font-weight: 700; font-size: 60px; line-height: 1.1; color: var(--mh-ink); white-space: nowrap; }
+.mh-note { font-family: var(--mh-font-body); font-weight: 400; font-size: 28px; color: var(--mh-muted); margin-top: 2px; line-height: 1.25; }
+.mh-callout-svg, .mh-path-svg { position: absolute; left: 0; top: 0; width: 1920px; height: 1080px; overflow: visible; pointer-events: none; }
+.mh-traveler { position: absolute; left: 0; top: 0; }
+.mh-traveler-dot { border-radius: 50%; background: var(--mh-accent); }
+
+/* odometer */
+.mh-drum { display: inline-flex; align-items: baseline; font-variant-numeric: tabular-nums; line-height: 1; }
+.mh-col { display: inline-block; height: 1em; overflow: hidden; position: relative; }
+.mh-strip { display: flex; flex-direction: column; will-change: transform; }
+.mh-cell { display: block; height: 1em; line-height: 1em; text-align: center; }
+.mh-sign { display: inline-block; min-width: 0.55em; text-align: right; }
+.mh-unit { margin-left: 0.1em; }
+
+/* gauge */
+.mh-gauge { display: block; overflow: visible; }
+.mh-gauge-t { font-family: var(--mh-font-mono, monospace); font-weight: 700; font-size: 28px; fill: var(--mh-muted); }
+.mh-gauge-l { font-family: var(--mh-font-body); font-weight: 700; font-size: 28px; letter-spacing: 0.14em; fill: var(--mh-muted); text-transform: uppercase; }
+.mh-gauge-v { font-family: var(--mh-font-mono, monospace); font-weight: 700; font-size: 44px; fill: var(--mh-ink); }
+
+/* 3D */
+.mh-stage { position: absolute; }
+.mh-world3d { position: absolute; inset: 0; transform-style: preserve-3d; }
+.mh-cube { position: absolute; transform-style: preserve-3d; }
+.mh-face { position: absolute; inset: 0; border: 2.5px solid var(--mh-ink); background: rgba(255, 255, 255, 0.025); backface-visibility: visible; }
+.mh-dot3d { position: absolute; left: 50%; top: 50%; width: 12px; height: 12px; margin: -6px 0 0 -6px; border-radius: 50%; background: var(--mh-cold, var(--mh-accent)); }
+.mh-floor { position: absolute; transform-origin: 50% 0; background: linear-gradient(180deg, rgba(255, 255, 255, 0.0), rgba(255, 255, 255, 0.06)); }
+.mh-floor i { position: absolute; left: 0; right: 0; background: rgba(255, 255, 255, 0.05); }
+
+/* captions */
+.mh-cap { position: absolute; left: 50%; max-width: 1280px; padding: 14px 28px; background: var(--mh-panel, var(--mh-surface));
+  border-left: 6px solid var(--mh-accent); border-radius: 4px; font-family: var(--mh-font-body); font-weight: 700; font-size: 38px; line-height: 1.25; text-align: center; white-space: nowrap; }
+.mh-cap-w { display: inline-block; margin: 0 0.16em; color: var(--mh-muted); --u: 0;
+  background-image: linear-gradient(var(--mh-accent), var(--mh-accent)); background-repeat: no-repeat; background-position: 0 100%; background-size: calc(var(--u) * 100%) 4px; }

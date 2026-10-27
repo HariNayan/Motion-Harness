@@ -1,0 +1,14 @@
+/* generated from .mh/direction.json by mh tokens — do not hand-edit; change the design system and re-run */
+:root{
+  --mh-ground:#0b5d54;
+  --mh-ink:#f4f1e8;
+  --mh-muted:#7fc4b8;
+  --mh-surface:#094a43;
+  --mh-accent:#ffb000;
+  --mh-line:rgba(0,0,0,.18);
+  --mh-font-display:"Archivo Black",sans-serif;
+  --mh-font-body:"Inter",sans-serif;
+  --mh-margin:96px;
+  --mh-safe-x:96px;
+  --mh-safe-y:54px;
+}

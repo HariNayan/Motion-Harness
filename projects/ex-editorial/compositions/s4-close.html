@@ -1,0 +1,19 @@
+<template>
+  <style>
+    #root { position: absolute; inset: 0; background: var(--mh-ground); overflow: hidden; }
+    #s4-l1, #s4-l2 { position: absolute; left: 96px; font-size: 190px; color: var(--mh-ink); white-space: nowrap; }
+    #s4-l1 { top: 250px; }
+    #s4-l2 { top: 480px; }
+  </style>
+  <div id="root" data-composition-id="s4-close" data-width="1920" data-height="1080">
+    <h1 id="s4-l1" class="clip mh-display" data-start="0.5" data-duration="2.8">The <span class="mh-accent">Moon</span></h1>
+    <h1 id="s4-l2" class="clip mh-display" data-start="0.5" data-duration="2.8">sets the clock.</h1>
+  </div>
+  <script>
+    const tl = gsap.timeline({ paused: true });
+    MH.transition.wipe(tl, "#root", { dir: "left", at: 0, dur: 0.5 });
+    MH.type.reveal(tl, "#s4-l1", { at: 0.5, mode: "words", stagger: 4, dur: 0.4 });
+    MH.type.reveal(tl, "#s4-l2", { at: 0.65, mode: "words", stagger: 4, dur: 0.4 });
+    window.__timelines["s4-close"] = tl;
+  </script>
+</template>

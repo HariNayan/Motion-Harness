@@ -1,0 +1,23 @@
+{
+  "scenes": {
+    "s1-hook": {
+      "file": "compositions/s1-hook.html",
+      "hash": "14a92b0ffcd9"
+    },
+    "s2-bulges": {
+      "file": "compositions/s2-bulges.html",
+      "hash": "7eb05e568cdf"
+    },
+    "s3-number": {
+      "file": "compositions/s3-number.html",
+      "hash": "3afc9f47e644"
+    },
+    "s4-close": {
+      "file": "compositions/s4-close.html",
+      "hash": "23b22fbe67f6"
+    }
+  },
+  "root": "index.html",
+  "index": "ee57253186a3",
+  "lockedAt": "2026-10-27T06:01:38.567Z"
+}

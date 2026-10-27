@@ -1,0 +1,12 @@
+{
+  "source": "ref-demo.png",
+  "kind": "still",
+  "layoutComposition": "Headline top-left, diagram block right of centre, two labels placed left and right of the diagram on the same horizontal axis; large empty area bottom third.",
+  "typographyHierarchy": "Very heavy grotesque caps headline (about 150px) with one accent-coloured numeral; small semi-bold sans labels (about 40px), white on deep green.",
+  "colorRelationships": "Deep teal ground, pale teal ocean shape, cream planet, single amber moon and numeral as the only warm accent.",
+  "imageTreatment": "Flat vector shapes, no gradients, no shadows, no texture.",
+  "motion": { "observable": "not observable from a still" },
+  "densityPacingTone": "Low density: about 10 words on screen; calm, instructional tone.",
+  "designRules": ["One accent colour reserved for the key mark", "Labels sit on a shared axis with their callout lines", "Headline weight far heavier than label weight"],
+  "originalityNote": "Reference is this project's own frame, used only to exercise the tool; nothing to copy."
+}

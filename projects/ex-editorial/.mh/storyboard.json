@@ -1,0 +1,102 @@
+{
+  "totalDuration": 12.4,
+  "scenes": [
+    {
+      "id": "s1-hook",
+      "title": "Two tides",
+      "role": "hook",
+      "duration": 2.6,
+      "purpose": "Plant the surprising claim and the visual identity (teal field, heavy type, amber marker) before any explanation.",
+      "viewerShouldNotice": "The word TWO in amber, and a wave with exactly two crests, by 1.5s.",
+      "focalPoint": "TWO TIDES headline, left third, upper area",
+      "layout": "stacked-editorial",
+      "text": [
+        "TWO TIDES",
+        "EVERY DAY."
+      ],
+      "heroMove": "Masked word-by-word headline reveal",
+      "motionPurpose": "meaning",
+      "motionWhy": "Words arrive one after another like successive tides.",
+      "background": "flat teal ground",
+      "assets": [],
+      "audioCue": "",
+      "transitionOut": {
+        "type": "wipe-right",
+        "motivation": "A rising waterline carries us into the explanation."
+      }
+    },
+    {
+      "id": "s2-bulges",
+      "title": "Two bulges",
+      "role": "build",
+      "duration": 4,
+      "purpose": "Explain the cause: show the Moon pulling a near bulge and a far-side bulge, which a headline alone could not justify.",
+      "viewerShouldNotice": "Two bulges on opposite sides of Earth, labelled, by 3s.",
+      "focalPoint": "Earth with ocean ellipse, right of centre",
+      "layout": "offset-hero",
+      "text": [
+        "2 BULGES",
+        "Moon pulls water toward it",
+        "Far side bulges too"
+      ],
+      "heroMove": "Ocean ellipse grows around Earth",
+      "motionPurpose": "meaning",
+      "motionWhy": "The growth of the ellipse is the claim: water piles up on both sides.",
+      "background": "deeper teal ground",
+      "assets": [],
+      "audioCue": "",
+      "transitionOut": {
+        "type": "wipe-right",
+        "motivation": "Same waterline wipe; the amber ground of the next scene signals the answer."
+      }
+    },
+    {
+      "id": "s3-number",
+      "title": "12.4 hours",
+      "role": "proof",
+      "duration": 3,
+      "purpose": "Convert the picture into a number the viewer can keep: the interval between high tides.",
+      "viewerShouldNotice": "The counter landing on 12.4 h at about 1.9s.",
+      "focalPoint": "Huge counter, left, vertically centred",
+      "layout": "big-number",
+      "text": [
+        "12.4 h",
+        "between two high tides"
+      ],
+      "heroMove": "Counter counts up to 12.4",
+      "motionPurpose": "attention",
+      "motionWhy": "The counting effort lets the eye settle on the final figure.",
+      "background": "amber ground (accent as field)",
+      "assets": [],
+      "audioCue": "",
+      "transitionOut": {
+        "type": "wipe-right",
+        "motivation": "Return to teal for the closing line."
+      }
+    },
+    {
+      "id": "s4-close",
+      "title": "Moon sets the clock",
+      "role": "resolution",
+      "duration": 2.8,
+      "purpose": "Compress the film into one line the viewer can repeat.",
+      "viewerShouldNotice": "MOON in amber as the first word to land.",
+      "focalPoint": "Two-line headline, left",
+      "layout": "full-bleed-type",
+      "text": [
+        "The Moon",
+        "sets the clock."
+      ],
+      "heroMove": "Masked line reveal",
+      "motionPurpose": "pacing",
+      "motionWhy": "A calm reveal and a hold lets the sentence land and ends the film.",
+      "background": "flat teal ground",
+      "assets": [],
+      "audioCue": "",
+      "transitionOut": {
+        "type": "end",
+        "motivation": "film ends"
+      }
+    }
+  ]
+}

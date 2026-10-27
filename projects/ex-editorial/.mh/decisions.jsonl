@@ -1,0 +1,20 @@
+{"at":"2026-10-27T05:53:30.445Z","type":"init","format":"horizontal","depth":"standard"}
+{"at":"2026-10-27T05:57:28.719Z","type":"frames","count":46}
+{"at":"2026-10-27T05:58:48.933Z","type":"frames","count":46}
+{"at":"2026-10-27T05:59:49.182Z","type":"frames","count":46}
+{"at":"2026-10-27T06:00:30.887Z","type":"frames","count":46}
+{"at":"2026-10-27T06:00:54.861Z","type":"frames","count":4}
+{"at":"2026-10-27T06:01:09.443Z","type":"frames","count":3}
+{"at":"2026-10-27T06:01:30.937Z","type":"plan-review","n":1,"findings":"Pass 1 (self, after plan-lint 0 findings): s4 closing hold looked short vs the 2s closing-line floor; s2 labels had ~1.2s hold.","resolved":"Rebalanced durations (12.4s total) and moved s2 label timing; recorded in revision 1.","openLintErrors":0}
+{"at":"2026-10-27T06:01:31.014Z","type":"plan-review","n":2,"findings":"Pass 2: layouts all distinct (stacked-editorial, offset-hero, big-number, full-bleed-type); one transition type is intentional; 3.0/4.0/3.0/2.8 rhythm varied.","resolved":"No plan change needed.","openLintErrors":0}
+{"at":"2026-10-27T06:01:31.091Z","type":"checklist","id":"opening","status":"pass","basis":"visual","note":"Frame at 0.3s (review-beats, before the s2 revision; s1 unchanged since) shows amber TWO and teal ground already on screen; subject and palette identifiable at frame 0."}
+{"at":"2026-10-27T06:01:31.169Z","type":"checklist","id":"narrative","status":"pass","basis":"visual","note":"Beat frames show hook (TWO TIDES) -> diagram (2 BULGES with near/far labels) -> 12.4h -> The Moon sets the clock; the claim, cause, number and takeaway follow in order."}
+{"at":"2026-10-27T06:01:31.249Z","type":"checklist","id":"variation","status":"pass","basis":"visual","note":"Grounds teal / deep teal / amber / teal and four different layouts seen in review-beats; hero move differs per scene (reveal, ellipse growth, counter, line reveal)."}
+{"at":"2026-10-27T06:01:31.326Z","type":"checklist","id":"typography","status":"pass","basis":"visual","note":"Archivo Black headlines 150-440px and Inter 40-64px labels read clearly in frame 5.9s and review-beats; ink/ground contrast passed hyperframes contrast check. Not checked: phone-width strip (review-phone.jpg) was not opened."}
+{"at":"2026-10-27T06:01:31.401Z","type":"checklist","id":"transitions","status":"pass","basis":"visual","note":"Same left-to-right ground wipe at all three seams (seen mid-wipe in review-beats frames 3, 5, 7); each incoming scene has a different ground so the wipe is legible."}
+{"at":"2026-10-27T06:01:31.480Z","type":"checklist","id":"clipping","status":"pass","basis":"visual","note":"hyperframes check layout reports 0 errors/warnings; frames show all text inside margins. Mask overflow is intentional (data-layout-allow-overflow)."}
+{"at":"2026-10-27T06:01:31.557Z","type":"checklist","id":"assets","status":"pass","basis":"source","note":"No external assets; all graphics are inline SVG/CSS drawn for the subject (no stock imagery)."}
+{"at":"2026-10-27T06:01:31.631Z","type":"checklist","id":"effects","status":"pass","basis":"source","note":"Source scan: no glow/blur/particles, no unlogged scene drift; every tween maps to the storyboard hero move or secondary callout."}
+{"at":"2026-10-27T06:01:38.371Z","type":"phase","from":"build","to":"verify","forced":false}
+{"at":"2026-10-27T06:01:38.457Z","type":"phase","from":"verify","to":"handoff","forced":false}
+{"at":"2026-10-27T06:01:38.571Z","type":"handoff","acceptFails":null}

@@ -1,0 +1,108 @@
+{
+  "concept": "A tide table made physical: flat sea-green blocks that wipe left-to-right like a rising waterline, with one amber marker (the Moon's influence) tracked from word to diagram to number.",
+  "narrativeArc": {
+    "beginning": "State the surprise: two tides, not one.",
+    "middle": "Show why with the Earth-Moon bulge diagram.",
+    "end": "Land the number and the line that sets the clock.",
+    "viewerTakeaway": "The Moon raises two bulges; a place meets one roughly every 12.4 hours."
+  },
+  "designSystem": {
+    "typography": {
+      "display": {
+        "family": "Archivo Black",
+        "weight": 400,
+        "sizePx": 220,
+        "tracking": "-0.02em",
+        "case": "upper",
+        "role": "headlines, max 4 words"
+      },
+      "body": {
+        "family": "Inter",
+        "weight": 600,
+        "sizePx": 40,
+        "tracking": "0",
+        "role": "callout labels, max 6 words"
+      },
+      "hierarchy": "display 220/190/150 px > body 40 px; one display block per scene, labels only in the diagram scene",
+      "pairingReason": "A heavy grotesque for the mass of water, a neutral sans for labels so the diagram reads as data."
+    },
+    "palette": {
+      "ground": "#0b5d54",
+      "ink": "#f4f1e8",
+      "muted": "#7fc4b8",
+      "surface": "#094a43",
+      "accent": "#ffb000"
+    },
+    "accentRule": "Amber appears on exactly one key word or mark per scene (TWO, the Moon, the ground of the number scene, MOON) and nowhere else.",
+    "background": {
+      "treatment": "mh-bg--solid",
+      "notes": "flat colour fields; grounds alternate teal / deep teal / amber / teal so each wipe is visible; no gradients",
+      "justifyDark": ""
+    },
+    "composition": {
+      "margin": 96,
+      "grid": "12 col, 24px gutter, left-aligned on column 1",
+      "alignment": "left-aligned; diagram offset right",
+      "safeAreas": "action 90% (96/54 px), title 80%",
+      "textDensity": "max 11 words per scene; at least 0.5s + 0.3s per word reading time"
+    },
+    "choreography": {
+      "heroMovePerScene": 1,
+      "secondaryDelayFrames": [
+        3,
+        6
+      ],
+      "easing": {
+        "enter": "power3.out",
+        "exit": "power2.in",
+        "move": "power2.inOut",
+        "snap": "expo.out"
+      },
+      "staggerFrames": {
+        "words": 4,
+        "items": 6
+      }
+    },
+    "transitionLanguage": {
+      "primary": "left-to-right clip wipe of the incoming scene's ground (15 frames, move ease)",
+      "secondary": "none — one transition keeps the film calm",
+      "rule": "The wipe travels along the reading axis and is the rising waterline; the incoming scene starts 0.5s before the outgoing scene's logical end."
+    },
+    "pacing": {
+      "rhythm": "3.0s / 4.0s / 3.0s / 2.0s — the diagram scene gets the most time because it carries the explanation",
+      "newInfoEverySec": 2
+    },
+    "density": "minimal",
+    "densityReason": "Deliberate flat editorial contrast example: typography and one drawn diagram per film, no persistent world."
+  },
+  "assets": {
+    "images": [],
+    "footage": [],
+    "illustration": [
+      "Earth/Moon/bulge diagram drawn as inline SVG"
+    ],
+    "audio": {
+      "narration": "",
+      "music": "",
+      "sfx": [],
+      "timingData": ""
+    }
+  },
+  "consistencyRules": [
+    "Every scene has a different ground colour from the previous one, drawn from the 5-colour palette only.",
+    "All text is left-aligned to the 96px margin or to a diagram anchor; nothing is centred.",
+    "Amber covers at most one word or mark per scene, except the number scene where it is the ground.",
+    "Hero move is always a masked reveal, a draw, or a counter — no scale-bounces on text.",
+    "Scene transitions are always the left-to-right wipe."
+  ],
+  "antiPatterns": [
+    "No dark navy void with floating elements",
+    "No glow, bloom or particle decoration",
+    "No centred headline over a gradient",
+    "No stock ocean clip-art; the wave is a single drawn stroke with exactly two crests",
+    "No text that keeps drifting after it lands",
+    "No second transition type",
+    "No body text smaller than 40px"
+  ],
+  "referenceRules": []
+}

@@ -1,0 +1,82 @@
+{
+  "at": "2026-10-27T06:29:30.782Z",
+  "visualEvidence": "fresh",
+  "frameFiles": [
+    "D:\\Bholu\\Freelane VE\\Website\\motion-harness\\projects\\ex-editorial\\.mh\\frames\\contact-sheet.jpg",
+    "D:\\Bholu\\Freelane VE\\Website\\motion-harness\\projects\\ex-editorial\\.mh\\frames\\frame-00-at-5.9s.png",
+    "D:\\Bholu\\Freelane VE\\Website\\motion-harness\\projects\\ex-editorial\\.mh\\frames\\frame-01-at-12.028s.png"
+  ],
+  "counts": {
+    "error": 0,
+    "warn": 0,
+    "info": 7
+  },
+  "primitivesByScene": {
+    "index": [],
+    "s1-hook": [
+      "graphic.draw",
+      "type.reveal"
+    ],
+    "s2-bulges": [
+      "cfg.ease",
+      "graphic.draw",
+      "graphic.form",
+      "transition.wipe",
+      "type.reveal"
+    ],
+    "s3-number": [
+      "cfg.ease",
+      "graphic.counter",
+      "transition.wipe",
+      "type.reveal"
+    ],
+    "s4-close": [
+      "transition.wipe",
+      "type.reveal"
+    ]
+  },
+  "findings": [
+    {
+      "level": "info",
+      "code": "hf.layout.container_overflow",
+      "scene": "s2-bulges",
+      "msg": "Element extends outside a clipping layout container. @3.444s  Fix: Resize/reposition the child or container, or mark intentional overflow with data-layout-allow-overflow."
+    },
+    {
+      "level": "info",
+      "code": "hf.audio.audio_none",
+      "scene": "index",
+      "msg": "The film has no sound: no clip in it plays audio. @0s"
+    },
+    {
+      "level": "info",
+      "code": "timing.overlap",
+      "scene": "s2-bulges",
+      "msg": "s2-bulges overlaps previous scene by 0.50s (fine only for a deliberate cross-transition)"
+    },
+    {
+      "level": "info",
+      "code": "timing.overlap",
+      "scene": "s3-number",
+      "msg": "s3-number overlaps previous scene by 0.50s (fine only for a deliberate cross-transition)"
+    },
+    {
+      "level": "info",
+      "code": "timing.overlap",
+      "scene": "s4-close",
+      "msg": "s4-close overlaps previous scene by 0.50s (fine only for a deliberate cross-transition)"
+    },
+    {
+      "level": "info",
+      "code": "density.sparse",
+      "scene": "s3-number",
+      "msg": "no hero object found (needs data-mh-hero, an MH.world instrument/3D/path/callout, media, or a diagram with >= 6 shapes): a scene of only text and flat blocks reads as sparse"
+    },
+    {
+      "level": "info",
+      "code": "density.sparse",
+      "scene": "s4-close",
+      "msg": "no hero object found (needs data-mh-hero, an MH.world instrument/3D/path/callout, media, or a diagram with >= 6 shapes): a scene of only text and flat blocks reads as sparse"
+    }
+  ]
+}

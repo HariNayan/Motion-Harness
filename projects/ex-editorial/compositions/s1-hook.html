@@ -1,0 +1,24 @@
+<template>
+  <style>
+    #root { position: absolute; inset: 0; background: var(--mh-ground); overflow: hidden; }
+    #s1-l1, #s1-l2 { position: absolute; left: 96px; font-size: 220px; text-transform: uppercase; letter-spacing: -0.02em; color: var(--mh-ink); white-space: nowrap; }
+    #s1-l1 { top: 150px; }
+    #s1-l2 { top: 380px; }
+    #s1-wave { position: absolute; left: 0; top: 700px; width: 1920px; height: 260px; overflow: visible; }
+    #s1-wave path { fill: none; stroke: var(--mh-ink); stroke-width: 14; stroke-linecap: round; }
+  </style>
+  <div id="root" data-composition-id="s1-hook" data-width="1920" data-height="1080">
+    <h1 id="s1-l1" class="clip mh-display" data-start="0" data-duration="2.6"><span class="mh-accent">TWO</span> TIDES</h1>
+    <h1 id="s1-l2" class="clip mh-display" data-start="0" data-duration="2.6">EVERY DAY.</h1>
+    <svg id="s1-wave" class="clip" data-start="0" data-duration="2.6" viewBox="0 0 1920 260">
+      <path id="s1-wavepath" d="M96 150 C 330 -10, 560 -10, 800 150 S 1270 310, 1824 150" />
+    </svg>
+  </div>
+  <script>
+    const tl = gsap.timeline({ paused: true });
+    MH.type.reveal(tl, "#s1-l1", { at: 0.2, mode: "words", stagger: 5, skip: 1 });
+    MH.type.reveal(tl, "#s1-l2", { at: 0.2 + MH.F(6), mode: "words", stagger: 5 });
+    MH.graphic.draw(tl, "#s1-wavepath", { at: 1.0, dur: 1.1 });
+    window.__timelines["s1-hook"] = tl;
+  </script>
+</template>
