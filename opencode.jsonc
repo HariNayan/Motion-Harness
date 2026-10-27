@@ -1,0 +1,37 @@
+{
+  "$schema": "https://opencode.ai/config.json",
+  // No "model" / "provider" here on purpose: the harness uses whatever model the user has configured in OpenCode.
+  "default_agent": "motion-director",
+  "instructions": ["AGENTS.md"],
+  "permission": {
+    "edit": "allow",
+    "bash": {
+      "*": "ask",
+      "node harness/mh.mjs *": "allow",
+      "node harness/*": "allow",
+      // read-only listing: headless `opencode run` auto-rejects anything not allowed here (seen in a real run: a bare `ls` was rejected)
+      "ls": "allow", "ls *": "allow", "dir": "allow", "dir *": "allow", "pwd": "allow", "cat *": "allow", "type *": "allow",
+      "npx --yes hyperframes@* check*": "allow",
+      "npx --yes hyperframes@* snapshot*": "allow",
+      "npx --yes hyperframes@* lint*": "allow",
+      "npx --yes hyperframes@* timeline*": "allow",
+      "npx --yes hyperframes@* beats*": "allow",
+      "npx --yes hyperframes@* audio*": "allow",
+      "npx --yes hyperframes@* docs*": "allow",
+      "npx hyperframes check*": "allow",
+      "npx hyperframes snapshot*": "allow",
+      "npx hyperframes lint*": "allow",
+      "npx hyperframes timeline*": "allow",
+      "npx hyperframes docs*": "allow",
+      // Rendering and publishing belong to the user in HyperFrames Studio. The harness never does them.
+      "npx *hyperframes* render*": "deny",
+      "npx *hyperframes* publish*": "deny",
+      "npx *hyperframes* cloud*": "deny",
+      "npx *hyperframes* lambda*": "deny",
+      "npx *hyperframes* cloudrun*": "deny",
+      "npm run render*": "deny",
+      "npm run publish*": "deny",
+      "ffmpeg *": "deny"
+    }
+  }
+}
