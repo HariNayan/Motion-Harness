@@ -1,0 +1,26 @@
+{
+  "name": "night-sky",
+  "description": "Dense 'persistent world' look: navy sky with parallax cloud bands, one gold focal accent, navy-light panels with a gold bar, route HUD, karaoke captions, CSS-3D hero objects. Derived from studying the Air Temperature reference edit (rules, not artwork).",
+  "layers": ["bg-sky (MH.world.sky)", "hud (MH.world.hud)", "captions (MH.world.captions)", "scenes with a hero object each"],
+  "designSystem": {
+    "typography": {
+      "display": { "family": "Montserrat", "weight": 900, "sizePx": 96, "tracking": "0.01em", "case": "upper", "role": "scene headings and big statements" },
+      "body": { "family": "Poppins", "weight": 600, "sizePx": 34, "tracking": "0", "role": "panel notes, captions, labels" },
+      "data": { "family": "JetBrains Mono", "weight": 700, "sizePx": 60, "role": "numbers, readouts, chips (tabular-nums)" },
+      "hierarchy": "heading 96 / readout value 60 / caption 38 / panel note 28-34 / kicker 24; one gold focal value per beat",
+      "pairingReason": "Montserrat Black gives headline weight on a dark sky; Poppins keeps long labels legible; JetBrains Mono makes changing numbers tabular and instrument-like."
+    },
+    "palette": {
+      "ground": "#0A1628", "ink": "#E2E8F0", "muted": "#94A3B8", "surface": "#122340", "accent": "#FFB300",
+      "panel": "#122340", "cold": "#4FC3F7", "cloud": "#22395F", "line": "rgba(226,232,240,0.22)",
+      "sky-top": "#0A1628", "sky-bottom": "#0D1E3A", "light": "rgba(255,179,0,0.22)", "mote": "#FFB300"
+    },
+    "accentRule": "Gold is the ONE focal value per beat (a value, a bar, the active caption word, the progress line). Cold blue appears only for the 'cold/low' meaning, never as a second accent.",
+    "background": { "treatment": "world sky: gradient + directional light + 3 parallax cloud bands + drifting motes (MH.world.sky)", "notes": "same sky in every scene; panels and instruments sit ON it, never a different full-frame environment", "justifyDark": "Dark navy is the world: it is a deliberate night-sky setting with lit hero objects, not a void with floating text." },
+    "composition": { "margin": 96, "grid": "content in y 120-850; HUD top strip y 36-90 and route strip y ~1050; caption pill y 860-990", "alignment": "split layouts: hero object one side, readout panel the other; off-centre", "safeAreas": "action 90%, title 80%; check every panel at its largest state", "textDensity": "max 10 words per panel; captions carry the narration" },
+    "choreography": { "heroMovePerScene": 1, "secondaryDelayFrames": [4, 8], "easing": { "enter": "power3.out", "exit": "power2.in", "move": "power2.inOut", "snap": "expo.out" }, "staggerFrames": { "words": 4, "items": 5 } },
+    "transitionLanguage": { "primary": "cloud-bank pass: a cloud-coloured band sweeps across at each scene start", "secondary": "camera push on the 3D hero into the next object", "rule": "scene change always passes through the world's own cloud bank so the world feels continuous" },
+    "pacing": { "rhythm": "beats of 4-8 s, each with one hero object and one callout", "newInfoEverySec": 2 },
+    "density": "rich"
+  }
+}
