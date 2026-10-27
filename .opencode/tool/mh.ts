@@ -9,7 +9,9 @@ const z = tool.schema
 
 function run(directory: string, args: string[]): string {
   const script = path.join(directory, "harness", "mh.mjs")
-  const r = spawnSync(process.execPath, [script, ...args], { cwd: directory, encoding: "utf8", maxBuffer: 32 * 1024 * 1024 })
+  // NOT process.execPath: inside OpenCode that is the opencode executable (it would print OpenCode's help instead of running mh.mjs)
+  const r = spawnSync(process.env.MH_NODE || "node", [script, ...args], { cwd: directory, encoding: "utf8", maxBuffer: 32 * 1024 * 1024 })
+  if (r.error) return `[could not start node: ${r.error.message}. Install Node.js or set MH_NODE to its full path.]`
   const text = `${r.stdout ?? ""}${r.stderr ?? ""}`.trim()
   const head = r.status === 0 ? "" : `[exit ${r.status}] `
   // keep tool output readable for smaller models; the full report is always in the project's .mh/ folder
@@ -155,6 +157,63 @@ export const reflint = tool({
   description: "Validate the reference analyses (no timing claims from stills, >=3 design rules, originality note).",
   args: { slug },
   async execute(a, ctx) { return run(ctx.directory, ["ref", "lint", a.slug]) },
+})
+
+export const storylinespick = tool({
+  description: "Pick one of the three storylines in .mh/storylines.json (the user's choice, or your recommendation when running unattended). Writes STORYLINES.md. Required before leaving the direction phase when storylines exist.",
+  args: { slug, id: z.string().describe("storyline id, e.g. a, b or c") },
+  async execute(a, ctx) { return run(ctx.directory, ["storylines", a.slug, "pick", a.id]) },
+})
+
+export const describe = tool({
+  description: "Record what a stranger would say about one beat frame, in one sentence naming every object you see. Do this for each review frame after opening it. An object you would have to explain is a P0.",
+  args: { slug, t: z.number().describe("time of the frame in seconds"), text: z.string() },
+  async execute(a, ctx) { return run(ctx.directory, ["describe", a.slug, "--t", String(a.t), "--text", a.text]) },
+})
+
+export const note = tool({
+  description: "File or resolve a review note. add: severity P0 (breaks the read), P1 (weakens it), P2 (polish) with time, where, the problem and the EXACT change plus what stays. resolve: fixed, or kept with the reason. list: show all. Open P0 notes block handoff.",
+  args: {
+    slug, action: z.enum(["add", "resolve", "list"]),
+    sev: z.enum(["P0", "P1", "P2"]).optional(), t: z.string().optional().describe("seconds, or 'film'"), where: z.string().optional(), problem: z.string().optional(),
+    fix: z.string().optional().describe("the exact change"), keep: z.string().optional().describe("what stays untouched"),
+    id: z.string().optional().describe("note id for resolve, e.g. n1"), how: z.enum(["fixed", "kept"]).optional(), why: z.string().optional(),
+  },
+  async execute(a, ctx) {
+    if (a.action === "list") return run(ctx.directory, ["note", a.slug, "list"])
+    if (a.action === "resolve") return run(ctx.directory, ["note", a.slug, "resolve", a.id ?? "", "--how", a.how ?? "", "--why", a.why ?? ""])
+    return run(ctx.directory, ["note", a.slug, "add", "--sev", a.sev ?? "", "--t", a.t ?? "film", "--where", a.where ?? "", "--problem", a.problem ?? "", "--fix", a.fix ?? "", "--keep", a.keep ?? ""])
+  },
+})
+
+export const reviewdone = tool({
+  description: "Record the delivery note once the review is finished: the creative calls you made, the weakest shot (and what you would change), and what nobody checked (for example that sound was not heard). Refused while a P0 is open or, at high depth, while a beat lacks a description. REVIEW.md is written at handoff.",
+  args: { slug, summary: z.string(), weakest: z.string(), unchecked: z.string() },
+  async execute(a, ctx) { return run(ctx.directory, ["review-done", a.slug, "--summary", a.summary, "--weakest", a.weakest, "--unchecked", a.unchecked]) },
+})
+
+export const ban = tool({
+  description: "Add a tell of a generated film that the frames showed to the project's anti-patterns (the BANNED line), so later passes keep it out.",
+  args: { slug, text: z.string() },
+  async execute(a, ctx) { return run(ctx.directory, ["ban", a.slug, "--text", a.text]) },
+})
+
+export const assertions = tool({
+  description: "Write the storyboard's scene assertions (appearsBy, before, staysInFrame, keepsMoving) to index.motion.json so hyperframes check verifies the intent on the seeked timeline. Scene-local bySec is converted to film time.",
+  args: { slug },
+  async execute(a, ctx) { return run(ctx.directory, ["assertions", a.slug]) },
+})
+
+export const compare = tool({
+  description: "Render side-by-side sheets of your project and an imported reference VIDEO at the same times, to correct one axis at a time against the reference. Needs the reference imported with role=reference.",
+  args: { slug, reference: z.string().describe("reference file name as imported"), at: z.string().describe("comma-separated seconds, e.g. '1,3,5'") },
+  async execute(a, ctx) { return run(ctx.directory, ["compare", a.slug, a.reference, "--at", a.at]) },
+})
+
+export const capture = tool({
+  description: "Capture a website's real brand (screenshots, colour tokens, fonts, visible copy, logos) into the project. Use when the user gives a site: quote hex values and copy exactly and make only claims the source makes.",
+  args: { slug, url: z.string().describe("https URL") },
+  async execute(a, ctx) { return run(ctx.directory, ["capture", a.slug, a.url]) },
 })
 
 export const handoff = tool({
