@@ -1,0 +1,96 @@
+{
+  "concept": "TODO one-sentence visual idea that could only belong to THIS subject",
+  "narrativeArc": {
+    "beginning": "TODO",
+    "middle": "TODO",
+    "end": "TODO",
+    "viewerTakeaway": "TODO"
+  },
+  "designSystem": {
+    "typography": {
+      "display": {
+        "family": "Archivo Black",
+        "weight": 400,
+        "sizePx": 160,
+        "tracking": "-0.02em",
+        "case": "none",
+        "role": "headlines, max 7 words"
+      },
+      "body": {
+        "family": "Inter",
+        "weight": 500,
+        "sizePx": 36,
+        "tracking": "0",
+        "role": "supporting lines, max 14 words"
+      },
+      "hierarchy": "TODO e.g. 1 headline per scene > 1 support line > 1 label; sizes 160/36/28",
+      "pairingReason": "TODO why these two faces fit the subject"
+    },
+    "palette": {
+      "ground": "#f2efe9",
+      "ink": "#14130f",
+      "muted": "#6c685e",
+      "surface": "#e6e1d6",
+      "accent": "#d6361f"
+    },
+    "accentRule": "TODO where the single accent may appear (e.g. one key word per scene + one graphic)",
+    "background": {
+      "treatment": "mh-bg--grid",
+      "notes": "TODO texture amount, light direction",
+      "justifyDark": ""
+    },
+    "composition": {
+      "margin": 96,
+      "grid": "12 col, 24px gutter",
+      "alignment": "left-aligned on col 1 unless a scene says otherwise",
+      "safeAreas": "action 90%, title 80%",
+      "textDensity": "max words per scene: TODO"
+    },
+    "choreography": {
+      "heroMovePerScene": 1,
+      "secondaryDelayFrames": [
+        3,
+        6
+      ],
+      "easing": {
+        "enter": "power3.out",
+        "exit": "power2.in",
+        "move": "power2.inOut",
+        "snap": "expo.out"
+      },
+      "staggerFrames": {
+        "words": 3,
+        "items": 4
+      }
+    },
+    "transitionLanguage": {
+      "primary": "TODO e.g. directional wipe on the reading axis",
+      "secondary": "TODO e.g. match cut",
+      "rule": "TODO when each is used and why"
+    },
+    "pacing": {
+      "rhythm": "TODO e.g. 3s / 2s / 4s / 2.5s — varied on purpose",
+      "newInfoEverySec": 3
+    },
+    "density": "rich",
+    "densityReason": ""
+  },
+  "assets": {
+    "images": [],
+    "footage": [],
+    "illustration": [],
+    "audio": {
+      "narration": "",
+      "music": "",
+      "sfx": [],
+      "timingData": ""
+    }
+  },
+  "consistencyRules": [
+    "TODO at least 4 testable rules, e.g. 'accent colour never on more than 12% of frame area'"
+  ],
+  "antiPatterns": [
+    "TODO at least 5 specific to this film, beyond the HyperFrames defaults (dark void, glow, glass cards, everything centred, everything fades up)"
+  ],
+  "referenceRules": []
+}

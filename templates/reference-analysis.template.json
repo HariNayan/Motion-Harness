@@ -1,0 +1,12 @@
+{
+  "source": "TODO file name",
+  "kind": "still",
+  "layoutComposition": "TODO focal point, grid, alignment, negative space (observed)",
+  "typographyHierarchy": "TODO faces (as best identifiable), relative sizes, weights, case, tracking (observed)",
+  "colorRelationships": "TODO sampled hexes + roles + proportions (observed)",
+  "imageTreatment": "TODO crop, depth, masking, grading (observed)",
+  "motion": { "observable": "not observable from a still", "inferredIntent": "TODO optional, labelled as inference" },
+  "densityPacingTone": "TODO words per frame, whitespace ratio, tone",
+  "designRules": ["TODO rule 1 (testable)", "TODO rule 2", "TODO rule 3"],
+  "originalityNote": "TODO what we will NOT copy and what our composition does differently"
+}

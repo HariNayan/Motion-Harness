@@ -1,0 +1,29 @@
+{
+  "totalDuration": 10,
+  "scenes": [
+    {
+      "id": "s1-open",
+      "title": "TODO",
+      "role": "hook",
+      "duration": 3,
+      "purpose": "TODO why this scene exists: what the film loses without it",
+      "viewerShouldNotice": "TODO the ONE thing, with a time window (e.g. 'the number 62% by 1.2s')",
+      "focalPoint": "TODO element + where in frame",
+      "layout": "full-bleed-type",
+      "text": [
+        "TODO exact on-screen copy"
+      ],
+      "heroMove": "TODO the one hero movement",
+      "motionPurpose": "meaning",
+      "motionWhy": "TODO what the movement communicates",
+      "background": "TODO",
+      "assets": [],
+      "audioCue": "",
+      "transitionOut": {
+        "type": "wipe-left",
+        "motivation": "TODO why this exit, tied to content"
+      },
+      "heroObject": "TODO the drawn/3D/instrument/diagram object the eye lands on (not text)"
+    }
+  ]
+}

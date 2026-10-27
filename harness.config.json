@@ -1,0 +1,18 @@
+{
+  "_doc": "Planning depth and budgets. Chosen per project with `mh new --depth`. Budgets are enforced by the CLI where it can (plan reviews, revisions) and passed to the agent as guidance where it cannot (steps).",
+  "hyperframes": "0.8.207",
+  "depth": {
+    "draft":    { "planReviewsRequired": 1, "maxRevisions": 3, "minScenes": 2, "frameEvidence": "optional", "agentStepBudget": 60,  "directionDetail": "concise" },
+    "standard": { "planReviewsRequired": 2, "maxRevisions": 5, "minScenes": 3, "frameEvidence": "recommended", "agentStepBudget": 120, "directionDetail": "full" },
+    "high":     { "planReviewsRequired": 3, "maxRevisions": 8, "minScenes": 4, "frameEvidence": "required", "agentStepBudget": 250, "directionDetail": "full+alternatives" }
+  },
+  "formats": {
+    "horizontal": { "w": 1920, "h": 1080, "safeX": 96,  "safeY": 54,  "titleSafeX": 192, "titleSafeY": 108, "minBodyPx": 28, "maxWordsPerSec": 3.2 },
+    "vertical":   { "w": 1080, "h": 1920, "safeX": 54,  "safeY": 96,  "titleSafeX": 108, "titleSafeY": 192, "minBodyPx": 36, "maxWordsPerSec": 2.6, "uiKeepOut": { "top": 250, "bottom": 420, "right": 120 } },
+    "square":     { "w": 1080, "h": 1080, "safeX": 54,  "safeY": 54,  "titleSafeX": 108, "titleSafeY": 108, "minBodyPx": 30, "maxWordsPerSec": 2.8 }
+  },
+  "bundledFonts": ["Inter","Montserrat","Outfit","Nunito","Oswald","League Gothic","Archivo Black","Space Mono","IBM Plex Mono","JetBrains Mono","EB Garamond","Playfair Display","Source Code Pro","Noto Sans JP","Roboto","Open Sans","Lato","Poppins"],
+  "layoutArchetypes": ["split-left","split-right","full-bleed-type","stacked-editorial","grid-data","diagram-center","offset-hero","image-led","list-rail","big-number","quote-column","timeline-rail"],
+  "motionPurposes": ["meaning","attention","pacing","continuity"],
+  "narrativeRoles": ["hook","context","build","turn","proof","payoff","resolution","cta"]
+}
