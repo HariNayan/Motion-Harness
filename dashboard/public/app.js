@@ -120,7 +120,9 @@ function applyTheme(t) {
   $$("[data-theme-set]").forEach((b) => { const on = b.dataset.themeSet === t; b.classList.toggle("active", on); b.setAttribute("aria-checked", on); });
 }
 $$("[data-theme-set]").forEach((b) => b.addEventListener("click", () => applyTheme(b.dataset.themeSet)));
-let stored = "system"; try { stored = localStorage.getItem("mh-theme") || "system"; } catch (e) {} applyTheme(stored);
+let stored = "system"; try { stored = localStorage.getItem("mh-theme") || "system"; } catch (e) {}
+const qTheme = new URLSearchParams(location.search).get("theme"); if (qTheme === "light" || qTheme === "dark") stored = qTheme; // ?theme=dark for links and screenshots
+applyTheme(stored);
 
 /* ------------------------------------------------------------- router */
 const mine = () => { const s = routeSeq; return () => s === routeSeq; }; // false once the user has navigated elsewhere
@@ -157,14 +159,14 @@ async function renderHome() {
       <input type="file" id="file-in" multiple hidden>
       <div class="foot">
         <button class="btn ghost sm" id="attach-btn" type="button">${icon("paperclip")}Attach reference video or files</button>
-        <span class="note">Drop files on this box · nothing is rendered here</span>
-        <input class="name" id="slug" type="text" placeholder="Project name" spellcheck="false" aria-label="Project name (optional)">
+        <input class="name" style="margin-left:auto" id="slug" type="text" placeholder="Project name" spellcheck="false" aria-label="Project name (optional)">
         <select class="chipsel" id="format" aria-label="Format"><option value="horizontal">16:9</option><option value="vertical">9:16</option><option value="square">1:1</option></select>
         <select class="chipsel" id="depth" aria-label="Planning depth"><option value="draft">Draft</option><option value="standard" selected>Standard</option><option value="high">High depth</option></select>
         <select class="chipsel" id="preset" aria-label="Look"><option value="night-sky">Dense world</option><option value="none">Own design</option></select>
         <button class="btn primary" id="create" ${running ? "disabled title='A run is in progress'" : ""}>${icon("sparkles")}Create</button>
       </div>
     </div>
+    <p class="faint" style="margin:8px 4px 0">Runs on your OpenCode providers · drop reference videos or raw files on the box · nothing is rendered here: open the result in HyperFrames Studio.</p>
     <div class="stats">
       <div class="stat"><div class="k">${icon("folder")}Projects</div><div class="v tnum">${P.length}</div><div class="s">${ready} ready for Studio</div></div>
       <div class="stat"><div class="k">${icon("check")}Quality gate</div><div class="v tnum">${clean}<small> / ${gated.length}</small></div><div class="s">${gated.length ? "gated projects with no errors" : "no project gated yet"}</div></div>
@@ -343,4 +345,4 @@ function openPalette() {
 $("#quick").addEventListener("click", openPalette);
 window.addEventListener("keydown", (e) => { if ((e.ctrlKey || e.metaKey) && e.key.toLowerCase() === "k") { e.preventDefault(); openPalette(); } });
 
-paintIcons(); route();
+paintIcons(); refreshAll().catch(() => {}); route();
